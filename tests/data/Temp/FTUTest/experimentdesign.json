@@ -1,0 +1,1 @@
+{"provenance": {"Author": "JH", "Project": "FTU workflow demo", "Timestamp": "2024-06-06 20:29"}, "datadirectory": "data/Temp/FTUTest\\data", "sourcemodel": "FTUStepper", "test": {"simulationtimeblock": [0, 400, 400], "processeventsblock": "\ni_1 = 0\nif t>100 and t<110:\n    i_1 = 0.5\n", "code": "data/Temp/FTUTest\\FTUStepper_test.py", "codepreamble": ""}}

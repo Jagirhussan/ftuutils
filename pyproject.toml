@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "ftuutils"
+version = "0.0.1"
+authors = [
+  { name="Jagir R. Hussan", email="r.jagir@auckland.ac.nz" },
+]
+description = "Utilities to create FTU graph templates"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: MIT License",
+    "Operating System :: OS Independent",
+]
