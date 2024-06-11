@@ -476,6 +476,7 @@ class Composer:
         self.uyConnectionMatrixComputed = (
             False  # Will be set to true if it was computed by compose
         )
+        self.composition = None #Store composition information if used to construct the composer
 
     def setConnectivityGraph(self,graph:nx.Graph):
         """Set the base ftugraph from which the composition was created
@@ -728,6 +729,14 @@ class Composer:
             Matrix(uVec).reshape(len(uVec), 2).T
         )  # Row 1 are input symbols, row 2 are column indexes into B matrix
         self.uyConnectionMatrixComputed = False
+        self.composition = composition
+
+    def getSourceComposition(self):
+        """
+            Return the source composition json that was used to defined the composer
+            Returns None if json was not used
+        """
+        return self.composition
 
     def compose(self, substituteParameters=True):
         """
