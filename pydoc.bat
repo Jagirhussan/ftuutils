@@ -1,0 +1,1 @@
+pydoctor --project-name=FTUUtils --project-version=1.0.0  --project-url=https://github.com/Jagirhussan/ftuutils  --html-viewsource-base=https://github.com/Jagirhussan/ftuutils/tree/1.0.0  --make-html --html-output=docs/api --project-base-dir="."  --docformat=epytext --process-types --intersphinx=https://docs.python.org/3/objects.inv ./src/ftuutils

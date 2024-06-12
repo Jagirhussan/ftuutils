@@ -1,3 +1,4 @@
+"""Helper routines to generate Latex strings for rendering in HTML"""
 import sympy 
 from sympy import Matrix
 import numpy as np
@@ -7,6 +8,7 @@ import base64
 import matplotlib.pyplot as plt
 
 def getBooleanMatrix(matrix):
+    """Generate a boolean matrix for input matrix"""
     mx = np.zeros(matrix.shape, dtype=bool)
     for i in range(matrix.rows):
         for j in range(matrix.cols):
@@ -28,6 +30,9 @@ def round_expr(expr, num_digits=4):
     )
 
 def generateParameterAndStatevalueLatex(composer):
+    """Generate a latex table with Parameter names, values and its SI unit
+       The latex code is embedded in HTML.
+    """
     parameterLatex = """<table id="compositephsparametervalues">
     <tr><th>Parameter</th>
     <th>Value</th>
@@ -51,6 +56,7 @@ def generateParameterAndStatevalueLatex(composer):
     return f'<table ><tr><td>{parameterLatex}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align:top">{stateValueLatex}</td></tr></table>'
 
 def generateLatex(composer):
+    """Generate latex code for the composed FTU. The latex code is embedded in HTML."""
     phsequations = r"""
 \begin{eqnarray}
 \frac{d}{dt}\begin{bmatrix}
@@ -167,6 +173,9 @@ def generateLatex(composer):
     return latexText
 
 def generateImage(composer):
+    """Generate Images for the PHS matrices with black dots for non-zero entries and white dots for zeros
+       The latex and images are embedded in HTML.
+    """
     # Plot the matrices
     fig, axs = plt.subplots(4, 2, figsize=(10, 10))
     axs[0, 0].imshow(

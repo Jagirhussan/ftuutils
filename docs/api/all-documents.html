@@ -1,0 +1,1787 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+  <head>
+    
+    <title>All Documents</title>
+    <meta name="generator" content="pydoctor 24.3.3"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+  <body>
+    
+
+    
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          <a href="https://github.com/Jagirhussan/ftuutils" class="projecthome">FTUUtils</a> <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="search-results-container" style="display: none;">
+        
+        <div id="search-buttons">
+          <span class="label label-default" id="search-docstrings-button">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+              search in docstrings
+            </input>
+          </label>
+          </span>
+          
+        </div>
+        
+        <noscript>
+            <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+        </noscript>
+
+        <div class="hint" id="search-help-box">
+          <p class="rst-last">
+      
+            Search bar offers the following options:
+            <ul>   
+                <li>
+                  <strong>Term presence.</strong> The below example searches for documents that 
+                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                </li> 
+
+                <li>
+                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                </li> 
+
+                <li>
+                  <strong>Search in specific fields.</strong> The following search matches all objects 
+                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+
+                  <p>
+                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                    Last two fields are only applicable if "search in docstrings" is enabled.
+                  </p>
+                </li>
+
+                <li>
+                  <strong>Fuzzy matches.</strong> The following search matches all documents 
+                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                </li>
+            </ul>
+
+          </p>
+        </div>
+
+        <div id="search-status"> </div>
+
+        <div class="warning" id="search-warn-box" style="display: none;">
+          <p class="rst-last"><span id="search-warn"></span></p>
+        </div>
+
+        <table id="search-results">
+          <!-- Filled dynamically by JS -->
+        </table>
+        
+        <div style="margin-top: 8px;">
+          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+    
+    
+    <div class="container">
+      <h1>All Documents</h1>
+
+       <ul>
+          <li id="ftuutils">
+            
+            <div class="fullName">ftuutils</div>
+            <div class="url">index.html</div>
+            <div class="type">Package</div>
+            <div class="kind">Package</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">No package docstring; 9/9 modules documented</span></div>
+          </li><li id="ftuutils.base">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base</div>
+            <div class="url">ftuutils.base.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Logic to create FTU graphs</div>
+          </li><li id="ftuutils.codegenerationutils">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.codegenerationutils</div>
+            <div class="url">ftuutils.codegenerationutils.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Logic for generating pythonic code from FTU composition</div>
+          </li><li id="ftuutils.compositionutils">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils</div>
+            <div class="url">ftuutils.compositionutils.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Logic to compose FTU from topology, PHS type and network connection information</div>
+          </li><li id="ftuutils.graphutils">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils</div>
+            <div class="url">ftuutils.graphutils.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Logic for creating FTU graphs based on known motifs, like 2d Lattice</div>
+          </li><li id="ftuutils.latexgenerationutils">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.latexgenerationutils</div>
+            <div class="url">ftuutils.latexgenerationutils.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Helper routines to generate Latex strings for rendering in HTML</div>
+          </li><li id="ftuutils.phsutils">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.phsutils</div>
+            <div class="url">ftuutils.phsutils.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Helper routines to create PHS descriptions</div>
+          </li><li id="ftuutils.runsimulations">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations</div>
+            <div class="url">ftuutils.runsimulations.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Routines to run simulations generated by the user</div>
+          </li><li id="ftuutils.simulationutils">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils</div>
+            <div class="url">ftuutils.simulationutils.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Logic to setup experiments based on generate FTU pythonic code</div>
+          </li><li id="ftuutils.sympyutils">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.sympyutils</div>
+            <div class="url">ftuutils.sympyutils.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Helper routines to support PHS generation</div>
+          </li><li id="ftuutils.compositionutils.composerSerializationEnabled">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.composer<wbr></wbr>Serialization<wbr></wbr>Enabled</div>
+            <div class="url">ftuutils.compositionutils.html#composerSerializationEnabled</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.codegenerationutils._stringsubs">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.codegenerationutils<wbr></wbr>._stringsubs</div>
+            <div class="url">ftuutils.codegenerationutils.html#_stringsubs</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary">Substitute mapping into target string</div>
+          </li><li id="ftuutils.codegenerationutils.exportAsPython">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.codegenerationutils<wbr></wbr>.export<wbr></wbr>As<wbr></wbr>Python</div>
+            <div class="url">ftuutils.codegenerationutils.html#exportAsPython</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Export the FTU description in the composer as python code</div>
+          </li><li id="ftuutils.codegenerationutils.exportAsODEStepper">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.codegenerationutils<wbr></wbr>.export<wbr></wbr>As<wbr></wbr>ODEStepper</div>
+            <div class="url">ftuutils.codegenerationutils.html#exportAsODEStepper</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generate numerically solvable PHS d/dx (Ex) = (J-R) Q x - \hat{B}\hat{C}\hat{B}^T \hat{u} + \bar{B} \bar{u} \hat{y} = \hat{B}^T Q x \bar{y} = \bar{B}^T Q x</div>
+          </li><li id="ftuutils.latexgenerationutils.getBooleanMatrix">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.latexgenerationutils<wbr></wbr>.get<wbr></wbr>Boolean<wbr></wbr>Matrix</div>
+            <div class="url">ftuutils.latexgenerationutils.html#getBooleanMatrix</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generate a boolean matrix for input matrix</div>
+          </li><li id="ftuutils.latexgenerationutils.round_expr">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.latexgenerationutils<wbr></wbr>.round<wbr></wbr>_expr</div>
+            <div class="url">ftuutils.latexgenerationutils.html#round_expr</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Method to round the number of digits in sympy output Args:     expr (Expr): Sympy Expression whose digits need to be rounded off     num_digits (int): precision</div>
+          </li><li id="ftuutils.latexgenerationutils.generateParameterAndStatevalueLatex">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.latexgenerationutils<wbr></wbr>.generate<wbr></wbr>Parameter<wbr></wbr>And<wbr></wbr>Statevalue<wbr></wbr>Latex</div>
+            <div class="url">ftuutils.latexgenerationutils.html#generateParameterAndStatevalueLatex</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generate a latex table with Parameter names, values and its SI unit The latex code is embedded in HTML.</div>
+          </li><li id="ftuutils.latexgenerationutils.generateLatex">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.latexgenerationutils<wbr></wbr>.generate<wbr></wbr>Latex</div>
+            <div class="url">ftuutils.latexgenerationutils.html#generateLatex</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generate latex code for the composed FTU. The latex code is embedded in HTML.</div>
+          </li><li id="ftuutils.latexgenerationutils.generateImage">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.latexgenerationutils<wbr></wbr>.generate<wbr></wbr>Image</div>
+            <div class="url">ftuutils.latexgenerationutils.html#generateImage</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generate Images for the PHS matrices with black dots for non-zero entries and white dots for zeros The latex and images are embedded in HTML.</div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Symbolic Port Hamiltonian representation</div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.__init__">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.__init__</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.J">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.J</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#J</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.R">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.R</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#R</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.B">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.B</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#B</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.Bhat">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.<wbr></wbr>Bhat</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#Bhat</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.Q">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.Q</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#Q</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.E">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.E</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#E</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.C">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.C</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#C</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.hamiltonian">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.hamiltonian</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#hamiltonian</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.states">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.states</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#states</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.u">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.u</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#u</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.usplit">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.usplit</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#usplit</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.variables">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.variables</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#variables</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.parameters">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.parameters</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#parameters</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.statevalues">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.statevalues</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#statevalues</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.getCopy">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.get<wbr></wbr>Copy</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#getCopy</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get a copy of the PHS instance with the symbol ids suffixed with id</div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.split">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.split</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#split</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Split B matrix to suit the interior vs exterior IO elements    The Bcap,Bbar entries are set to zero as the u's need to be weighted zero    The row,column corresponding split(value True) dimensions are set to zero in Bcap (viceversa in Bbar) Args:     iosplit (list): boolean array of dim u, bbar elements are true...</div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.getMatrix">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.get<wbr></wbr>Matrix</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#getMatrix</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get Sympy matrix from json description</div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.getJSONForMatrix">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.get<wbr></wbr>JSONFor<wbr></wbr>Matrix</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#getJSONForMatrix</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Convert Sympy Matrix to json</div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.getVariables">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.get<wbr></wbr>Variables</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#getVariables</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Convert from string to sympy varibales</div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.savePHSDefinition">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.save<wbr></wbr>PHSDefinition</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#savePHSDefinition</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Serialize the phs into json format</div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.loadPHSDefinition">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.load<wbr></wbr>PHSDefinition</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#loadPHSDefinition</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Load a PHS definition (json format)</div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.instantiatePHS">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.instantiate<wbr></wbr>PHS</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#instantiatePHS</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Create a PHS with given postfix for its symbols    If substituteParameters is True, then symbols and expressions are evaluated with the cooresponding     numerical values and simplified. Args:     postfix (string): Postfix for symbols     substituteParameters (bool, optional): Substitute numerical values in experessions and simplify...</div>
+          </li><li id="ftuutils.compositionutils.SymbolicPHS.__str__">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Symbolic<wbr></wbr>PHS<wbr></wbr>.__str__</div>
+            <div class="url">ftuutils.compositionutils.SymbolicPHS.html#__str__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Convert to string</div>
+          </li><li id="ftuutils.compositionutils.Composer">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer</div>
+            <div class="url">ftuutils.compositionutils.Composer.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Logic to compose a composite PHS, given the FTU graph, PHS information etc.</div>
+          </li><li id="ftuutils.compositionutils.Composer.__init__">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.__init__</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.nodeIndex">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.node<wbr></wbr>Index</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#nodeIndex</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.nodeName">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.node<wbr></wbr>Name</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#nodeName</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.nodeData">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.node<wbr></wbr>Data</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#nodeData</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.phsInstances">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.phs<wbr></wbr>Instances</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#phsInstances</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.networkGraphs">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.network<wbr></wbr>Graphs</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#networkGraphs</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.dissipativeNets">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.dissipative<wbr></wbr>Nets</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#dissipativeNets</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.boundaryinputs">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.boundaryinputs</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#boundaryinputs</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.nodeNetworks">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.node<wbr></wbr>Networks</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#nodeNetworks</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.networkNodes">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.network<wbr></wbr>Nodes</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#networkNodes</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.cellType">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.cell<wbr></wbr>Type</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#cellType</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.cellTypePHS">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.cell<wbr></wbr>Type<wbr></wbr>PHS</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#cellTypePHS</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.cellTypeUSplit">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.cell<wbr></wbr>Type<wbr></wbr>USplit</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#cellTypeUSplit</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.boundaryInputSelection">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.boundary<wbr></wbr>Input<wbr></wbr>Selection</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#boundaryInputSelection</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.inodeIndexes">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.inode<wbr></wbr>Indexes</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#inodeIndexes</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.compositeJ">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.composite<wbr></wbr>J</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#compositeJ</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.compositeQ">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.composite<wbr></wbr>Q</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#compositeQ</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.compositeR">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.composite<wbr></wbr>R</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#compositeR</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.compositeE">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.composite<wbr></wbr>E</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#compositeE</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.compositeB">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.composite<wbr></wbr>B</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#compositeB</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.uyConnectionMatrix">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.uy<wbr></wbr>Connection<wbr></wbr>Matrix</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#uyConnectionMatrix</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.uyConnectionMatrixComputed">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.uy<wbr></wbr>Connection<wbr></wbr>Matrix<wbr></wbr>Computed</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#uyConnectionMatrixComputed</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.composition">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.composition</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#composition</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.setConnectivityGraph">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.set<wbr></wbr>Connectivity<wbr></wbr>Graph</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#setConnectivityGraph</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Set the base ftugraph from which the composition was created</div>
+          </li><li id="ftuutils.compositionutils.Composer.ftugraph">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.ftugraph</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#ftugraph</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.getMatrix">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.get<wbr></wbr>Matrix</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#getMatrix</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get Sympy matrix from json description</div>
+          </li><li id="ftuutils.compositionutils.Composer.getVariables">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.get<wbr></wbr>Variables</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#getVariables</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Convert from string to sympy varibales</div>
+          </li><li id="ftuutils.compositionutils.Composer._elementwiseDiv">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>._elementwise<wbr></wbr>Div</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#_elementwiseDiv</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary">Perform elementwise division of sympy given matrices</div>
+          </li><li id="ftuutils.compositionutils.Composer.save">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.save</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#save</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Save the given composition as a pickle</div>
+          </li><li id="ftuutils.compositionutils.Composer.load">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.load</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#load</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Load the composition in a pickle</div>
+          </li><li id="ftuutils.compositionutils.Composer.loadPHSDefinition">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.load<wbr></wbr>PHSDefinition</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#loadPHSDefinition</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Load a PHS definition (json format) The PHS object is assigned the id `mapid` to be used by mapid based composition</div>
+          </li><li id="ftuutils.compositionutils.Composer.loadComposition">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.load<wbr></wbr>Composition</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#loadComposition</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Load the FTU composition encoded in jsonable dict</div>
+          </li><li id="ftuutils.compositionutils.Composer.compositeparameters">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.compositeparameters</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#compositeparameters</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.uVec">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.u<wbr></wbr>Vec</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#uVec</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.getSourceComposition">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.get<wbr></wbr>Source<wbr></wbr>Composition</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#getSourceComposition</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Return the source composition json that was used to defined the composer Returns None if json was not used</div>
+          </li><li id="ftuutils.compositionutils.Composer.compose">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.compose</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#compose</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Create the composite PHS matrices for compostion description that has been loaded Requires the phs for the different cell types to be loaded see loadPHSDefinition, loadCellTypePHSMap Requires the phs interconnection to be loaded see loadCompositionFile Ideally all interconnection u's and y's to be of the same size, if some phs have more u's, then select the ones that need to be used in the interconnection see setCellTypeUSplit...</div>
+          </li><li id="ftuutils.compositionutils.Composer.cellHamiltonians">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.cell<wbr></wbr>Hamiltonians</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#cellHamiltonians</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.nodePHSData">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.node<wbr></wbr>PHSData</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#nodePHSData</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.uVecSymbols">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.u<wbr></wbr>Vec<wbr></wbr>Symbols</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#uVecSymbols</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.stateVec">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.state<wbr></wbr>Vec</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#stateVec</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.statevalues">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.statevalues</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#statevalues</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.rhsVec">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.rhs<wbr></wbr>Vec</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#rhsVec</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.xVec">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.x<wbr></wbr>Vec</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#xVec</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.rVec">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.r<wbr></wbr>Vec</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#rVec</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.hamiltonian">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.hamiltonian</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#hamiltonian</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Create full connection matrix - get the asymmetric part for C and the other for R</div>
+          </li><li id="ftuutils.compositionutils.Composer.Jcap">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.<wbr></wbr>Jcap</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#Jcap</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.Rcap">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.<wbr></wbr>Rcap</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#Rcap</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.Ecap">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.<wbr></wbr>Ecap</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#Ecap</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.Qcap">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.<wbr></wbr>Qcap</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#Qcap</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.Bcap">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.<wbr></wbr>Bcap</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#Bcap</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.nBcapT">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.n<wbr></wbr>Bcap<wbr></wbr>T</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#nBcapT</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.Bdas">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.<wbr></wbr>Bdas</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#Bdas</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.Cmatrix">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.<wbr></wbr>Cmatrix</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#Cmatrix</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.Lmatrix">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.<wbr></wbr>Lmatrix</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#Lmatrix</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.compositePHS">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.composite<wbr></wbr>PHS</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#compositePHS</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.generateLatexReport">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.generate<wbr></wbr>Latex<wbr></wbr>Report</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#generateLatexReport</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generate the latex describing the composite PHS</div>
+          </li><li id="ftuutils.compositionutils.Composer.generatePythonIntermediates">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.generate<wbr></wbr>Python<wbr></wbr>Intermediates</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#generatePythonIntermediates</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generate numerically solvable PHS d/dx (Ex) = (J-R) Q x - \hat{B}\hat{C}\hat{B}^T \hat{u} + \bar{B} \bar{u} \hat{y} = \hat{B}^T Q x \bar{y} = \bar{B}^T Q x</div>
+          </li><li id="ftuutils.compositionutils.Composer.raw_rhs">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.raw<wbr></wbr>_rhs</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#raw_rhs</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.compositionutils.Composer.exportAsPython">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.export<wbr></wbr>As<wbr></wbr>Python</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#exportAsPython</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Export composed FTU as python code similar to OpenCOR export</div>
+          </li><li id="ftuutils.compositionutils.Composer.exportAsODEStepper">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.export<wbr></wbr>As<wbr></wbr>ODEStepper</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#exportAsODEStepper</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generate numerically solvable PHS d/dx (Ex) = (J-R) Q x - \hat{B}\hat{C}\hat{B}^T \hat{u} + \bar{B} \bar{u} \hat{y} = \hat{B}^T Q x \bar{y} = \bar{B}^T Q x</div>
+          </li><li id="ftuutils.compositionutils.Composer.boundaryOperator">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.boundary<wbr></wbr>Operator</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#boundaryOperator</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Determine the boundary operator for the input graph</div>
+          </li><li id="ftuutils.compositionutils.Composer.ddecSetupOperators">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.ddec<wbr></wbr>Setup<wbr></wbr>Operators</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#ddecSetupOperators</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">   These operators are used to setup training data for DDEC operators   </div>
+          </li><li id="ftuutils.compositionutils.Composer.saveDiscreteExteriorCalculusOperators">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.compositionutils<wbr></wbr>.<wbr></wbr>Composer<wbr></wbr>.save<wbr></wbr>Discrete<wbr></wbr>Exterior<wbr></wbr>Calculus<wbr></wbr>Operators</div>
+            <div class="url">ftuutils.compositionutils.Composer.html#saveDiscreteExteriorCalculusOperators</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Save the boundary, edgeWeight and weighted gradient operators to file      Note that diag(sqrt(edgeWeight))* boudary = weighted gradient      Args:     filename (string): Absolute path of the destination numpy file to store the operators     weight (str, optional): The FTUgraph edge attribute that defines the weight of connections...</div>
+          </li><li id="ftuutils.base.FTUGraph">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph</div>
+            <div class="url">ftuutils.base.FTUGraph.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Base class for creating FTU graphs. A networkx graph is used to build the FTU</div>
+          </li><li id="ftuutils.base.FTUGraph.__init__">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.__init__</div>
+            <div class="url">ftuutils.base.FTUGraph.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUGraph.num_active_cells">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.num<wbr></wbr>_active<wbr></wbr>_cells</div>
+            <div class="url">ftuutils.base.FTUGraph.html#num_active_cells</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUGraph.celltypes">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.celltypes</div>
+            <div class="url">ftuutils.base.FTUGraph.html#celltypes</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUGraph.setEdgeWeight">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.set<wbr></wbr>Edge<wbr></wbr>Weight</div>
+            <div class="url">ftuutils.base.FTUGraph.html#setEdgeWeight</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Set the edge weight for a given network</div>
+          </li><li id="ftuutils.base.FTUGraph.setCellType">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.set<wbr></wbr>Cell<wbr></wbr>Type</div>
+            <div class="url">ftuutils.base.FTUGraph.html#setCellType</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">    Update cell types for nodes Args:     #G (nx.Graph): graph that needs to be updated     ctypes (Dict): node id -&gt; cell type map</div>
+          </li><li id="ftuutils.base.FTUGraph.computeLaplacian">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.compute<wbr></wbr>Laplacian</div>
+            <div class="url">ftuutils.base.FTUGraph.html#computeLaplacian</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Create the weighted laplacian matrix for the given graph G Graph G should have the edge weights apriori  Args:     G (nx.Graph): Networkx graph generated by this class with identical rows and cols     nid (int)   : The network for which the laplacian needs to be generated Returns:     np...</div>
+          </li><li id="ftuutils.base.FTUGraph.getUComponentLinkages">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.get<wbr></wbr>UComponent<wbr></wbr>Linkages</div>
+            <div class="url">ftuutils.base.FTUGraph.html#getUComponentLinkages</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Determine the input linkages between node and noden</div>
+          </li><li id="ftuutils.base.FTUGraph.generateCompositionIntermediates">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.generate<wbr></wbr>Composition<wbr></wbr>Intermediates</div>
+            <div class="url">ftuutils.base.FTUGraph.html#generateCompositionIntermediates</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Private method to generate intermediate datastructures to help with     generating symbolic and pythonic codes of the FTU Args:     G (networkx.Graph): Source graph     phsdefinitions (dict): PHS definitions     networkdata (dict): Network descriptions...</div>
+          </li><li id="ftuutils.base.FTUGraph.resolve">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.resolve</div>
+            <div class="url">ftuutils.base.FTUGraph.html#resolve</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Construct the FTU given the network, port hamiltonians and other phsdata</div>
+          </li><li id="ftuutils.base.FTUGraph.composeCompositePHS">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.compose<wbr></wbr>Composite<wbr></wbr>PHS</div>
+            <div class="url">ftuutils.base.FTUGraph.html#composeCompositePHS</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Method to generate composite PHS from </div>
+          </li><li id="ftuutils.base.FTUGraph.composeCompositePHSFromGraphicalObject">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.compose<wbr></wbr>Composite<wbr></wbr>PHSFrom<wbr></wbr>Graphical<wbr></wbr>Object</div>
+            <div class="url">ftuutils.base.FTUGraph.html#composeCompositePHSFromGraphicalObject</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generates the composite PHS from a python dictionary input of graph, phsdata and connection information</div>
+          </li><li id="ftuutils.base.FTUGraph.getGraph">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUGraph<wbr></wbr>.get<wbr></wbr>Graph</div>
+            <div class="url">ftuutils.base.FTUGraph.html#getGraph</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Create a FTU graph based on Delaunay triangulation</div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.__init__">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.__init__</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.points">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.points</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#points</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.row_size">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.row<wbr></wbr>_size</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#row_size</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.col_size">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.col<wbr></wbr>_size</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#col_size</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.defaultPHS">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.default<wbr></wbr>PHS</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#defaultPHS</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.edgeLengthThreshold">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.edge<wbr></wbr>Length<wbr></wbr>Threshold</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#edgeLengthThreshold</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.conductivityTensor">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.conductivity<wbr></wbr>Tensor</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#conductivityTensor</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.defaultNetworkID">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.default<wbr></wbr>Network<wbr></wbr>ID</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#defaultNetworkID</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.bounds">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.bounds</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#bounds</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.graph">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.graph</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#graph</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.getDefaultNetworkID">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.get<wbr></wbr>Default<wbr></wbr>Network<wbr></wbr>ID</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#getDefaultNetworkID</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get the default network ID, the one assigned to the FTU network by default</div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.getGraph">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.get<wbr></wbr>Graph</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#getGraph</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get the working graph</div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.getPoints">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.get<wbr></wbr>Points</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#getPoints</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get the coordinate points used to create the FTU graph</div>
+          </li><li id="ftuutils.base.FTUDelaunayGraph.getPositionFromIndex">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.base<wbr></wbr>.<wbr></wbr>FTUDelaunay<wbr></wbr>Graph<wbr></wbr>.get<wbr></wbr>Position<wbr></wbr>From<wbr></wbr>Index</div>
+            <div class="url">ftuutils.base.FTUDelaunayGraph.html#getPositionFromIndex</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get a position for given index    If idx corresponds to a point, then its coordinate is returned    else a random coordinate value within the coordinate bounds is returned Args:     idx (int): Index of point whose coordinate value is required...</div>
+          </li><li id="ftuutils.graphutils.Lattice2D">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Class to construct a 2D lattice, suitable for simulating 2D electrical/chemical wave propogation. ... Attributes ---------- rows : int     Number of rows in the lattice cols : int     Number of columns in the lattice defaultphs : str     The default PHS class assigned to the cells/nodes in the lattice...</div>
+          </li><li id="ftuutils.graphutils.Lattice2D.__init__">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.__init__</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.row_size">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.row<wbr></wbr>_size</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#row_size</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.col_size">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.col<wbr></wbr>_size</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#col_size</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.active_cells">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.active<wbr></wbr>_cells</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#active_cells</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.sheet_conductivity">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.sheet<wbr></wbr>_conductivity</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#sheet_conductivity</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.fibre_conductivity">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.fibre<wbr></wbr>_conductivity</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#fibre_conductivity</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.connections">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.connections</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#connections</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.bottomNodes">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.bottom<wbr></wbr>Nodes</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#bottomNodes</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.leftNodes">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.left<wbr></wbr>Nodes</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#leftNodes</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.rightNodes">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.right<wbr></wbr>Nodes</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#rightNodes</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.topNodes">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.top<wbr></wbr>Nodes</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#topNodes</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.num_active_cells">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.num<wbr></wbr>_active<wbr></wbr>_cells</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#num_active_cells</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.blocks">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.blocks</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#blocks</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.stimulusBlocks">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.stimulus<wbr></wbr>Blocks</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#stimulusBlocks</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.defaultphs">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.defaultphs</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#defaultphs</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.graphutils.Lattice2D.setStimulationBlock">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.set<wbr></wbr>Stimulation<wbr></wbr>Block</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#setStimulationBlock</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Setup a stimulus block for the given graph</div>
+          </li><li id="ftuutils.graphutils.Lattice2D.setDefects">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.set<wbr></wbr>Defects</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#setDefects</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Setup defective regions within the lattice identified by blocks</div>
+          </li><li id="ftuutils.graphutils.Lattice2D.setFibreConductivity">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.set<wbr></wbr>Fibre<wbr></wbr>Conductivity</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#setFibreConductivity</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Set the conductivity values along the horizontal axis</div>
+          </li><li id="ftuutils.graphutils.Lattice2D.setSheetConductivity">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.set<wbr></wbr>Sheet<wbr></wbr>Conductivity</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#setSheetConductivity</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Set the conductivity values along the vertical axis</div>
+          </li><li id="ftuutils.graphutils.Lattice2D._initConnections">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>._init<wbr></wbr>Connections</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#_initConnections</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary">Simplified implementation of connections, defects need not be take into consideration as they are handled at the time of generating the graph However, the graph generation code only handles 8 neighbors For complex conditions, update the code appropriately Returns:     np...</div>
+          </li><li id="ftuutils.graphutils.Lattice2D._generateGraph">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>._generate<wbr></wbr>Graph</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#_generateGraph</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary">Logic to generate a 2D lattice given the weights and active cells</div>
+          </li><li id="ftuutils.graphutils.Lattice2D.getStimulusBlockNodes">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.get<wbr></wbr>Stimulus<wbr></wbr>Block<wbr></wbr>Nodes</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#getStimulusBlockNodes</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get the list of nodes that fall within the stimulation block</div>
+          </li><li id="ftuutils.graphutils.Lattice2D.getNodes">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.get<wbr></wbr>Nodes</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#getNodes</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">    Get the list of node ids that fall within the blk Args:     blk (list): [[x0,x1],[y0,y1]]</div>
+          </li><li id="ftuutils.graphutils.Lattice2D.getCellIndex">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.get<wbr></wbr>Cell<wbr></wbr>Index</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#getCellIndex</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Boolean index of cells  into a (num_active_cells,:) array representative of the state vector</div>
+          </li><li id="ftuutils.graphutils.Lattice2D.getSubGraph">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.get<wbr></wbr>Sub<wbr></wbr>Graph</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#getSubGraph</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get the subgraph that includes cells within the block</div>
+          </li><li id="ftuutils.graphutils.Lattice2D.getGraph">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.get<wbr></wbr>Graph</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#getGraph</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get the FTU graph corresponding to the Lattice for set parameters</div>
+          </li><li id="ftuutils.graphutils.Lattice2D.getPositionFromIndex">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.get<wbr></wbr>Position<wbr></wbr>From<wbr></wbr>Index</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#getPositionFromIndex</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Get the x,y coordinates for a cell with an index </div>
+          </li><li id="ftuutils.graphutils.Lattice2D.convertStateVecTo2D">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.graphutils<wbr></wbr>.<wbr></wbr>Lattice2<wbr></wbr>D<wbr></wbr>.convert<wbr></wbr>State<wbr></wbr>Vec<wbr></wbr>To2<wbr></wbr>D</div>
+            <div class="url">ftuutils.graphutils.Lattice2D.html#convertStateVecTo2D</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Utility function to convert a (num_active_cells,:) array   to an array of shape (row_size,col_size,:) The graphs Args:     array (float): State vector array of shape (num_active_cells,:)</div>
+          </li><li id="ftuutils.phsutils.setPHSComponentNetwork">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.phsutils<wbr></wbr>.set<wbr></wbr>PHSComponent<wbr></wbr>Network</div>
+            <div class="url">ftuutils.phsutils.html#setPHSComponentNetwork</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Associated the PHS state/input-output vector component to the network with id netid</div>
+          </li><li id="ftuutils.phsutils.connect">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.phsutils<wbr></wbr>.connect</div>
+            <div class="url">ftuutils.phsutils.html#connect</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Connect a PHS instance's state/input-output vector component to a FTU network</div>
+          </li><li id="ftuutils.phsutils.connectToBoundary">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.phsutils<wbr></wbr>.connect<wbr></wbr>To<wbr></wbr>Boundary</div>
+            <div class="url">ftuutils.phsutils.html#connectToBoundary</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Connect a PHS instance's state/input-output vector component to a FTU boundary network</div>
+          </li><li id="ftuutils.phsutils.addExternalInput">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.phsutils<wbr></wbr>.add<wbr></wbr>External<wbr></wbr>Input</div>
+            <div class="url">ftuutils.phsutils.html#addExternalInput</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Connect a node as the provide of external input/output to a FTU network</div>
+          </li><li id="ftuutils.runsimulations.runExperiment">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.run<wbr></wbr>Experiment</div>
+            <div class="url">ftuutils.runsimulations.html#runExperiment</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Multiprocessing wrapper to launch asynchronous jobs</div>
+          </li><li id="ftuutils.runsimulations.ExperimentRunner">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.<wbr></wbr>Experiment<wbr></wbr>Runner</div>
+            <div class="url">ftuutils.runsimulations.ExperimentRunner.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Logic to find experiments and run them using multiprocessing</div>
+          </li><li id="ftuutils.runsimulations.ExperimentRunner.__init__">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.<wbr></wbr>Experiment<wbr></wbr>Runner<wbr></wbr>.__init__</div>
+            <div class="url">ftuutils.runsimulations.ExperimentRunner.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.runsimulations.ExperimentRunner.experimentDir">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.<wbr></wbr>Experiment<wbr></wbr>Runner<wbr></wbr>.experiment<wbr></wbr>Dir</div>
+            <div class="url">ftuutils.runsimulations.ExperimentRunner.html#experimentDir</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.runsimulations.ExperimentRunner.experiments">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.<wbr></wbr>Experiment<wbr></wbr>Runner<wbr></wbr>.experiments</div>
+            <div class="url">ftuutils.runsimulations.ExperimentRunner.html#experiments</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.runsimulations.ExperimentRunner.experimentcodes">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.<wbr></wbr>Experiment<wbr></wbr>Runner<wbr></wbr>.experimentcodes</div>
+            <div class="url">ftuutils.runsimulations.ExperimentRunner.html#experimentcodes</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.runsimulations.ExperimentRunner.datadir">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.<wbr></wbr>Experiment<wbr></wbr>Runner<wbr></wbr>.datadir</div>
+            <div class="url">ftuutils.runsimulations.ExperimentRunner.html#datadir</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.runsimulations.ExperimentRunner.numprocesses">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.<wbr></wbr>Experiment<wbr></wbr>Runner<wbr></wbr>.numprocesses</div>
+            <div class="url">ftuutils.runsimulations.ExperimentRunner.html#numprocesses</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.runsimulations.ExperimentRunner.setMaxProcesses">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.<wbr></wbr>Experiment<wbr></wbr>Runner<wbr></wbr>.set<wbr></wbr>Max<wbr></wbr>Processes</div>
+            <div class="url">ftuutils.runsimulations.ExperimentRunner.html#setMaxProcesses</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Maximum number of processes that the runner can spawn</div>
+          </li><li id="ftuutils.runsimulations.ExperimentRunner.setDataDirectory">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.<wbr></wbr>Experiment<wbr></wbr>Runner<wbr></wbr>.set<wbr></wbr>Data<wbr></wbr>Directory</div>
+            <div class="url">ftuutils.runsimulations.ExperimentRunner.html#setDataDirectory</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Set datadirectory to save simulation results</div>
+          </li><li id="ftuutils.runsimulations.ExperimentRunner.run">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.runsimulations<wbr></wbr>.<wbr></wbr>Experiment<wbr></wbr>Runner<wbr></wbr>.run</div>
+            <div class="url">ftuutils.runsimulations.ExperimentRunner.html#run</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Setup and run simulations in parallel</div>
+          </li><li id="ftuutils.simulationutils.ExtractFTUDefinition">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Extract<wbr></wbr>FTUDefinition</div>
+            <div class="url">ftuutils.simulationutils.ExtractFTUDefinition.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Extact FTU definition from generated pythonic code</div>
+          </li><li id="ftuutils.simulationutils.ExtractFTUDefinition.visit_ClassDef">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Extract<wbr></wbr>FTUDefinition<wbr></wbr>.visit_<wbr></wbr>Class<wbr></wbr>Def</div>
+            <div class="url">ftuutils.simulationutils.ExtractFTUDefinition.html#visit_ClassDef</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.ExtractFTUDefinition.visit_If">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Extract<wbr></wbr>FTUDefinition<wbr></wbr>.visit_<wbr></wbr>If</div>
+            <div class="url">ftuutils.simulationutils.ExtractFTUDefinition.html#visit_If</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.Refactor">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Refactor</div>
+            <div class="url">ftuutils.simulationutils.Refactor.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Pythonic code variable name replacement</div>
+          </li><li id="ftuutils.simulationutils.Refactor.__init__">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Refactor<wbr></wbr>.__init__</div>
+            <div class="url">ftuutils.simulationutils.Refactor.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.Refactor.variableNameMap">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Refactor<wbr></wbr>.variable<wbr></wbr>Name<wbr></wbr>Map</div>
+            <div class="url">ftuutils.simulationutils.Refactor.html#variableNameMap</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.Refactor.visit_arg">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Refactor<wbr></wbr>.visit<wbr></wbr>_arg</div>
+            <div class="url">ftuutils.simulationutils.Refactor.html#visit_arg</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.Refactor.visit_Attribute">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Refactor<wbr></wbr>.visit_<wbr></wbr>Attribute</div>
+            <div class="url">ftuutils.simulationutils.Refactor.html#visit_Attribute</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.Refactor.visit_Name">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Refactor<wbr></wbr>.visit_<wbr></wbr>Name</div>
+            <div class="url">ftuutils.simulationutils.Refactor.html#visit_Name</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.loadTemplateFile">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.load<wbr></wbr>Template<wbr></wbr>File</div>
+            <div class="url">ftuutils.simulationutils.html#loadTemplateFile</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Load template files stored as resources within ftuutils package</div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Main logic class to load generated pythonic code and create experiments by defining the inputs that each experiment elicits. Requires a resolved FTU through the composistionutils.Composer class instance...</div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.__init__">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.__init__</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.composer">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.composer</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#composer</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.inputhook">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.inputhook</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#inputhook</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.hamletcode">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.hamletcode</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#hamletcode</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.experiments">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.experiments</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#experiments</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.ftusrccode">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.ftusrccode</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#ftusrccode</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.modelname">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.modelname</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#modelname</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.ftulogic">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.ftulogic</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#ftulogic</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.variablemap">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.variablemap</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#variablemap</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.statenamehooks">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.statenamehooks</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#statenamehooks</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.phsnamehooks">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.phsnamehooks</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#phsnamehooks</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.addExperiment">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.add<wbr></wbr>Experiment</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#addExperiment</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Add an experiment for simulation</div>
+          </li><li id="ftuutils.simulationutils.SimulationExperiment.generate">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.simulationutils<wbr></wbr>.<wbr></wbr>Simulation<wbr></wbr>Experiment<wbr></wbr>.generate</div>
+            <div class="url">ftuutils.simulationutils.SimulationExperiment.html#generate</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generate code for the experiments and store them in the target directory    Use the provenance information to decorate the code and results Args:     targetDir (str): Target location for saving generated experimental code     provenance (dict, optional): Provenace information like author, project etc to be saved with the experiment metadata...</div>
+          </li><li id="ftuutils.sympyutils.checkUserPhenomenologicalPHS">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.sympyutils<wbr></wbr>.check<wbr></wbr>User<wbr></wbr>Phenomenological<wbr></wbr>PHS</div>
+            <div class="url">ftuutils.sympyutils.html#checkUserPhenomenologicalPHS</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Validate the input PHS based on the matrices   The PHS is phenomenological and does not have a Hamiltonian expression,   A Hamiltonian expression based on the sum of the square of the state values is generated...</div>
+          </li><li id="ftuutils.sympyutils.checkUserPHS">
+            
+            <div class="fullName">ftuutils<wbr></wbr>.sympyutils<wbr></wbr>.check<wbr></wbr>User<wbr></wbr>PHS</div>
+            <div class="url">ftuutils.sympyutils.html#checkUserPHS</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Validate the input PHS based on the matrices</div>
+          </li>
+       </ul>
+    </div>
+  </body>
+</html>

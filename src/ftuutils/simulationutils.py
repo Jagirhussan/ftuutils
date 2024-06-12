@@ -1,9 +1,10 @@
+"""Logic to setup experiments based on generate FTU pythonic code"""
 import ast
 import os, datetime, json
 import importlib.resources
 
 class ExtractFTUDefinition(ast.NodeTransformer):
-
+    """Extact FTU definition from generated pythonic code"""
     def visit_ClassDef(self, node):
         #Remove classes that end with name Hooks or Inputs
         if node.name.endswith("Hooks") or node.name.endswith("Inputs"):
@@ -17,7 +18,7 @@ class ExtractFTUDefinition(ast.NodeTransformer):
         return node
 
 class Refactor(ast.NodeTransformer):
-    
+    """Pythonic code variable name replacement"""
     def __init__(self,varmap) -> None:
         super().__init__()
         self.variableNameMap = varmap 
@@ -54,12 +55,16 @@ class Refactor(ast.NodeTransformer):
             return node
 
 def loadTemplateFile(filename):
+    """Load template files stored as resources within ftuutils package"""
     resourcefiles = importlib.resources.files("ftuutils")
     with open(os.path.join(resourcefiles,"templates",filename),'r') as tf:
         return tf.read()
         
 class SimulationExperiment():
-
+    """Main logic class to load generated pythonic code and create experiments by 
+       defining the inputs that each experiment elicits.
+       Requires a resolved FTU through the composistionutils.Composer class instance
+    """
     def __init__(self,composer) -> None:
         if isinstance(composer,str):
             self.composer = None
@@ -100,6 +105,17 @@ class SimulationExperiment():
         self.phsnamehooks = self.inputhookInstance.phsnamehooks
 
     def addExperiment(self,name,time,inputblock,preamble=""):
+        """Add an experiment for simulation
+
+        Args:
+            name (string): Name of the experiment
+            time (list): Simulation time block associated with the experiment [start,end, [numsteps]]
+            inputblock (string): Python code that will be executed to generate input signals for FTU simulation
+            preamble (str, optional): Any preamble python code that will be added to start of the generated code; ideally used to import packages that are used by the input block. Defaults to "".
+
+        Raises:
+            Exception: time or inputblock do not conform to requirements
+        """
         if len(time) < 2:
             raise Exception(f"experiment times should have a start and stop, given {time}")
         isplit = inputblock.strip().split('\n')
@@ -109,6 +125,13 @@ class SimulationExperiment():
         self.experiments[name] = {'time':time,'process_time_sensitive_events':inputblock,'preamble':preamble}
 
     def generate(self,targetDir,provenance={},defaultnetworkid=1):
+        """Generate code for the experiments and store them in the target directory
+           Use the provenance information to decorate the code and results
+        Args:
+            targetDir (str): Target location for saving generated experimental code
+            provenance (dict, optional): Provenace information like author, project etc to be saved with the experiment metadata. Defaults to {}.
+            defaultnetworkid (int, optional): Network based on which Discrete Exterior Calculus operators should be generated. Defaults to 1.
+        """
         os.makedirs(targetDir,exist_ok=True)
         #Create Data directory
         os.makedirs(os.path.join(targetDir,"data"),exist_ok=True)

@@ -1,0 +1,860 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>ftuutils.base.FTUGraph</title>
+    <meta name="generator" content="pydoctor 24.3.3"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          <a href="https://github.com/Jagirhussan/ftuutils" class="projecthome">FTUUtils</a> <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="search-results-container" style="display: none;">
+        
+        <div id="search-buttons">
+          <span class="label label-default" id="search-docstrings-button">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+              search in docstrings
+            </input>
+          </label>
+          </span>
+          
+        </div>
+        
+        <noscript>
+            <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+        </noscript>
+
+        <div class="hint" id="search-help-box">
+          <p class="rst-last">
+      
+            Search bar offers the following options:
+            <ul>   
+                <li>
+                  <strong>Term presence.</strong> The below example searches for documents that 
+                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                </li> 
+
+                <li>
+                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                </li> 
+
+                <li>
+                  <strong>Search in specific fields.</strong> The following search matches all objects 
+                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+
+                  <p>
+                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                    Last two fields are only applicable if "search in docstrings" is enabled.
+                  </p>
+                </li>
+
+                <li>
+                  <strong>Fuzzy matches.</strong> The following search matches all documents 
+                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                </li>
+            </ul>
+
+          </p>
+        </div>
+
+        <div id="search-status"> </div>
+
+        <div class="warning" id="search-warn-box" style="display: none;">
+          <p class="rst-last"><span id="search-warn"></span></p>
+        </div>
+
+        <table id="search-results">
+          <!-- Filled dynamically by JS -->
+        </table>
+        
+        <div style="margin-top: 8px;">
+          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</nav>
+    
+    <div class="container-fluid">
+
+      <!-- Side navigation -->
+      <div class="sidebarcontainer" style="display: none;">
+        
+        <div class="sidebar"><nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Class</span>
+        <code class="thisobject"><a href="ftuutils.base.FTUGraph.html" class="internal-link" title="This class"><wbr></wbr>FTUGraph</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Methods</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#computeLaplacian" class="internal-link" title="ftuutils.base.FTUGraph.computeLaplacian">compute<wbr></wbr>Laplacian</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#generateCompositionIntermediates" class="internal-link" title="ftuutils.base.FTUGraph.generateCompositionIntermediates">generate<wbr></wbr>Composition<wbr></wbr>Intermediates</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getUComponentLinkages" class="internal-link" title="ftuutils.base.FTUGraph.getUComponentLinkages">get<wbr></wbr>UComponent<wbr></wbr>Linkages</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#setEdgeWeight" class="internal-link" title="ftuutils.base.FTUGraph.setEdgeWeight">set<wbr></wbr>Edge<wbr></wbr>Weight</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__init__" class="internal-link" title="ftuutils.base.FTUGraph.__init__">__init__</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#composeCompositePHS" class="internal-link" title="ftuutils.base.FTUGraph.composeCompositePHS">compose<wbr></wbr>Composite<wbr></wbr>PHS</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#composeCompositePHSFromGraphicalObject" class="internal-link" title="ftuutils.base.FTUGraph.composeCompositePHSFromGraphicalObject">compose<wbr></wbr>Composite<wbr></wbr>PHSFrom<wbr></wbr>Graphical<wbr></wbr>Object</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getGraph" class="internal-link" title="ftuutils.base.FTUGraph.getGraph">get<wbr></wbr>Graph</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#resolve" class="internal-link" title="ftuutils.base.FTUGraph.resolve">resolve</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#setCellType" class="internal-link" title="ftuutils.base.FTUGraph.setCellType">set<wbr></wbr>Cell<wbr></wbr>Type</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        <div class="childrenKindTitle">Attributes</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#celltypes" class="internal-link" title="ftuutils.base.FTUGraph.celltypes">celltypes</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#num_active_cells" class="internal-link" title="ftuutils.base.FTUGraph.num_active_cells">num<wbr></wbr>_active<wbr></wbr>_cells</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Module</span>
+        <code><a href="ftuutils.base.html" class="internal-link" title="The parent of this class">base</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        <div class="childrenKindTitle">Classes</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUDelaunayGraph.html" class="internal-link" title="ftuutils.base.FTUDelaunayGraph"><wbr></wbr>FTUDelaunay<wbr></wbr>Graph</a></code>
+            </div>
+        
+
+    </li><li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUGraph.html" class="internal-link" title="ftuutils.base.FTUGraph"><wbr></wbr>FTUGraph</a></code>
+            </div>
+        
+
+    </li>
+</ul>
+
+        
+         
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        </div>
+        <div id="collapseSideBar">
+          <a class="btn btn-link" onclick="toggleSideBarCollapse()" title="Toggle Sidebar Collapse">
+          </a>
+        </div> 
+        <script src="sidebartoggle.js" type="text/javascript"></script>
+       
+      </div>
+
+      <div id="main" class="">
+        
+
+        
+
+        <div class="page-header">
+          <h1 class="class"><code><code><a href="index.html" class="internal-link">ftuutils</a></code><wbr></wbr>.<code><a href="ftuutils.base.html" class="internal-link" title="ftuutils.base">base</a></code><wbr></wbr>.<code><a href="ftuutils.base.FTUGraph.html" class="internal-link" title="ftuutils.base.FTUGraph">FTUGraph</a></code></code></h1>
+          <div id="showPrivate">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          class documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">FTUGraph</span>: <a href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L10" class="sourceLink">(source)</a></code></p><p>Known subclasses: <code><a href="ftuutils.base.FTUDelaunayGraph.html" class="internal-link">ftuutils.base.FTUDelaunayGraph</a></code>, <code><a href="ftuutils.graphutils.Lattice2D.html" class="internal-link">ftuutils.graphutils.Lattice2D</a></code></p>
+          <p><a href="classIndex.html#ftuutils.base.FTUGraph">View In Hierarchy</a></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p>Base class for creating FTU graphs. A networkx graph is used to build the FTU</p></div>
+        </div>
+
+        <div id="splitTables">
+          <table class="children sortable" id="id3">
+  
+  
+  <tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#computeLaplacian" class="internal-link" title="ftuutils.base.FTUGraph.computeLaplacian">compute<wbr></wbr>Laplacian</a></code></td>
+    <td>Create the weighted laplacian matrix for the given graph G Graph G should have the edge weights apriori  Args:     G (nx.Graph): Networkx graph generated by this class with identical rows and cols     nid (int)   : The network for which the laplacian needs to be generated Returns:     np...</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#generateCompositionIntermediates" class="internal-link" title="ftuutils.base.FTUGraph.generateCompositionIntermediates">generate<wbr></wbr>Composition<wbr></wbr>Intermediates</a></code></td>
+    <td>Private method to generate intermediate datastructures to help with     generating symbolic and pythonic codes of the FTU Args:     G (networkx.Graph): Source graph     phsdefinitions (dict): PHS definitions     networkdata (dict): Network descriptions...</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#getUComponentLinkages" class="internal-link" title="ftuutils.base.FTUGraph.getUComponentLinkages">get<wbr></wbr>UComponent<wbr></wbr>Linkages</a></code></td>
+    <td>Determine the input linkages between node and noden</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#setEdgeWeight" class="internal-link" title="ftuutils.base.FTUGraph.setEdgeWeight">set<wbr></wbr>Edge<wbr></wbr>Weight</a></code></td>
+    <td>Set the edge weight for a given network</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#__init__" class="internal-link" title="ftuutils.base.FTUGraph.__init__">__init__</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#composeCompositePHS" class="internal-link" title="ftuutils.base.FTUGraph.composeCompositePHS">compose<wbr></wbr>Composite<wbr></wbr>PHS</a></code></td>
+    <td>Method to generate composite PHS from </td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#composeCompositePHSFromGraphicalObject" class="internal-link" title="ftuutils.base.FTUGraph.composeCompositePHSFromGraphicalObject">compose<wbr></wbr>Composite<wbr></wbr>PHSFrom<wbr></wbr>Graphical<wbr></wbr>Object</a></code></td>
+    <td>Generates the composite PHS from a python dictionary input of graph, phsdata and connection information</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#getGraph" class="internal-link" title="ftuutils.base.FTUGraph.getGraph">get<wbr></wbr>Graph</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#resolve" class="internal-link" title="ftuutils.base.FTUGraph.resolve">resolve</a></code></td>
+    <td>Construct the FTU given the network, port hamiltonians and other phsdata</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#setCellType" class="internal-link" title="ftuutils.base.FTUGraph.setCellType">set<wbr></wbr>Cell<wbr></wbr>Type</a></code></td>
+    <td>    Update cell types for nodes Args:     #G (nx.Graph): graph that needs to be updated     ctypes (Dict): node id -&gt; cell type map</td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#celltypes" class="internal-link" title="ftuutils.base.FTUGraph.celltypes">celltypes</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#num_active_cells" class="internal-link" title="ftuutils.base.FTUGraph.num_active_cells">num<wbr></wbr>_active<wbr></wbr>_cells</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+</table>
+          
+
+            
+        </div>
+
+        <div id="childList">
+          <div class="basestaticmethod">
+  
+  
+  <a name="ftuutils.base.FTUGraph.computeLaplacian">
+    
+  </a>
+  <a name="computeLaplacian">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @<a href="https://docs.python.org/3/library/functions.html#staticmethod" class="intersphinx-link">staticmethod</a><br />
+    <span class="py-keyword">def</span> <span class="py-defname">computeLaplacian</span><span class="function-signature">(G, nid) -&gt; <code>np.array</code></span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L39">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#computeLaplacian" title="ftuutils.base.FTUGraph.computeLaplacian">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Create the weighted laplacian matrix for the given graph G
+Graph G should have the edge weights apriori 
+Args:
+    G (nx.Graph): Networkx graph generated by this class with identical rows and cols
+    nid (int)   : The network for which the laplacian needs to be generated
+Returns:
+    np.array: Weighted laplacian of the graph</p></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="ftuutils.base.FTUGraph.generateCompositionIntermediates">
+    
+  </a>
+  <a name="generateCompositionIntermediates">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @<a href="https://docs.python.org/3/library/functions.html#staticmethod" class="intersphinx-link">staticmethod</a><br />
+    <span class="py-keyword">def</span> <span class="py-defname">generateCompositionIntermediates</span><span class="function-signature">(G, phsdefinitions, networkdata)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L127">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#generateCompositionIntermediates" title="ftuutils.base.FTUGraph.generateCompositionIntermediates">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Private method to generate intermediate datastructures to help with 
+   generating symbolic and pythonic codes of the FTU
+Args:
+    G (networkx.Graph): Source graph
+    phsdefinitions (dict): PHS definitions
+    networkdata (dict): Network descriptions
+
+Returns:
+    tuple: compositionErrors,nodeComponentBcapdash,Cmatrix</p></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="ftuutils.base.FTUGraph.getUComponentLinkages">
+    
+  </a>
+  <a name="getUComponentLinkages">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @<a href="https://docs.python.org/3/library/functions.html#staticmethod" class="intersphinx-link">staticmethod</a><br />
+    <span class="py-keyword">def</span> <span class="py-defname">getUComponentLinkages</span><span class="function-signature">(node, u, usplit, noden, y, ysplit, networkdata, compositionErrors)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L65">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getUComponentLinkages" title="ftuutils.base.FTUGraph.getUComponentLinkages">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Determine the input linkages between node and noden
+
+Args:
+    node (int): Source node
+    u (array): U component vector
+    usplit (array): array that assigns the network for each component vector
+    noden (int): Target node
+    y (array): Y component vector
+    ysplit (array): array that assigns the network for each component vector
+    networkdata (dict): data about the network i.e weights etc
+    compositionErrors (dict): dictionary of issues identified while find the linkages
+
+Returns:
+    dict,bool: Resulting match information, True if successful</p></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="ftuutils.base.FTUGraph.setEdgeWeight">
+    
+  </a>
+  <a name="setEdgeWeight">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @<a href="https://docs.python.org/3/library/functions.html#staticmethod" class="intersphinx-link">staticmethod</a><br />
+    <span class="py-keyword">def</span> <span class="py-defname">setEdgeWeight</span><span class="function-signature">(G, edid, networkid, weight)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L17">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#setEdgeWeight" title="ftuutils.base.FTUGraph.setEdgeWeight">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Set the edge weight for a given network
+
+Args:
+    G (networkx Graph): graph instance on which the assignment needs to be made
+    edid tuple(int,int): id of the edge (src node id,target node id)
+    networkid (int): id of the network to which the weight belongs
+    weight (float): Weight assigned for that network on the edge</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.base.FTUGraph.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">__init__</span><span class="function-signature">(self)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L13">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#__init__" title="ftuutils.base.FTUGraph.__init__">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    <div class="interfaceinfo">overridden in <code><a href="ftuutils.base.FTUDelaunayGraph.html" class="internal-link">ftuutils.base.FTUDelaunayGraph</a></code>, <code><a href="ftuutils.graphutils.Lattice2D.html" class="internal-link">ftuutils.graphutils.Lattice2D</a></code></div>
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.base.FTUGraph.composeCompositePHS">
+    
+  </a>
+  <a name="composeCompositePHS">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">composeCompositePHS</span><span class="function-signature">(self, G, phsdefinitions=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, phsdata=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L664">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#composeCompositePHS" title="ftuutils.base.FTUGraph.composeCompositePHS">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Method to generate composite PHS from 
+
+Args:
+    G (networkx Graph or dict): FTU graph (networkx.Graph) or Dict description
+    phsdefinitions (dict): Description of phs classes used in the FTU required if G is not dict
+    phsdata (dict): Data about networks, external inputs etc used in the FTU required if G is not dict</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.base.FTUGraph.composeCompositePHSFromGraphicalObject">
+    
+  </a>
+  <a name="composeCompositePHSFromGraphicalObject">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">composeCompositePHSFromGraphicalObject</span><span class="function-signature">(self, comp_)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L690">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#composeCompositePHSFromGraphicalObject" title="ftuutils.base.FTUGraph.composeCompositePHSFromGraphicalObject">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Generates the composite PHS from a python dictionary input of graph, phsdata and connection information
+
+Args:
+    comp (dict): PHS composition description</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.base.FTUGraph.getGraph">
+    
+  </a>
+  <a name="getGraph">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">getGraph</span><span class="function-signature">(self)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L745">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getGraph" title="ftuutils.base.FTUGraph.getGraph">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    <div class="interfaceinfo">overridden in <code><a href="ftuutils.base.FTUDelaunayGraph.html" class="internal-link">ftuutils.base.FTUDelaunayGraph</a></code>, <code><a href="ftuutils.graphutils.Lattice2D.html" class="internal-link">ftuutils.graphutils.Lattice2D</a></code></div>
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.base.FTUGraph.resolve">
+    
+  </a>
+  <a name="resolve">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">resolve</span><span class="function-signature">(self, G, phsdefinitions, phsdata, generateCompositionJSON=<a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L336">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#resolve" title="ftuutils.base.FTUGraph.resolve">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Construct the FTU given the network, port hamiltonians and other phsdata
+
+Args:
+    G (networkx.Graph): Graph description of FTU, nodes, edges, networks and phs assignments
+    phsdefinitions (dict): Definitions of phs classes used by the FTU
+    phsdata (dict): Data related to network connections applied on phs
+    generateCompositionJSON (bool, optional): Generate the composite JSON. Defaults to True.
+
+Returns:
+    bool,dict: True if a FTU was successfully constructed, FTU project as python dict        </p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.base.FTUGraph.setCellType">
+    
+  </a>
+  <a name="setCellType">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">setCellType</span><span class="function-signature">(self, ctypes)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L30">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#setCellType" title="ftuutils.base.FTUGraph.setCellType">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">    Update cell types for nodes
+Args:
+    #G (nx.Graph): graph that needs to be updated
+    ctypes (Dict): node id -&gt; cell type map</p></div>
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.base.FTUGraph.celltypes">
+    
+  </a>
+  <a name="celltypes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">celltypes</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L15">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#celltypes" title="ftuutils.base.FTUGraph.celltypes">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.base.FTUGraph.num_active_cells">
+    
+  </a>
+  <a name="num_active_cells">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">num_active_cells</span>: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/base.py#L14">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#num_active_cells" title="ftuutils.base.FTUGraph.num_active_cells">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <code><a href="ftuutils.graphutils.Lattice2D.html" class="internal-link">ftuutils.graphutils.Lattice2D</a></code></div>
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+
+  
+  <div class="container">
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/Jagirhussan/ftuutils" class="projecthome">FTUUtils</a>,
+  generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+    24.3.3 at 2024-06-12 12:22:09.
+  </div>
+
+  <!-- Search related scripts needs to be loaded at the end of HTML 
+    parsing not to introduce overhead and display HTML data asap -->
+  <script src="ajax.js" type="text/javascript"></script>
+  <script src="searchlib.js" type="text/javascript"></script>
+  <script src="search.js" type="text/javascript"></script>
+
+</footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>

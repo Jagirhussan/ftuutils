@@ -1,9 +1,20 @@
+"""Logic for generating pythonic code from FTU composition"""
+
 import sympy
 from sympy import Matrix
 import re, os, json
 from collections import OrderedDict
 
 def _stringsubs(target, mapping):
+    """Substitute mapping into target string
+
+    Args:
+        target (string): Target string
+        mapping (dict): Key value pairs for replacement
+
+    Returns:
+        string: replaced string
+    """
     for k, v in mapping.items():
         if not v.startswith("\\"):
             target = re.sub(re.escape(k), v, target)
@@ -12,6 +23,11 @@ def _stringsubs(target, mapping):
     return target
 
 def exportAsPython(composer):
+    """Export the FTU description in the composer as python code
+
+    Args:
+        composer (compositionutils.Composer): Composer instance that has the resolved FTU 
+    """
     numconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,cleaninputs = composer.generatePythonIntermediates()
     stateVec = Matrix(composer.stateVec)
     # Generate metedata

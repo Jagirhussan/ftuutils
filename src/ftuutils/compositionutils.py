@@ -1,3 +1,5 @@
+"""Logic to compose FTU from topology, PHS type and network connection information"""
+
 import numpy as np
 import sympy
 from sympy import Expr, Matrix
@@ -19,7 +21,7 @@ from ftuutils import latexgenerationutils
 
 class SymbolicPHS:
     """
-    Port Hamiltonian representation
+    Symbolic Port Hamiltonian representation
     """
 
     def __init__(
@@ -62,6 +64,14 @@ class SymbolicPHS:
         self.statevalues = statevalues
 
     def getCopy(self, id: int):
+        """Get a copy of the PHS instance with the symbol ids suffixed with id
+
+        Args:
+            id (int): Suffix id for PHS instance symbols
+
+        Returns:
+            SymbolicPHS: copy of instance
+        """
         nvars = dict()
 
         for v in self.variables:
@@ -132,6 +142,14 @@ class SymbolicPHS:
 
     @staticmethod
     def getMatrix(mjson: dict) -> Matrix:
+        """Get Sympy matrix from json description
+
+        Args:
+            mjson (dict): Matrix/Vector described as dictionary
+
+        Returns:
+            Matrix: Sympy Matrix
+        """
         nrows = mjson["rows"]
         ncols = mjson["cols"]
         return Matrix(list(map(sympy.parse_expr, mjson["elements"]))).reshape(
@@ -140,6 +158,14 @@ class SymbolicPHS:
 
     @staticmethod
     def getJSONForMatrix(matrix) -> dict:
+        """Convert Sympy Matrix to json
+
+        Args:
+            matrix (Sympy.Matrix): Sympy Matrix for conversion
+
+        Returns:
+            dict: Jsonable representation of sympy matrix
+        """
         rows = matrix.rows
         cols = matrix.cols
         elements = []
@@ -154,6 +180,17 @@ class SymbolicPHS:
 
     @staticmethod
     def getVariables(elem: list) -> set:
+        """Convert from string to sympy varibales
+
+        Args:
+            elem (list): List of variables/expressions from which symbolic variable names need to be extracted 
+
+        Raises:
+            Exception: When a list element cannot be parsed
+
+        Returns:
+            set: Set of variables extracted from the input list
+        """
         if type(elem) is list:
             exps = list(map(sympy.parse_expr, elem))
             res = set()
@@ -164,7 +201,7 @@ class SymbolicPHS:
             ee = sympy.parse_expr(elem)
             return ee.free_symbols
         else:
-            raise f"Input of Type {type(elem)} not supported by getVariables"
+            raise Exception(f"Input of Type {type(elem)} not supported by getVariables")
 
     @staticmethod
     def savePHSDefinition(phs):
@@ -365,6 +402,16 @@ class SymbolicPHS:
         )
 
     def instantiatePHS(self, postfix, substituteParameters=False):
+        """Create a PHS with given postfix for its symbols
+           If substituteParameters is True, then symbols and expressions are evaluated with the cooresponding 
+           numerical values and simplified.
+        Args:
+            postfix (string): Postfix for symbols
+            substituteParameters (bool, optional): Substitute numerical values in experessions and simplify. Defaults to False.
+
+        Returns:
+            SymbolicPHS: Instance with new postfix and substituted expressions if requested.
+        """
         vsubs = dict()
         definedSymbols = []
         for v in self.variables:
@@ -421,6 +468,7 @@ class SymbolicPHS:
         )
 
     def __str__(self):
+        """ Convert to string"""
         bbars = ""
         if self.Bhat.shape[0] > 0:
             bbars = f"Bhat Matrix\n {sympy.pretty(self.Bhat)}"
@@ -488,14 +536,17 @@ class Composer:
         
     @staticmethod
     def getMatrix(mjson: dict) -> Matrix:
+        """Get Sympy matrix from json description"""
         return SymbolicPHS.getMatrix(mjson)
 
     @staticmethod
     def getVariables(elem: list) -> set:
+        """Convert from string to sympy varibales"""
         return SymbolicPHS.getVariables(elem)
 
     @staticmethod
     def _elementwiseDiv(A: Matrix, B: Matrix):
+        """Perform elementwise division of sympy given matrices"""
         if A.shape[0] == B.shape[0] and A.shape[1] == B.shape[1]:
             C = deepcopy(A)
             for i in range(A.rows):
@@ -755,7 +806,6 @@ class Composer:
         nbcapmat = []
         lashmat = []
         bdasmat = []
-        cmat = []
         lashzeroflag = []
         jrsize = 0
         jcsize = 0
@@ -1358,6 +1408,7 @@ class Composer:
         return numconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,cleaninputs
     
     def exportAsPython(self):
+        """Export composed FTU as python code similar to OpenCOR export"""
         return codegenerationutils.exportAsPython(self)
     
     def exportAsODEStepper(self,modelName="FTUStepper"):

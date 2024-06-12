@@ -1,18 +1,15 @@
+"""Logic to create FTU graphs"""
 import numpy as np
 import networkx as nx
-import json, copy
+import copy
 from scipy.spatial import Delaunay
 
-#Done this way as pyodide has issues with from compositionutils import FTUGraph
-try:
-    from ftuutils.compositionutils import SymbolicPHS,Composer
-except:
-    from compositionutils import SymbolicPHS,Composer
-
+from ftuutils.compositionutils import SymbolicPHS,Composer
 
 #Generic FTU graph methods
 class FTUGraph():
-    
+    """ Base class for creating FTU graphs. A networkx graph is used to build the FTU
+    """
     def __init__(self) -> None:
         self.num_active_cells = 0  
         self.celltypes = dict()
@@ -129,6 +126,16 @@ class FTUGraph():
     
     @staticmethod
     def generateCompositionIntermediates(G,phsdefinitions,networkdata):
+        """Private method to generate intermediate datastructures to help with 
+           generating symbolic and pythonic codes of the FTU
+        Args:
+            G (networkx.Graph): Source graph
+            phsdefinitions (dict): PHS definitions
+            networkdata (dict): Network descriptions
+
+        Returns:
+            tuple: compositionErrors,nodeComponentBcapdash,Cmatrix
+        """
         nds = list(G.nodes())
         #Handle multigraph with multiple non-numeric attributes
         adj = nx.adjacency_matrix(G,weight=None)
@@ -793,15 +800,39 @@ class FTUDelaunayGraph(FTUGraph):
         self.graph = G
 
     def getDefaultNetworkID(self):
+        """Get the default network ID, the one assigned to the FTU network by default
+
+        Returns:
+            int: Network ID
+        """
         return self.defaultNetworkID
 
     def getGraph(self):
+        """Get the working graph
+
+        Returns:
+            networkx.Graph: FTU graph
+        """
         return self.graph
     
     def getPoints(self):
+        """Get the coordinate points used to create the FTU graph
+
+        Returns:
+            numpy.array: Array of points
+        """
         return self.points
 
     def getPositionFromIndex(self,idx):
+        """Get a position for given index
+           If idx corresponds to a point, then its coordinate is returned
+           else a random coordinate value within the coordinate bounds is returned
+        Args:
+            idx (int): Index of point whose coordinate value is required
+
+        Returns:
+            numpy.array: Coordinate value
+        """
         if idx <= self.points.shape[0] and idx > 0:
             return self.points[idx-1]
         else:

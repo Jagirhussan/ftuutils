@@ -1,0 +1,1692 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>ftuutils.graphutils.Lattice2D</title>
+    <meta name="generator" content="pydoctor 24.3.3"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          <a href="https://github.com/Jagirhussan/ftuutils" class="projecthome">FTUUtils</a> <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="search-results-container" style="display: none;">
+        
+        <div id="search-buttons">
+          <span class="label label-default" id="search-docstrings-button">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+              search in docstrings
+            </input>
+          </label>
+          </span>
+          
+        </div>
+        
+        <noscript>
+            <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+        </noscript>
+
+        <div class="hint" id="search-help-box">
+          <p class="rst-last">
+      
+            Search bar offers the following options:
+            <ul>   
+                <li>
+                  <strong>Term presence.</strong> The below example searches for documents that 
+                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                </li> 
+
+                <li>
+                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                </li> 
+
+                <li>
+                  <strong>Search in specific fields.</strong> The following search matches all objects 
+                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+
+                  <p>
+                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                    Last two fields are only applicable if "search in docstrings" is enabled.
+                  </p>
+                </li>
+
+                <li>
+                  <strong>Fuzzy matches.</strong> The following search matches all documents 
+                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                </li>
+            </ul>
+
+          </p>
+        </div>
+
+        <div id="search-status"> </div>
+
+        <div class="warning" id="search-warn-box" style="display: none;">
+          <p class="rst-last"><span id="search-warn"></span></p>
+        </div>
+
+        <table id="search-results">
+          <!-- Filled dynamically by JS -->
+        </table>
+        
+        <div style="margin-top: 8px;">
+          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</nav>
+    
+    <div class="container-fluid">
+
+      <!-- Side navigation -->
+      <div class="sidebarcontainer" style="display: none;">
+        
+        <div class="sidebar"><nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Class</span>
+        <code class="thisobject"><a href="ftuutils.graphutils.Lattice2D.html" class="internal-link" title="This class"><wbr></wbr>Lattice2<wbr></wbr>D</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Methods</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__init__" class="internal-link" title="ftuutils.graphutils.Lattice2D.__init__">__init__</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#convertStateVecTo2D" class="internal-link" title="ftuutils.graphutils.Lattice2D.convertStateVecTo2D">convert<wbr></wbr>State<wbr></wbr>Vec<wbr></wbr>To2<wbr></wbr>D</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getCellIndex" class="internal-link" title="ftuutils.graphutils.Lattice2D.getCellIndex">get<wbr></wbr>Cell<wbr></wbr>Index</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getGraph" class="internal-link" title="ftuutils.graphutils.Lattice2D.getGraph">get<wbr></wbr>Graph</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.getNodes">get<wbr></wbr>Nodes</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getPositionFromIndex" class="internal-link" title="ftuutils.graphutils.Lattice2D.getPositionFromIndex">get<wbr></wbr>Position<wbr></wbr>From<wbr></wbr>Index</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getStimulusBlockNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.getStimulusBlockNodes">get<wbr></wbr>Stimulus<wbr></wbr>Block<wbr></wbr>Nodes</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getSubGraph" class="internal-link" title="ftuutils.graphutils.Lattice2D.getSubGraph">get<wbr></wbr>Sub<wbr></wbr>Graph</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#setDefects" class="internal-link" title="ftuutils.graphutils.Lattice2D.setDefects">set<wbr></wbr>Defects</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#setFibreConductivity" class="internal-link" title="ftuutils.graphutils.Lattice2D.setFibreConductivity">set<wbr></wbr>Fibre<wbr></wbr>Conductivity</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#setSheetConductivity" class="internal-link" title="ftuutils.graphutils.Lattice2D.setSheetConductivity">set<wbr></wbr>Sheet<wbr></wbr>Conductivity</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#setStimulationBlock" class="internal-link" title="ftuutils.graphutils.Lattice2D.setStimulationBlock">set<wbr></wbr>Stimulation<wbr></wbr>Block</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#_generateGraph" class="internal-link" title="ftuutils.graphutils.Lattice2D._generateGraph">_generate<wbr></wbr>Graph</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#_initConnections" class="internal-link" title="ftuutils.graphutils.Lattice2D._initConnections">_init<wbr></wbr>Connections</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        <div class="childrenKindTitle">Inherited Methods</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUGraph.html#computeLaplacian" class="internal-link" title="ftuutils.base.FTUGraph.computeLaplacian">compute<wbr></wbr>Laplacian</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUGraph.html#generateCompositionIntermediates" class="internal-link" title="ftuutils.base.FTUGraph.generateCompositionIntermediates">generate<wbr></wbr>Composition<wbr></wbr>Intermediates</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUGraph.html#getUComponentLinkages" class="internal-link" title="ftuutils.base.FTUGraph.getUComponentLinkages">get<wbr></wbr>UComponent<wbr></wbr>Linkages</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUGraph.html#setEdgeWeight" class="internal-link" title="ftuutils.base.FTUGraph.setEdgeWeight">set<wbr></wbr>Edge<wbr></wbr>Weight</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUGraph.html#composeCompositePHS" class="internal-link" title="ftuutils.base.FTUGraph.composeCompositePHS">compose<wbr></wbr>Composite<wbr></wbr>PHS</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUGraph.html#composeCompositePHSFromGraphicalObject" class="internal-link" title="ftuutils.base.FTUGraph.composeCompositePHSFromGraphicalObject">compose<wbr></wbr>Composite<wbr></wbr>PHSFrom<wbr></wbr>Graphical<wbr></wbr>Object</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUGraph.html#resolve" class="internal-link" title="ftuutils.base.FTUGraph.resolve">resolve</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUGraph.html#setCellType" class="internal-link" title="ftuutils.base.FTUGraph.setCellType">set<wbr></wbr>Cell<wbr></wbr>Type</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        <div class="childrenKindTitle">Attributes</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#active_cells" class="internal-link" title="ftuutils.graphutils.Lattice2D.active_cells">active<wbr></wbr>_cells</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#blocks" class="internal-link" title="ftuutils.graphutils.Lattice2D.blocks">blocks</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#bottomNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.bottomNodes">bottom<wbr></wbr>Nodes</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#col_size" class="internal-link" title="ftuutils.graphutils.Lattice2D.col_size">col<wbr></wbr>_size</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#connections" class="internal-link" title="ftuutils.graphutils.Lattice2D.connections">connections</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#defaultphs" class="internal-link" title="ftuutils.graphutils.Lattice2D.defaultphs">defaultphs</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fibre_conductivity" class="internal-link" title="ftuutils.graphutils.Lattice2D.fibre_conductivity">fibre<wbr></wbr>_conductivity</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#leftNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.leftNodes">left<wbr></wbr>Nodes</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#num_active_cells" class="internal-link" title="ftuutils.graphutils.Lattice2D.num_active_cells">num<wbr></wbr>_active<wbr></wbr>_cells</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#rightNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.rightNodes">right<wbr></wbr>Nodes</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#row_size" class="internal-link" title="ftuutils.graphutils.Lattice2D.row_size">row<wbr></wbr>_size</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#sheet_conductivity" class="internal-link" title="ftuutils.graphutils.Lattice2D.sheet_conductivity">sheet<wbr></wbr>_conductivity</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#stimulusBlocks" class="internal-link" title="ftuutils.graphutils.Lattice2D.stimulusBlocks">stimulus<wbr></wbr>Blocks</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#topNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.topNodes">top<wbr></wbr>Nodes</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        <div class="childrenKindTitle">Inherited Attributes</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.base.FTUGraph.html#celltypes" class="internal-link" title="ftuutils.base.FTUGraph.celltypes">celltypes</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Module</span>
+        <code><a href="ftuutils.graphutils.html" class="internal-link" title="The parent of this class">graphutils</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        <div class="childrenKindTitle">Classes</div>
+        <ul>
+    
+    <li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.graphutils.Lattice2D.html" class="internal-link" title="ftuutils.graphutils.Lattice2D"><wbr></wbr>Lattice2<wbr></wbr>D</a></code>
+            </div>
+        
+
+    </li>
+</ul>
+
+        
+         
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        </div>
+        <div id="collapseSideBar">
+          <a class="btn btn-link" onclick="toggleSideBarCollapse()" title="Toggle Sidebar Collapse">
+          </a>
+        </div> 
+        <script src="sidebartoggle.js" type="text/javascript"></script>
+       
+      </div>
+
+      <div id="main" class="">
+        
+
+        
+
+        <div class="page-header">
+          <h1 class="class"><code><code><a href="index.html" class="internal-link">ftuutils</a></code><wbr></wbr>.<code><a href="ftuutils.graphutils.html" class="internal-link" title="ftuutils.graphutils">graphutils</a></code><wbr></wbr>.<code><a href="ftuutils.graphutils.Lattice2D.html" class="internal-link" title="ftuutils.graphutils.Lattice2D">Lattice2D</a></code></code></h1>
+          <div id="showPrivate">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          class documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">Lattice2D</span>(<a href="ftuutils.base.FTUGraph.html" class="internal-link" title="ftuutils.base.FTUGraph">FTUGraph</a>): <a href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L10" class="sourceLink">(source)</a></code></p><p>Constructor: <code><a href="#__init__" class="internal-link" title="ftuutils.graphutils.Lattice2D.__init__">Lattice2D(rows, cols, defaultphs)</a></code></p>
+          <p><a href="classIndex.html#ftuutils.graphutils.Lattice2D">View In Hierarchy</a></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p class="pre">Class to construct a 2D lattice, suitable for simulating 2D electrical/chemical wave propogation.
+...
+Attributes
+----------
+rows : int
+    Number of rows in the lattice
+cols : int
+    Number of columns in the lattice
+defaultphs : str
+    The default PHS class assigned to the cells/nodes in the lattice</p></div>
+        </div>
+
+        <div id="splitTables">
+          <table class="children sortable" id="id11">
+  
+  
+  <tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#__init__" class="internal-link" title="ftuutils.graphutils.Lattice2D.__init__">__init__</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#convertStateVecTo2D" class="internal-link" title="ftuutils.graphutils.Lattice2D.convertStateVecTo2D">convert<wbr></wbr>State<wbr></wbr>Vec<wbr></wbr>To2<wbr></wbr>D</a></code></td>
+    <td>Utility function to convert a (num_active_cells,:) array   to an array of shape (row_size,col_size,:) The graphs Args:     array (float): State vector array of shape (num_active_cells,:)</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#getCellIndex" class="internal-link" title="ftuutils.graphutils.Lattice2D.getCellIndex">get<wbr></wbr>Cell<wbr></wbr>Index</a></code></td>
+    <td>Boolean index of cells  into a (num_active_cells,:) array representative of the state vector</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#getGraph" class="internal-link" title="ftuutils.graphutils.Lattice2D.getGraph">get<wbr></wbr>Graph</a></code></td>
+    <td>Get the FTU graph corresponding to the Lattice for set parameters</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#getNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.getNodes">get<wbr></wbr>Nodes</a></code></td>
+    <td>    Get the list of node ids that fall within the blk Args:     blk (list): [[x0,x1],[y0,y1]]</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#getPositionFromIndex" class="internal-link" title="ftuutils.graphutils.Lattice2D.getPositionFromIndex">get<wbr></wbr>Position<wbr></wbr>From<wbr></wbr>Index</a></code></td>
+    <td>Get the x,y coordinates for a cell with an index </td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#getStimulusBlockNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.getStimulusBlockNodes">get<wbr></wbr>Stimulus<wbr></wbr>Block<wbr></wbr>Nodes</a></code></td>
+    <td>Get the list of nodes that fall within the stimulation block</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#getSubGraph" class="internal-link" title="ftuutils.graphutils.Lattice2D.getSubGraph">get<wbr></wbr>Sub<wbr></wbr>Graph</a></code></td>
+    <td>Get the subgraph that includes cells within the block</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#setDefects" class="internal-link" title="ftuutils.graphutils.Lattice2D.setDefects">set<wbr></wbr>Defects</a></code></td>
+    <td>Setup defective regions within the lattice identified by blocks</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#setFibreConductivity" class="internal-link" title="ftuutils.graphutils.Lattice2D.setFibreConductivity">set<wbr></wbr>Fibre<wbr></wbr>Conductivity</a></code></td>
+    <td>Set the conductivity values along the horizontal axis</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#setSheetConductivity" class="internal-link" title="ftuutils.graphutils.Lattice2D.setSheetConductivity">set<wbr></wbr>Sheet<wbr></wbr>Conductivity</a></code></td>
+    <td>Set the conductivity values along the vertical axis</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#setStimulationBlock" class="internal-link" title="ftuutils.graphutils.Lattice2D.setStimulationBlock">set<wbr></wbr>Stimulation<wbr></wbr>Block</a></code></td>
+    <td>Setup a stimulus block for the given graph</td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#active_cells" class="internal-link" title="ftuutils.graphutils.Lattice2D.active_cells">active<wbr></wbr>_cells</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#blocks" class="internal-link" title="ftuutils.graphutils.Lattice2D.blocks">blocks</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#bottomNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.bottomNodes">bottom<wbr></wbr>Nodes</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#col_size" class="internal-link" title="ftuutils.graphutils.Lattice2D.col_size">col<wbr></wbr>_size</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#connections" class="internal-link" title="ftuutils.graphutils.Lattice2D.connections">connections</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#defaultphs" class="internal-link" title="ftuutils.graphutils.Lattice2D.defaultphs">defaultphs</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#fibre_conductivity" class="internal-link" title="ftuutils.graphutils.Lattice2D.fibre_conductivity">fibre<wbr></wbr>_conductivity</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#leftNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.leftNodes">left<wbr></wbr>Nodes</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#num_active_cells" class="internal-link" title="ftuutils.graphutils.Lattice2D.num_active_cells">num<wbr></wbr>_active<wbr></wbr>_cells</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#rightNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.rightNodes">right<wbr></wbr>Nodes</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#row_size" class="internal-link" title="ftuutils.graphutils.Lattice2D.row_size">row<wbr></wbr>_size</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#sheet_conductivity" class="internal-link" title="ftuutils.graphutils.Lattice2D.sheet_conductivity">sheet<wbr></wbr>_conductivity</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#stimulusBlocks" class="internal-link" title="ftuutils.graphutils.Lattice2D.stimulusBlocks">stimulus<wbr></wbr>Blocks</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#topNodes" class="internal-link" title="ftuutils.graphutils.Lattice2D.topNodes">top<wbr></wbr>Nodes</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method private">
+    
+    <td>Method</td>
+    <td><code><a href="#_generateGraph" class="internal-link" title="ftuutils.graphutils.Lattice2D._generateGraph">_generate<wbr></wbr>Graph</a></code></td>
+    <td>Logic to generate a 2D lattice given the weights and active cells</td>
+  </tr><tr class="method private">
+    
+    <td>Method</td>
+    <td><code><a href="#_initConnections" class="internal-link" title="ftuutils.graphutils.Lattice2D._initConnections">_init<wbr></wbr>Connections</a></code></td>
+    <td>Simplified implementation of connections, defects need not be take into consideration as they are handled at the time of generating the graph However, the graph generation code only handles 8 neighbors For complex conditions, update the code appropriately Returns:     np...</td>
+  </tr>
+</table>
+          
+            <p class="inheritedFrom">
+              Inherited from <code><a href="ftuutils.base.FTUGraph.html" class="internal-link" title="ftuutils.base.FTUGraph">FTUGraph</a></code>:
+            </p>
+            <table class="children sortable" id="id12">
+  
+  
+  <tr class="basestaticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="ftuutils.base.FTUGraph.html#computeLaplacian" class="internal-link" title="ftuutils.base.FTUGraph.computeLaplacian">compute<wbr></wbr>Laplacian</a></code></td>
+    <td>Create the weighted laplacian matrix for the given graph G Graph G should have the edge weights apriori  Args:     G (nx.Graph): Networkx graph generated by this class with identical rows and cols     nid (int)   : The network for which the laplacian needs to be generated Returns:     np...</td>
+  </tr><tr class="basestaticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="ftuutils.base.FTUGraph.html#generateCompositionIntermediates" class="internal-link" title="ftuutils.base.FTUGraph.generateCompositionIntermediates">generate<wbr></wbr>Composition<wbr></wbr>Intermediates</a></code></td>
+    <td>Private method to generate intermediate datastructures to help with     generating symbolic and pythonic codes of the FTU Args:     G (networkx.Graph): Source graph     phsdefinitions (dict): PHS definitions     networkdata (dict): Network descriptions...</td>
+  </tr><tr class="basestaticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="ftuutils.base.FTUGraph.html#getUComponentLinkages" class="internal-link" title="ftuutils.base.FTUGraph.getUComponentLinkages">get<wbr></wbr>UComponent<wbr></wbr>Linkages</a></code></td>
+    <td>Determine the input linkages between node and noden</td>
+  </tr><tr class="basestaticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="ftuutils.base.FTUGraph.html#setEdgeWeight" class="internal-link" title="ftuutils.base.FTUGraph.setEdgeWeight">set<wbr></wbr>Edge<wbr></wbr>Weight</a></code></td>
+    <td>Set the edge weight for a given network</td>
+  </tr><tr class="basemethod">
+    
+    <td>Method</td>
+    <td><code><a href="ftuutils.base.FTUGraph.html#composeCompositePHS" class="internal-link" title="ftuutils.base.FTUGraph.composeCompositePHS">compose<wbr></wbr>Composite<wbr></wbr>PHS</a></code></td>
+    <td>Method to generate composite PHS from </td>
+  </tr><tr class="basemethod">
+    
+    <td>Method</td>
+    <td><code><a href="ftuutils.base.FTUGraph.html#composeCompositePHSFromGraphicalObject" class="internal-link" title="ftuutils.base.FTUGraph.composeCompositePHSFromGraphicalObject">compose<wbr></wbr>Composite<wbr></wbr>PHSFrom<wbr></wbr>Graphical<wbr></wbr>Object</a></code></td>
+    <td>Generates the composite PHS from a python dictionary input of graph, phsdata and connection information</td>
+  </tr><tr class="basemethod">
+    
+    <td>Method</td>
+    <td><code><a href="ftuutils.base.FTUGraph.html#resolve" class="internal-link" title="ftuutils.base.FTUGraph.resolve">resolve</a></code></td>
+    <td>Construct the FTU given the network, port hamiltonians and other phsdata</td>
+  </tr><tr class="basemethod">
+    
+    <td>Method</td>
+    <td><code><a href="ftuutils.base.FTUGraph.html#setCellType" class="internal-link" title="ftuutils.base.FTUGraph.setCellType">set<wbr></wbr>Cell<wbr></wbr>Type</a></code></td>
+    <td>    Update cell types for nodes Args:     #G (nx.Graph): graph that needs to be updated     ctypes (Dict): node id -&gt; cell type map</td>
+  </tr><tr class="baseinstancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="ftuutils.base.FTUGraph.html#celltypes" class="internal-link" title="ftuutils.base.FTUGraph.celltypes">celltypes</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+</table>
+            
+
+            
+        </div>
+
+        <div id="childList">
+          <div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">__init__</span><span class="function-signature">(self, rows, cols, defaultphs=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L23">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#__init__" title="ftuutils.graphutils.Lattice2D.__init__">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    <div class="interfaceinfo">overrides <code><a href="ftuutils.base.FTUGraph.html#__init__" class="internal-link">ftuutils.base.FTUGraph.__init__</a></code></div>
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.convertStateVecTo2D">
+    
+  </a>
+  <a name="convertStateVecTo2D">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">convertStateVecTo2D</span><span class="function-signature">(self, array, fill_defect=0.0) -&gt; <code>np.array</code></span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L291">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#convertStateVecTo2D" title="ftuutils.graphutils.Lattice2D.convertStateVecTo2D">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Utility function to convert a (num_active_cells,:) array  
+to an array of shape (row_size,col_size,:)
+The graphs
+Args:
+    array (float): State vector array of shape (num_active_cells,:)
+
+Returns:
+    np.array: Array of shape (row_size,col_size,:)</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.getCellIndex">
+    
+  </a>
+  <a name="getCellIndex">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">getCellIndex</span><span class="function-signature">(self, block) -&gt; <code>np.array</code></span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L220">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getCellIndex" title="ftuutils.graphutils.Lattice2D.getCellIndex">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Boolean index of cells  into a (num_active_cells,:) array representative of the state vector
+
+Args:
+    block (np.array): a selection block of the format [[x0,x1], [y0,y1]]
+
+Returns:
+    np.array: (num_active_cells,1) boolean array, selected elements will be True</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.getGraph">
+    
+  </a>
+  <a name="getGraph">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">getGraph</span><span class="function-signature">(self) -&gt; <code>nx.Graph</code></span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L270">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getGraph" title="ftuutils.graphutils.Lattice2D.getGraph">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    <div class="interfaceinfo">overrides <code><a href="ftuutils.base.FTUGraph.html#getGraph" class="internal-link">ftuutils.base.FTUGraph.getGraph</a></code></div>
+    <div><p class="pre">Get the FTU graph corresponding to the Lattice for set parameters
+
+Returns:
+    nx.Graph: networkx Graph</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.getNodes">
+    
+  </a>
+  <a name="getNodes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">getNodes</span><span class="function-signature">(self, blk)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L210">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getNodes" title="ftuutils.graphutils.Lattice2D.getNodes">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">    Get the list of node ids that fall within the blk
+Args:
+    blk (list): [[x0,x1],[y0,y1]]</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.getPositionFromIndex">
+    
+  </a>
+  <a name="getPositionFromIndex">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">getPositionFromIndex</span><span class="function-signature">(self, index)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L278">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getPositionFromIndex" title="ftuutils.graphutils.Lattice2D.getPositionFromIndex">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Get the x,y coordinates for a cell with an index 
+
+Args:
+    index (int): cell index
+
+Returns:
+    list : x,y coordinates for the cell at index</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.getStimulusBlockNodes">
+    
+  </a>
+  <a name="getStimulusBlockNodes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">getStimulusBlockNodes</span><span class="function-signature">(self, bname)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L196">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getStimulusBlockNodes" title="ftuutils.graphutils.Lattice2D.getStimulusBlockNodes">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Get the list of nodes that fall within the stimulation block
+
+Args:
+    bname (str): Name of the block
+
+Returns:
+    np.array: List of nodes that fall within the blk, [] if block is not found</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.getSubGraph">
+    
+  </a>
+  <a name="getSubGraph">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">getSubGraph</span><span class="function-signature">(self, block) -&gt; <code>nx.Graph</code></span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L258">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getSubGraph" title="ftuutils.graphutils.Lattice2D.getSubGraph">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Get the subgraph that includes cells within the block
+
+Args:
+    block (array): [[x0,x1],[y0,y1]]
+
+Returns:
+    nx.Graph: networkx Graph</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.setDefects">
+    
+  </a>
+  <a name="setDefects">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">setDefects</span><span class="function-signature">(self, blocks)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L54">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#setDefects" title="ftuutils.graphutils.Lattice2D.setDefects">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Setup defective regions within the lattice identified by blocks
+
+Args:
+    blocks (array of arrays): Array of 2D coordinates  of the form [[x_start,x_end],[y_start,y_end]]</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.setFibreConductivity">
+    
+  </a>
+  <a name="setFibreConductivity">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">setFibreConductivity</span><span class="function-signature">(self, cond, network=1)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L96">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#setFibreConductivity" title="ftuutils.graphutils.Lattice2D.setFibreConductivity">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Set the conductivity values along the horizontal axis
+
+Args:
+    cond (float): Conductivity values
+    network (int, optional): Network on which the weights are assigned. Defaults to 1.</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.setSheetConductivity">
+    
+  </a>
+  <a name="setSheetConductivity">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">setSheetConductivity</span><span class="function-signature">(self, cond, network=1)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L105">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#setSheetConductivity" title="ftuutils.graphutils.Lattice2D.setSheetConductivity">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Set the conductivity values along the vertical axis
+
+Args:
+    cond (float): Conductivity values
+    network (int, optional): Network on which the weights are assigned. Defaults to 1.</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.setStimulationBlock">
+    
+  </a>
+  <a name="setStimulationBlock">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">setStimulationBlock</span><span class="function-signature">(self, bname, blk)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L42">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#setStimulationBlock" title="ftuutils.graphutils.Lattice2D.setStimulationBlock">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Setup a stimulus block for the given graph
+
+Identify a block of cells within the lattice and setup networks and input nodes
+
+Args:
+    bname (str): Name for the block
+    blk (array): Array of size num active cells with 'True' for cells within the block</p></div>
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.active_cells">
+    
+  </a>
+  <a name="active_cells">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">active_cells</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L27">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#active_cells" title="ftuutils.graphutils.Lattice2D.active_cells">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.blocks">
+    
+  </a>
+  <a name="blocks">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">blocks</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L38">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#blocks" title="ftuutils.graphutils.Lattice2D.blocks">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.bottomNodes">
+    
+  </a>
+  <a name="bottomNodes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">bottomNodes</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L33">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#bottomNodes" title="ftuutils.graphutils.Lattice2D.bottomNodes">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.col_size">
+    
+  </a>
+  <a name="col_size">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">col_size</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L26">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#col_size" title="ftuutils.graphutils.Lattice2D.col_size">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.connections">
+    
+  </a>
+  <a name="connections">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">connections</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L30">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#connections" title="ftuutils.graphutils.Lattice2D.connections">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.defaultphs">
+    
+  </a>
+  <a name="defaultphs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">defaultphs</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L40">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#defaultphs" title="ftuutils.graphutils.Lattice2D.defaultphs">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.fibre_conductivity">
+    
+  </a>
+  <a name="fibre_conductivity">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">fibre_conductivity</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a>, <wbr></wbr><a href="https://docs.python.org/3/library/functions.html#float" class="intersphinx-link">float</a>]</code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L29">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fibre_conductivity" title="ftuutils.graphutils.Lattice2D.fibre_conductivity">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.leftNodes">
+    
+  </a>
+  <a name="leftNodes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">leftNodes</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L34">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#leftNodes" title="ftuutils.graphutils.Lattice2D.leftNodes">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.num_active_cells">
+    
+  </a>
+  <a name="num_active_cells">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">num_active_cells</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L37">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#num_active_cells" title="ftuutils.graphutils.Lattice2D.num_active_cells">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <code><a href="ftuutils.base.FTUGraph.html#num_active_cells" class="internal-link">ftuutils.base.FTUGraph.num_active_cells</a></code></div>
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.rightNodes">
+    
+  </a>
+  <a name="rightNodes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">rightNodes</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L35">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#rightNodes" title="ftuutils.graphutils.Lattice2D.rightNodes">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.row_size">
+    
+  </a>
+  <a name="row_size">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">row_size</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L25">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#row_size" title="ftuutils.graphutils.Lattice2D.row_size">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.sheet_conductivity">
+    
+  </a>
+  <a name="sheet_conductivity">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">sheet_conductivity</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a>, <wbr></wbr><a href="https://docs.python.org/3/library/functions.html#float" class="intersphinx-link">float</a>]</code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L28">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#sheet_conductivity" title="ftuutils.graphutils.Lattice2D.sheet_conductivity">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.stimulusBlocks">
+    
+  </a>
+  <a name="stimulusBlocks">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">stimulusBlocks</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L39">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#stimulusBlocks" title="ftuutils.graphutils.Lattice2D.stimulusBlocks">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D.topNodes">
+    
+  </a>
+  <a name="topNodes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">topNodes</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L36">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#topNodes" title="ftuutils.graphutils.Lattice2D.topNodes">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="basemethod private">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D._generateGraph">
+    
+  </a>
+  <a name="_generateGraph">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">_generateGraph</span><span class="function-signature">(self, active_cells) -&gt; <code>nx.Graph</code></span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L138">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#_generateGraph" title="ftuutils.graphutils.Lattice2D._generateGraph">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Logic to generate a 2D lattice given the weights and active cells
+
+Args:
+    active_cells (array): Array of boolean values that indicate which cells are active within the lattice
+
+Returns:
+    nx.Graph: networkx Graph</p></div>
+  </div>
+</div><div class="basemethod private">
+  
+  
+  <a name="ftuutils.graphutils.Lattice2D._initConnections">
+    
+  </a>
+  <a name="_initConnections">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">_initConnections</span><span class="function-signature">(self) -&gt; <code>np.array</code></span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/graphutils.py#L114">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#_initConnections" title="ftuutils.graphutils.Lattice2D._initConnections">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Simplified implementation of connections, defects need not be take into consideration
+as they are handled at the time of generating the graph
+However, the graph generation code only handles 8 neighbors
+For complex conditions, update the code appropriately
+Returns:
+    np.array: Connections between nodes</p></div>
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+
+  
+  <div class="container">
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/Jagirhussan/ftuutils" class="projecthome">FTUUtils</a>,
+  generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+    24.3.3 at 2024-06-12 12:22:09.
+  </div>
+
+  <!-- Search related scripts needs to be loaded at the end of HTML 
+    parsing not to introduce overhead and display HTML data asap -->
+  <script src="ajax.js" type="text/javascript"></script>
+  <script src="searchlib.js" type="text/javascript"></script>
+  <script src="search.js" type="text/javascript"></script>
+
+</footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>

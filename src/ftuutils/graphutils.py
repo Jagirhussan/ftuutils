@@ -1,11 +1,10 @@
+"""Logic for creating FTU graphs based on known motifs, like 2d Lattice"""
 import numpy as np
 import networkx as nx
-import json, copy
-#Done this way as pyodide has issues with from base import FTUGraph
-try:
-    from ftuutils.base import FTUGraph
-except:
-    from base import FTUGraph
+import copy
+
+
+from ftuutils.base import FTUGraph
 
 #2D lattice FTU graph methods
 class Lattice2D(FTUGraph):

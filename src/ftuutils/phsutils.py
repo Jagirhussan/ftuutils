@@ -1,26 +1,15 @@
-import json
-htmlinstance = True
-try:
-    import js
-except:
-    htmlinstance = False
-    
-def getAllPHSDefinitions():
-    if htmlinstance:
-        result = {}
-        phsrows = js.document.getElementById("phslist").rows
-        for row in phsrows:
-            phs = json.loads(row.cells[0].children[0].dataset.init)
-            if 'phs' in phs:
-                result[row.cells[0].children[0].id] = phs['phs']
-            else:
-                result[row.cells[0].children[0].id] = phs
-            
-        return result
-    else:
-        raise("Running on python instance. Not supported!!")
-
+"""Helper routines to create PHS descriptions"""
 def setPHSComponentNetwork(phs,component,netid):
+    """Associated the PHS state/input-output vector component to the network with id netid
+
+    Args:
+        phs (dict): Datastructure that stores PHS related data
+        component (string): Identity of the PHS state/input-output vector
+        netid (int): Id for FTU network
+
+    Returns:
+        dict: Updated input datastructure that stores PHS related data
+    """
     if 'u_split' in phs['portHamiltonianMatrices']:
         phs['portHamiltonianMatrices']['u_split']['elements'][component] = netid
     else:
@@ -33,6 +22,17 @@ def setPHSComponentNetwork(phs,component,netid):
 
 
 def connect(phsconnections,phs1,phs1comp,network):
+    """Connect a PHS instance's state/input-output vector component to a FTU network
+
+    Args:
+        phsconnections (dict): Datastructure to store the connection information
+        phs1 (string): Name of the PHS class
+        phs1comp (string): state/input-output vector component's name
+        network (int): Network id of the FTU network
+
+    Returns:
+        dict: Updated datastructure that stores the connection information
+    """
     if "connections" not in  phsconnections:
         phsconnections["connections"] = dict()
         
@@ -42,6 +42,18 @@ def connect(phsconnections,phs1,phs1comp,network):
     return phsconnections
     
 def connectToBoundary(phsconnections,phs1,phs1comp,network):
+    """Connect a PHS instance's state/input-output vector component to a FTU boundary network
+
+    Args:
+        phsconnections (dict): Datastructure to store the connection information
+        phs1 (string): Name of the PHS class
+        phs1comp (string): state/input-output vector component's name
+        network (int): Network id of the FTU boundary network
+
+    Returns:
+        dict: Updated datastructure that stores the connection information
+    """
+    
     if "bdryconnections" not in  phsconnections:
         phsconnections["bdryconnections"] = dict()
     
@@ -51,6 +63,17 @@ def connectToBoundary(phsconnections,phs1,phs1comp,network):
     return phsconnections
 
 def addExternalInput(phsconnections,node,component,network=-1):
+    """Connect a node as the provide of external input/output to a FTU network
+
+    Args:
+        phsconnections (dict): Datastructure to store the connection information
+        node (string): Label of graph node that provides the external interface
+        component (string): state/input-output vector component's name to which the input/output is provided
+        network (int): Network id of the FTU network
+
+    Returns:
+        dict: Updated datastructure that stores the connection information
+    """
     if "externalinputs" not in  phsconnections:
         phsconnections["externalinputs"] = dict()
     

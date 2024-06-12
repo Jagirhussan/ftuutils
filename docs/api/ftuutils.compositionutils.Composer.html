@@ -1,0 +1,3021 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>ftuutils.compositionutils.Composer</title>
+    <meta name="generator" content="pydoctor 24.3.3"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          <a href="https://github.com/Jagirhussan/ftuutils" class="projecthome">FTUUtils</a> <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="search-results-container" style="display: none;">
+        
+        <div id="search-buttons">
+          <span class="label label-default" id="search-docstrings-button">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+              search in docstrings
+            </input>
+          </label>
+          </span>
+          
+        </div>
+        
+        <noscript>
+            <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+        </noscript>
+
+        <div class="hint" id="search-help-box">
+          <p class="rst-last">
+      
+            Search bar offers the following options:
+            <ul>   
+                <li>
+                  <strong>Term presence.</strong> The below example searches for documents that 
+                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                </li> 
+
+                <li>
+                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                </li> 
+
+                <li>
+                  <strong>Search in specific fields.</strong> The following search matches all objects 
+                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+
+                  <p>
+                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                    Last two fields are only applicable if "search in docstrings" is enabled.
+                  </p>
+                </li>
+
+                <li>
+                  <strong>Fuzzy matches.</strong> The following search matches all documents 
+                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                </li>
+            </ul>
+
+          </p>
+        </div>
+
+        <div id="search-status"> </div>
+
+        <div class="warning" id="search-warn-box" style="display: none;">
+          <p class="rst-last"><span id="search-warn"></span></p>
+        </div>
+
+        <table id="search-results">
+          <!-- Filled dynamically by JS -->
+        </table>
+        
+        <div style="margin-top: 8px;">
+          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</nav>
+    
+    <div class="container-fluid">
+
+      <!-- Side navigation -->
+      <div class="sidebarcontainer" style="display: none;">
+        
+        <div class="sidebar"><nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Class</span>
+        <code class="thisobject"><a href="ftuutils.compositionutils.Composer.html" class="internal-link" title="This class"><wbr></wbr>Composer</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Methods</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getMatrix" class="internal-link" title="ftuutils.compositionutils.Composer.getMatrix">get<wbr></wbr>Matrix</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getVariables" class="internal-link" title="ftuutils.compositionutils.Composer.getVariables">get<wbr></wbr>Variables</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#load" class="internal-link" title="ftuutils.compositionutils.Composer.load">load</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#save" class="internal-link" title="ftuutils.compositionutils.Composer.save">save</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__init__" class="internal-link" title="ftuutils.compositionutils.Composer.__init__">__init__</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#boundaryOperator" class="internal-link" title="ftuutils.compositionutils.Composer.boundaryOperator">boundary<wbr></wbr>Operator</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#compose" class="internal-link" title="ftuutils.compositionutils.Composer.compose">compose</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#ddecSetupOperators" class="internal-link" title="ftuutils.compositionutils.Composer.ddecSetupOperators">ddec<wbr></wbr>Setup<wbr></wbr>Operators</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#exportAsODEStepper" class="internal-link" title="ftuutils.compositionutils.Composer.exportAsODEStepper">export<wbr></wbr>As<wbr></wbr>ODEStepper</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#exportAsPython" class="internal-link" title="ftuutils.compositionutils.Composer.exportAsPython">export<wbr></wbr>As<wbr></wbr>Python</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#generateLatexReport" class="internal-link" title="ftuutils.compositionutils.Composer.generateLatexReport">generate<wbr></wbr>Latex<wbr></wbr>Report</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#generatePythonIntermediates" class="internal-link" title="ftuutils.compositionutils.Composer.generatePythonIntermediates">generate<wbr></wbr>Python<wbr></wbr>Intermediates</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#getSourceComposition" class="internal-link" title="ftuutils.compositionutils.Composer.getSourceComposition">get<wbr></wbr>Source<wbr></wbr>Composition</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#loadComposition" class="internal-link" title="ftuutils.compositionutils.Composer.loadComposition">load<wbr></wbr>Composition</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#loadPHSDefinition" class="internal-link" title="ftuutils.compositionutils.Composer.loadPHSDefinition">load<wbr></wbr>PHSDefinition</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#saveDiscreteExteriorCalculusOperators" class="internal-link" title="ftuutils.compositionutils.Composer.saveDiscreteExteriorCalculusOperators">save<wbr></wbr>Discrete<wbr></wbr>Exterior<wbr></wbr>Calculus<wbr></wbr>Operators</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#setConnectivityGraph" class="internal-link" title="ftuutils.compositionutils.Composer.setConnectivityGraph">set<wbr></wbr>Connectivity<wbr></wbr>Graph</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#_elementwiseDiv" class="internal-link" title="ftuutils.compositionutils.Composer._elementwiseDiv">_elementwise<wbr></wbr>Div</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        <div class="childrenKindTitle">Attributes</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#Bcap" class="internal-link" title="ftuutils.compositionutils.Composer.Bcap"><wbr></wbr>Bcap</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#Bdas" class="internal-link" title="ftuutils.compositionutils.Composer.Bdas"><wbr></wbr>Bdas</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#boundaryinputs" class="internal-link" title="ftuutils.compositionutils.Composer.boundaryinputs">boundaryinputs</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#boundaryInputSelection" class="internal-link" title="ftuutils.compositionutils.Composer.boundaryInputSelection">boundary<wbr></wbr>Input<wbr></wbr>Selection</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#cellHamiltonians" class="internal-link" title="ftuutils.compositionutils.Composer.cellHamiltonians">cell<wbr></wbr>Hamiltonians</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#cellType" class="internal-link" title="ftuutils.compositionutils.Composer.cellType">cell<wbr></wbr>Type</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#cellTypePHS" class="internal-link" title="ftuutils.compositionutils.Composer.cellTypePHS">cell<wbr></wbr>Type<wbr></wbr>PHS</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#cellTypeUSplit" class="internal-link" title="ftuutils.compositionutils.Composer.cellTypeUSplit">cell<wbr></wbr>Type<wbr></wbr>USplit</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#Cmatrix" class="internal-link" title="ftuutils.compositionutils.Composer.Cmatrix"><wbr></wbr>Cmatrix</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#compositeB" class="internal-link" title="ftuutils.compositionutils.Composer.compositeB">composite<wbr></wbr>B</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#compositeE" class="internal-link" title="ftuutils.compositionutils.Composer.compositeE">composite<wbr></wbr>E</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#compositeJ" class="internal-link" title="ftuutils.compositionutils.Composer.compositeJ">composite<wbr></wbr>J</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#compositeparameters" class="internal-link" title="ftuutils.compositionutils.Composer.compositeparameters">compositeparameters</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#compositePHS" class="internal-link" title="ftuutils.compositionutils.Composer.compositePHS">composite<wbr></wbr>PHS</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#compositeQ" class="internal-link" title="ftuutils.compositionutils.Composer.compositeQ">composite<wbr></wbr>Q</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#compositeR" class="internal-link" title="ftuutils.compositionutils.Composer.compositeR">composite<wbr></wbr>R</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#composition" class="internal-link" title="ftuutils.compositionutils.Composer.composition">composition</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#dissipativeNets" class="internal-link" title="ftuutils.compositionutils.Composer.dissipativeNets">dissipative<wbr></wbr>Nets</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#Ecap" class="internal-link" title="ftuutils.compositionutils.Composer.Ecap"><wbr></wbr>Ecap</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#ftugraph" class="internal-link" title="ftuutils.compositionutils.Composer.ftugraph">ftugraph</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#hamiltonian" class="internal-link" title="ftuutils.compositionutils.Composer.hamiltonian">hamiltonian</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#inodeIndexes" class="internal-link" title="ftuutils.compositionutils.Composer.inodeIndexes">inode<wbr></wbr>Indexes</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#Jcap" class="internal-link" title="ftuutils.compositionutils.Composer.Jcap"><wbr></wbr>Jcap</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#Lmatrix" class="internal-link" title="ftuutils.compositionutils.Composer.Lmatrix"><wbr></wbr>Lmatrix</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#nBcapT" class="internal-link" title="ftuutils.compositionutils.Composer.nBcapT">n<wbr></wbr>Bcap<wbr></wbr>T</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#networkGraphs" class="internal-link" title="ftuutils.compositionutils.Composer.networkGraphs">network<wbr></wbr>Graphs</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#networkNodes" class="internal-link" title="ftuutils.compositionutils.Composer.networkNodes">network<wbr></wbr>Nodes</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#nodeData" class="internal-link" title="ftuutils.compositionutils.Composer.nodeData">node<wbr></wbr>Data</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#nodeIndex" class="internal-link" title="ftuutils.compositionutils.Composer.nodeIndex">node<wbr></wbr>Index</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#nodeName" class="internal-link" title="ftuutils.compositionutils.Composer.nodeName">node<wbr></wbr>Name</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#nodeNetworks" class="internal-link" title="ftuutils.compositionutils.Composer.nodeNetworks">node<wbr></wbr>Networks</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#nodePHSData" class="internal-link" title="ftuutils.compositionutils.Composer.nodePHSData">node<wbr></wbr>PHSData</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#phsInstances" class="internal-link" title="ftuutils.compositionutils.Composer.phsInstances">phs<wbr></wbr>Instances</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#Qcap" class="internal-link" title="ftuutils.compositionutils.Composer.Qcap"><wbr></wbr>Qcap</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#raw_rhs" class="internal-link" title="ftuutils.compositionutils.Composer.raw_rhs">raw<wbr></wbr>_rhs</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#Rcap" class="internal-link" title="ftuutils.compositionutils.Composer.Rcap"><wbr></wbr>Rcap</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#rhsVec" class="internal-link" title="ftuutils.compositionutils.Composer.rhsVec">rhs<wbr></wbr>Vec</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#rVec" class="internal-link" title="ftuutils.compositionutils.Composer.rVec">r<wbr></wbr>Vec</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#statevalues" class="internal-link" title="ftuutils.compositionutils.Composer.statevalues">statevalues</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#stateVec" class="internal-link" title="ftuutils.compositionutils.Composer.stateVec">state<wbr></wbr>Vec</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#uVec" class="internal-link" title="ftuutils.compositionutils.Composer.uVec">u<wbr></wbr>Vec</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#uVecSymbols" class="internal-link" title="ftuutils.compositionutils.Composer.uVecSymbols">u<wbr></wbr>Vec<wbr></wbr>Symbols</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#uyConnectionMatrix" class="internal-link" title="ftuutils.compositionutils.Composer.uyConnectionMatrix">uy<wbr></wbr>Connection<wbr></wbr>Matrix</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#uyConnectionMatrixComputed" class="internal-link" title="ftuutils.compositionutils.Composer.uyConnectionMatrixComputed">uy<wbr></wbr>Connection<wbr></wbr>Matrix<wbr></wbr>Computed</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#xVec" class="internal-link" title="ftuutils.compositionutils.Composer.xVec">x<wbr></wbr>Vec</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Module</span>
+        <code><a href="ftuutils.compositionutils.html" class="internal-link" title="The parent of this class">compositionutils</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        <div class="childrenKindTitle">Classes</div>
+        <ul>
+    
+    <li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.compositionutils.Composer.html" class="internal-link" title="ftuutils.compositionutils.Composer"><wbr></wbr>Composer</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.compositionutils.SymbolicPHS.html" class="internal-link" title="ftuutils.compositionutils.SymbolicPHS"><wbr></wbr>Symbolic<wbr></wbr>PHS</a></code>
+            </div>
+        
+
+    </li>
+</ul>
+
+        
+         
+
+        
+         
+
+        <div class="childrenKindTitle">Variables</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="ftuutils.compositionutils.html#composerSerializationEnabled" class="internal-link" title="ftuutils.compositionutils.composerSerializationEnabled">composer<wbr></wbr>Serialization<wbr></wbr>Enabled</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        </div>
+        <div id="collapseSideBar">
+          <a class="btn btn-link" onclick="toggleSideBarCollapse()" title="Toggle Sidebar Collapse">
+          </a>
+        </div> 
+        <script src="sidebartoggle.js" type="text/javascript"></script>
+       
+      </div>
+
+      <div id="main" class="">
+        
+
+        
+
+        <div class="page-header">
+          <h1 class="class"><code><code><a href="index.html" class="internal-link">ftuutils</a></code><wbr></wbr>.<code><a href="ftuutils.compositionutils.html" class="internal-link" title="ftuutils.compositionutils">compositionutils</a></code><wbr></wbr>.<code><a href="ftuutils.compositionutils.Composer.html" class="internal-link" title="ftuutils.compositionutils.Composer">Composer</a></code></code></h1>
+          <div id="showPrivate">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          class documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">Composer</span>: <a href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L494" class="sourceLink">(source)</a></code></p>
+          <p><a href="classIndex.html#ftuutils.compositionutils.Composer">View In Hierarchy</a></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p>Logic to compose a composite PHS, given the FTU graph, PHS information etc.</p></div>
+        </div>
+
+        <div id="splitTables">
+          <table class="children sortable" id="id9">
+  
+  
+  <tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#getMatrix" class="internal-link" title="ftuutils.compositionutils.Composer.getMatrix">get<wbr></wbr>Matrix</a></code></td>
+    <td>Get Sympy matrix from json description</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#getVariables" class="internal-link" title="ftuutils.compositionutils.Composer.getVariables">get<wbr></wbr>Variables</a></code></td>
+    <td>Convert from string to sympy varibales</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#load" class="internal-link" title="ftuutils.compositionutils.Composer.load">load</a></code></td>
+    <td>Load the composition in a pickle</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#save" class="internal-link" title="ftuutils.compositionutils.Composer.save">save</a></code></td>
+    <td>Save the given composition as a pickle</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#__init__" class="internal-link" title="ftuutils.compositionutils.Composer.__init__">__init__</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#boundaryOperator" class="internal-link" title="ftuutils.compositionutils.Composer.boundaryOperator">boundary<wbr></wbr>Operator</a></code></td>
+    <td>Determine the boundary operator for the input graph</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#compose" class="internal-link" title="ftuutils.compositionutils.Composer.compose">compose</a></code></td>
+    <td>Create the composite PHS matrices for compostion description that has been loaded Requires the phs for the different cell types to be loaded see loadPHSDefinition, loadCellTypePHSMap Requires the phs interconnection to be loaded see loadCompositionFile Ideally all interconnection u's and y's to be of the same size, if some phs have more u's, then select the ones that need to be used in the interconnection see setCellTypeUSplit...</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#ddecSetupOperators" class="internal-link" title="ftuutils.compositionutils.Composer.ddecSetupOperators">ddec<wbr></wbr>Setup<wbr></wbr>Operators</a></code></td>
+    <td>   These operators are used to setup training data for DDEC operators   </td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#exportAsODEStepper" class="internal-link" title="ftuutils.compositionutils.Composer.exportAsODEStepper">export<wbr></wbr>As<wbr></wbr>ODEStepper</a></code></td>
+    <td>Generate numerically solvable PHS d/dx (Ex) = (J-R) Q x - \hat{B}\hat{C}\hat{B}^T \hat{u} + \bar{B} \bar{u} \hat{y} = \hat{B}^T Q x \bar{y} = \bar{B}^T Q x</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#exportAsPython" class="internal-link" title="ftuutils.compositionutils.Composer.exportAsPython">export<wbr></wbr>As<wbr></wbr>Python</a></code></td>
+    <td>Export composed FTU as python code similar to OpenCOR export</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#generateLatexReport" class="internal-link" title="ftuutils.compositionutils.Composer.generateLatexReport">generate<wbr></wbr>Latex<wbr></wbr>Report</a></code></td>
+    <td>Generate the latex describing the composite PHS</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#generatePythonIntermediates" class="internal-link" title="ftuutils.compositionutils.Composer.generatePythonIntermediates">generate<wbr></wbr>Python<wbr></wbr>Intermediates</a></code></td>
+    <td>Generate numerically solvable PHS d/dx (Ex) = (J-R) Q x - \hat{B}\hat{C}\hat{B}^T \hat{u} + \bar{B} \bar{u} \hat{y} = \hat{B}^T Q x \bar{y} = \bar{B}^T Q x</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#getSourceComposition" class="internal-link" title="ftuutils.compositionutils.Composer.getSourceComposition">get<wbr></wbr>Source<wbr></wbr>Composition</a></code></td>
+    <td>Return the source composition json that was used to defined the composer Returns None if json was not used</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#loadComposition" class="internal-link" title="ftuutils.compositionutils.Composer.loadComposition">load<wbr></wbr>Composition</a></code></td>
+    <td>Load the FTU composition encoded in jsonable dict</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#loadPHSDefinition" class="internal-link" title="ftuutils.compositionutils.Composer.loadPHSDefinition">load<wbr></wbr>PHSDefinition</a></code></td>
+    <td>Load a PHS definition (json format) The PHS object is assigned the id `mapid` to be used by mapid based composition</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#saveDiscreteExteriorCalculusOperators" class="internal-link" title="ftuutils.compositionutils.Composer.saveDiscreteExteriorCalculusOperators">save<wbr></wbr>Discrete<wbr></wbr>Exterior<wbr></wbr>Calculus<wbr></wbr>Operators</a></code></td>
+    <td>Save the boundary, edgeWeight and weighted gradient operators to file      Note that diag(sqrt(edgeWeight))* boudary = weighted gradient      Args:     filename (string): Absolute path of the destination numpy file to store the operators     weight (str, optional): The FTUgraph edge attribute that defines the weight of connections...</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#setConnectivityGraph" class="internal-link" title="ftuutils.compositionutils.Composer.setConnectivityGraph">set<wbr></wbr>Connectivity<wbr></wbr>Graph</a></code></td>
+    <td>Set the base ftugraph from which the composition was created</td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#Bcap" class="internal-link" title="ftuutils.compositionutils.Composer.Bcap"><wbr></wbr>Bcap</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#Bdas" class="internal-link" title="ftuutils.compositionutils.Composer.Bdas"><wbr></wbr>Bdas</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#boundaryinputs" class="internal-link" title="ftuutils.compositionutils.Composer.boundaryinputs">boundaryinputs</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#boundaryInputSelection" class="internal-link" title="ftuutils.compositionutils.Composer.boundaryInputSelection">boundary<wbr></wbr>Input<wbr></wbr>Selection</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#cellHamiltonians" class="internal-link" title="ftuutils.compositionutils.Composer.cellHamiltonians">cell<wbr></wbr>Hamiltonians</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#cellType" class="internal-link" title="ftuutils.compositionutils.Composer.cellType">cell<wbr></wbr>Type</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#cellTypePHS" class="internal-link" title="ftuutils.compositionutils.Composer.cellTypePHS">cell<wbr></wbr>Type<wbr></wbr>PHS</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#cellTypeUSplit" class="internal-link" title="ftuutils.compositionutils.Composer.cellTypeUSplit">cell<wbr></wbr>Type<wbr></wbr>USplit</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#Cmatrix" class="internal-link" title="ftuutils.compositionutils.Composer.Cmatrix"><wbr></wbr>Cmatrix</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#compositeB" class="internal-link" title="ftuutils.compositionutils.Composer.compositeB">composite<wbr></wbr>B</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#compositeE" class="internal-link" title="ftuutils.compositionutils.Composer.compositeE">composite<wbr></wbr>E</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#compositeJ" class="internal-link" title="ftuutils.compositionutils.Composer.compositeJ">composite<wbr></wbr>J</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#compositeparameters" class="internal-link" title="ftuutils.compositionutils.Composer.compositeparameters">compositeparameters</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#compositePHS" class="internal-link" title="ftuutils.compositionutils.Composer.compositePHS">composite<wbr></wbr>PHS</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#compositeQ" class="internal-link" title="ftuutils.compositionutils.Composer.compositeQ">composite<wbr></wbr>Q</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#compositeR" class="internal-link" title="ftuutils.compositionutils.Composer.compositeR">composite<wbr></wbr>R</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#composition" class="internal-link" title="ftuutils.compositionutils.Composer.composition">composition</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#dissipativeNets" class="internal-link" title="ftuutils.compositionutils.Composer.dissipativeNets">dissipative<wbr></wbr>Nets</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#Ecap" class="internal-link" title="ftuutils.compositionutils.Composer.Ecap"><wbr></wbr>Ecap</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#ftugraph" class="internal-link" title="ftuutils.compositionutils.Composer.ftugraph">ftugraph</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#hamiltonian" class="internal-link" title="ftuutils.compositionutils.Composer.hamiltonian">hamiltonian</a></code></td>
+    <td>Create full connection matrix - get the asymmetric part for C and the other for R</td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#inodeIndexes" class="internal-link" title="ftuutils.compositionutils.Composer.inodeIndexes">inode<wbr></wbr>Indexes</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#Jcap" class="internal-link" title="ftuutils.compositionutils.Composer.Jcap"><wbr></wbr>Jcap</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#Lmatrix" class="internal-link" title="ftuutils.compositionutils.Composer.Lmatrix"><wbr></wbr>Lmatrix</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#nBcapT" class="internal-link" title="ftuutils.compositionutils.Composer.nBcapT">n<wbr></wbr>Bcap<wbr></wbr>T</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#networkGraphs" class="internal-link" title="ftuutils.compositionutils.Composer.networkGraphs">network<wbr></wbr>Graphs</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#networkNodes" class="internal-link" title="ftuutils.compositionutils.Composer.networkNodes">network<wbr></wbr>Nodes</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#nodeData" class="internal-link" title="ftuutils.compositionutils.Composer.nodeData">node<wbr></wbr>Data</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#nodeIndex" class="internal-link" title="ftuutils.compositionutils.Composer.nodeIndex">node<wbr></wbr>Index</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#nodeName" class="internal-link" title="ftuutils.compositionutils.Composer.nodeName">node<wbr></wbr>Name</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#nodeNetworks" class="internal-link" title="ftuutils.compositionutils.Composer.nodeNetworks">node<wbr></wbr>Networks</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#nodePHSData" class="internal-link" title="ftuutils.compositionutils.Composer.nodePHSData">node<wbr></wbr>PHSData</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#phsInstances" class="internal-link" title="ftuutils.compositionutils.Composer.phsInstances">phs<wbr></wbr>Instances</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#Qcap" class="internal-link" title="ftuutils.compositionutils.Composer.Qcap"><wbr></wbr>Qcap</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#raw_rhs" class="internal-link" title="ftuutils.compositionutils.Composer.raw_rhs">raw<wbr></wbr>_rhs</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#Rcap" class="internal-link" title="ftuutils.compositionutils.Composer.Rcap"><wbr></wbr>Rcap</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#rhsVec" class="internal-link" title="ftuutils.compositionutils.Composer.rhsVec">rhs<wbr></wbr>Vec</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#rVec" class="internal-link" title="ftuutils.compositionutils.Composer.rVec">r<wbr></wbr>Vec</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#statevalues" class="internal-link" title="ftuutils.compositionutils.Composer.statevalues">statevalues</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#stateVec" class="internal-link" title="ftuutils.compositionutils.Composer.stateVec">state<wbr></wbr>Vec</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#uVec" class="internal-link" title="ftuutils.compositionutils.Composer.uVec">u<wbr></wbr>Vec</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#uVecSymbols" class="internal-link" title="ftuutils.compositionutils.Composer.uVecSymbols">u<wbr></wbr>Vec<wbr></wbr>Symbols</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#uyConnectionMatrix" class="internal-link" title="ftuutils.compositionutils.Composer.uyConnectionMatrix">uy<wbr></wbr>Connection<wbr></wbr>Matrix</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#uyConnectionMatrixComputed" class="internal-link" title="ftuutils.compositionutils.Composer.uyConnectionMatrixComputed">uy<wbr></wbr>Connection<wbr></wbr>Matrix<wbr></wbr>Computed</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#xVec" class="internal-link" title="ftuutils.compositionutils.Composer.xVec">x<wbr></wbr>Vec</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="staticmethod private">
+    
+    <td>Static Method</td>
+    <td><code><a href="#_elementwiseDiv" class="internal-link" title="ftuutils.compositionutils.Composer._elementwiseDiv">_elementwise<wbr></wbr>Div</a></code></td>
+    <td>Perform elementwise division of sympy given matrices</td>
+  </tr>
+</table>
+          
+
+            
+        </div>
+
+        <div id="childList">
+          <div class="basestaticmethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.getMatrix">
+    
+  </a>
+  <a name="getMatrix">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @<a href="https://docs.python.org/3/library/functions.html#staticmethod" class="intersphinx-link">staticmethod</a><br />
+    <span class="py-keyword">def</span> <span class="py-defname">getMatrix</span><span class="function-signature">(mjson: <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code>) -&gt; <code>Matrix</code></span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L537">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getMatrix" title="ftuutils.compositionutils.Composer.getMatrix">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get Sympy matrix from json description</p></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.getVariables">
+    
+  </a>
+  <a name="getVariables">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @<a href="https://docs.python.org/3/library/functions.html#staticmethod" class="intersphinx-link">staticmethod</a><br />
+    <span class="py-keyword">def</span> <span class="py-defname">getVariables</span><span class="function-signature">(elem: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#set" class="intersphinx-link">set</a></code></span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L542">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getVariables" title="ftuutils.compositionutils.Composer.getVariables">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Convert from string to sympy varibales</p></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.load">
+    
+  </a>
+  <a name="load">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @<a href="https://docs.python.org/3/library/functions.html#staticmethod" class="intersphinx-link">staticmethod</a><br />
+    <span class="py-keyword">def</span> <span class="py-defname">load</span><span class="function-signature">(filename)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L575">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#load" title="ftuutils.compositionutils.Composer.load">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Load the composition in a pickle
+
+Args:
+    filename (string): Path of the pickle file</p></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.save">
+    
+  </a>
+  <a name="save">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @<a href="https://docs.python.org/3/library/functions.html#staticmethod" class="intersphinx-link">staticmethod</a><br />
+    <span class="py-keyword">def</span> <span class="py-defname">save</span><span class="function-signature">(composition, filename)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L559">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#save" title="ftuutils.compositionutils.Composer.save">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Save the given composition as a pickle
+
+Args:
+    composition (Composer): The composer instance to be saved
+    filename (string): Path of the pickle file</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">__init__</span><span class="function-signature">(self)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L499">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#__init__" title="ftuutils.compositionutils.Composer.__init__">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.boundaryOperator">
+    
+  </a>
+  <a name="boundaryOperator">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">boundaryOperator</span><span class="function-signature">(self)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1425">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#boundaryOperator" title="ftuutils.compositionutils.Composer.boundaryOperator">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Determine the boundary operator for the input graph
+
+Returns:
+    numpy.array : 2D numpy array of size |internal E|x|internal V|</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.compose">
+    
+  </a>
+  <a name="compose">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">compose</span><span class="function-signature">(self, substituteParameters=<a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L792">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#compose" title="ftuutils.compositionutils.Composer.compose">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create the composite PHS matrices for compostion description that has been loaded Requires the phs for the different cell types to be loaded see loadPHSDefinition, loadCellTypePHSMap Requires the phs interconnection to be loaded see loadCompositionFile Ideally all interconnection u's and y's to be of the same size, if some phs have more u's, then select the ones that need to be used in the interconnection see setCellTypeUSplit</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.ddecSetupOperators">
+    
+  </a>
+  <a name="ddecSetupOperators">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">ddecSetupOperators</span><span class="function-signature">(self, weight=<span class="rst-variable-quote">'</span><span class="rst-variable-string">weight</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1457">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#ddecSetupOperators" title="ftuutils.compositionutils.Composer.ddecSetupOperators">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">   These operators are used to setup training data for DDEC operators   
+
+   Steps to use:
+    Given Node potentials (u0) and energy that is input at each node (f), where |u0| = |f| (as done by exported python code for simulating FTU)       
+    Find f0 from u0
+    
+    Since f0 - weighted Grad(u0) = 0; 
+    f0 is determined as
+    f0 = weighted Grad (u0)
+    
+    the rhs f vector is obtained as 
+    
+    f1 = rhs_f_vector_map*f
+    
+    Then the problem for DDEC can be setup as
+    
+            -Gradstarh*u^f_0 +       f0 = 0
+                               Div_h*f0 = f1
+    
+Args:
+    weight (string): Name of edge weight that will be used. default = 'weight'
+   
+Returns:
+    numpy.array : Weighted Gradient Operator 2D numpy array of size |all edges| x |V|</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.exportAsODEStepper">
+    
+  </a>
+  <a name="exportAsODEStepper">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">exportAsODEStepper</span><span class="function-signature">(self, modelName=<span class="rst-variable-quote">'</span><span class="rst-variable-string">FTUStepper</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1414">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#exportAsODEStepper" title="ftuutils.compositionutils.Composer.exportAsODEStepper">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generate numerically solvable PHS d/dx (Ex) = (J-R) Q x - \hat{B}\hat{C}\hat{B}^T \hat{u} + \bar{B} \bar{u} \hat{y} = \hat{B}^T Q x \bar{y} = \bar{B}^T Q x</p>
+<p>Setup the code as a Python class, with the ability to step through time and set inputs</p>
+</div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.exportAsPython">
+    
+  </a>
+  <a name="exportAsPython">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">exportAsPython</span><span class="function-signature">(self)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1410">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#exportAsPython" title="ftuutils.compositionutils.Composer.exportAsPython">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Export composed FTU as python code similar to OpenCOR export</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.generateLatexReport">
+    
+  </a>
+  <a name="generateLatexReport">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">generateLatexReport</span><span class="function-signature">(self)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1102">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#generateLatexReport" title="ftuutils.compositionutils.Composer.generateLatexReport">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Generate the latex describing the composite PHS
+
+Returns:
+    string: HTML + Latex sting</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.generatePythonIntermediates">
+    
+  </a>
+  <a name="generatePythonIntermediates">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">generatePythonIntermediates</span><span class="function-signature">(self)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1113">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#generatePythonIntermediates" title="ftuutils.compositionutils.Composer.generatePythonIntermediates">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generate numerically solvable PHS d/dx (Ex) = (J-R) Q x - \hat{B}\hat{C}\hat{B}^T \hat{u} + \bar{B} \bar{u} \hat{y} = \hat{B}^T Q x \bar{y} = \bar{B}^T Q x</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.getSourceComposition">
+    
+  </a>
+  <a name="getSourceComposition">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">getSourceComposition</span><span class="function-signature">(self)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L785">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#getSourceComposition" title="ftuutils.compositionutils.Composer.getSourceComposition">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return the source composition json that was used to defined the composer Returns None if json was not used</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.loadComposition">
+    
+  </a>
+  <a name="loadComposition">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">loadComposition</span><span class="function-signature">(self, composition: <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code>)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L601">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#loadComposition" title="ftuutils.compositionutils.Composer.loadComposition">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Load the FTU composition encoded in jsonable dict
+
+Args:
+    composition (dict): FTU composition description</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.loadPHSDefinition">
+    
+  </a>
+  <a name="loadPHSDefinition">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">loadPHSDefinition</span><span class="function-signature">(self, mapid, phs, useprefix)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L591">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#loadPHSDefinition" title="ftuutils.compositionutils.Composer.loadPHSDefinition">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Load a PHS definition (json format) The PHS object is assigned the id `mapid` to be used by mapid based composition</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.saveDiscreteExteriorCalculusOperators">
+    
+  </a>
+  <a name="saveDiscreteExteriorCalculusOperators">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">saveDiscreteExteriorCalculusOperators</span><span class="function-signature">(self, filename, weight=<span class="rst-variable-quote">'</span><span class="rst-variable-string">weight</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1533">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#saveDiscreteExteriorCalculusOperators" title="ftuutils.compositionutils.Composer.saveDiscreteExteriorCalculusOperators">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Save the boundary, edgeWeight and weighted gradient operators to file 
+    Note that diag(sqrt(edgeWeight))* boudary = weighted gradient
+    
+Args:
+    filename (string): Absolute path of the destination numpy file to store the operators
+    weight (str, optional): The FTUgraph edge attribute that defines the weight of connections. Defaults to 'weight'.
+
+Raises:
+    Exception: If the source ftugraph is not bound to the composer, exception is raised</p></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.setConnectivityGraph">
+    
+  </a>
+  <a name="setConnectivityGraph">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">setConnectivityGraph</span><span class="function-signature">(self, graph: <code>nx.Graph</code>)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L529">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#setConnectivityGraph" title="ftuutils.compositionutils.Composer.setConnectivityGraph">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Set the base ftugraph from which the composition was created
+
+Args:
+    graph (FTUGraph): Graph that stores the connectivity and edge</p></div>
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.Bcap">
+    
+  </a>
+  <a name="Bcap">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">Bcap</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1049">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#Bcap" title="ftuutils.compositionutils.Composer.Bcap">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.Bdas">
+    
+  </a>
+  <a name="Bdas">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">Bdas</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1051">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#Bdas" title="ftuutils.compositionutils.Composer.Bdas">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.boundaryinputs">
+    
+  </a>
+  <a name="boundaryinputs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">boundaryinputs</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L506">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#boundaryinputs" title="ftuutils.compositionutils.Composer.boundaryinputs">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.boundaryInputSelection">
+    
+  </a>
+  <a name="boundaryInputSelection">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">boundaryInputSelection</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L514">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#boundaryInputSelection" title="ftuutils.compositionutils.Composer.boundaryInputSelection">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.cellHamiltonians">
+    
+  </a>
+  <a name="cellHamiltonians">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">cellHamiltonians</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L840">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#cellHamiltonians" title="ftuutils.compositionutils.Composer.cellHamiltonians">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.cellType">
+    
+  </a>
+  <a name="cellType">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">cellType</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L510">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#cellType" title="ftuutils.compositionutils.Composer.cellType">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.cellTypePHS">
+    
+  </a>
+  <a name="cellTypePHS">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">cellTypePHS</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L511">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#cellTypePHS" title="ftuutils.compositionutils.Composer.cellTypePHS">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.cellTypeUSplit">
+    
+  </a>
+  <a name="cellTypeUSplit">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">cellTypeUSplit</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L512">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#cellTypeUSplit" title="ftuutils.compositionutils.Composer.cellTypeUSplit">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.Cmatrix">
+    
+  </a>
+  <a name="Cmatrix">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">Cmatrix</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1052">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#Cmatrix" title="ftuutils.compositionutils.Composer.Cmatrix">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.compositeB">
+    
+  </a>
+  <a name="compositeB">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">compositeB</span>: <code>Matrix</code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L521">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#compositeB" title="ftuutils.compositionutils.Composer.compositeB">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.compositeE">
+    
+  </a>
+  <a name="compositeE">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">compositeE</span>: <code>Matrix</code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L520">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#compositeE" title="ftuutils.compositionutils.Composer.compositeE">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.compositeJ">
+    
+  </a>
+  <a name="compositeJ">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">compositeJ</span>: <code>Matrix</code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L517">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#compositeJ" title="ftuutils.compositionutils.Composer.compositeJ">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.compositeparameters">
+    
+  </a>
+  <a name="compositeparameters">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">compositeparameters</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L613">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#compositeparameters" title="ftuutils.compositionutils.Composer.compositeparameters">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.compositePHS">
+    
+  </a>
+  <a name="compositePHS">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">compositePHS</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1085">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#compositePHS" title="ftuutils.compositionutils.Composer.compositePHS">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.compositeQ">
+    
+  </a>
+  <a name="compositeQ">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">compositeQ</span>: <code>Matrix</code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L518">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#compositeQ" title="ftuutils.compositionutils.Composer.compositeQ">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.compositeR">
+    
+  </a>
+  <a name="compositeR">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">compositeR</span>: <code>Matrix</code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L519">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#compositeR" title="ftuutils.compositionutils.Composer.compositeR">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.composition">
+    
+  </a>
+  <a name="composition">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">composition</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L527">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#composition" title="ftuutils.compositionutils.Composer.composition">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.dissipativeNets">
+    
+  </a>
+  <a name="dissipativeNets">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">dissipativeNets</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L505">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#dissipativeNets" title="ftuutils.compositionutils.Composer.dissipativeNets">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.Ecap">
+    
+  </a>
+  <a name="Ecap">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">Ecap</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1047">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#Ecap" title="ftuutils.compositionutils.Composer.Ecap">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.ftugraph">
+    
+  </a>
+  <a name="ftugraph">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">ftugraph</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L535">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#ftugraph" title="ftuutils.compositionutils.Composer.ftugraph">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.hamiltonian">
+    
+  </a>
+  <a name="hamiltonian">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">hamiltonian</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L972">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#hamiltonian" title="ftuutils.compositionutils.Composer.hamiltonian">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>Create full connection matrix - get the asymmetric part for C and the other for R</p>
+<p>Dissipative networks are expected to solve Reaction diffusion equations of the form</p>
+<p>dx/dt = phs(x) + ∇x , where ∇x is the diffusive contributions computed from the weighted graph laplacian</p>
+<p>When the PHS is of the form</p>
+<p>E dx/dt = (J-R)Qx + Bu then the above equation requires a scaling factor for the ∇x term</p>
+<p>E dx/dt = phs(x) + E ∇x</p>
+<p>all terms of the lapacian matrix for the component are scaled by E</p>
+</div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.inodeIndexes">
+    
+  </a>
+  <a name="inodeIndexes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">inodeIndexes</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L515">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#inodeIndexes" title="ftuutils.compositionutils.Composer.inodeIndexes">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.Jcap">
+    
+  </a>
+  <a name="Jcap">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">Jcap</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1045">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#Jcap" title="ftuutils.compositionutils.Composer.Jcap">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.Lmatrix">
+    
+  </a>
+  <a name="Lmatrix">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">Lmatrix</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1053">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#Lmatrix" title="ftuutils.compositionutils.Composer.Lmatrix">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.nBcapT">
+    
+  </a>
+  <a name="nBcapT">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">nBcapT</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1050">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#nBcapT" title="ftuutils.compositionutils.Composer.nBcapT">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.networkGraphs">
+    
+  </a>
+  <a name="networkGraphs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">networkGraphs</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L504">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#networkGraphs" title="ftuutils.compositionutils.Composer.networkGraphs">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.networkNodes">
+    
+  </a>
+  <a name="networkNodes">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">networkNodes</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L508">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#networkNodes" title="ftuutils.compositionutils.Composer.networkNodes">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.nodeData">
+    
+  </a>
+  <a name="nodeData">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">nodeData</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L502">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#nodeData" title="ftuutils.compositionutils.Composer.nodeData">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.nodeIndex">
+    
+  </a>
+  <a name="nodeIndex">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">nodeIndex</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L500">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#nodeIndex" title="ftuutils.compositionutils.Composer.nodeIndex">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.nodeName">
+    
+  </a>
+  <a name="nodeName">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">nodeName</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L501">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#nodeName" title="ftuutils.compositionutils.Composer.nodeName">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.nodeNetworks">
+    
+  </a>
+  <a name="nodeNetworks">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">nodeNetworks</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L507">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#nodeNetworks" title="ftuutils.compositionutils.Composer.nodeNetworks">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.nodePHSData">
+    
+  </a>
+  <a name="nodePHSData">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">nodePHSData</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L841">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#nodePHSData" title="ftuutils.compositionutils.Composer.nodePHSData">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.phsInstances">
+    
+  </a>
+  <a name="phsInstances">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">phsInstances</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L503">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#phsInstances" title="ftuutils.compositionutils.Composer.phsInstances">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.Qcap">
+    
+  </a>
+  <a name="Qcap">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">Qcap</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1048">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#Qcap" title="ftuutils.compositionutils.Composer.Qcap">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.raw_rhs">
+    
+  </a>
+  <a name="raw_rhs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">raw_rhs</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1134">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#raw_rhs" title="ftuutils.compositionutils.Composer.raw_rhs">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.Rcap">
+    
+  </a>
+  <a name="Rcap">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">Rcap</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L1046">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#Rcap" title="ftuutils.compositionutils.Composer.Rcap">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.rhsVec">
+    
+  </a>
+  <a name="rhsVec">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">rhsVec</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L966">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#rhsVec" title="ftuutils.compositionutils.Composer.rhsVec">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.rVec">
+    
+  </a>
+  <a name="rVec">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">rVec</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L969">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#rVec" title="ftuutils.compositionutils.Composer.rVec">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.statevalues">
+    
+  </a>
+  <a name="statevalues">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">statevalues</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L965">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#statevalues" title="ftuutils.compositionutils.Composer.statevalues">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.stateVec">
+    
+  </a>
+  <a name="stateVec">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">stateVec</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L964">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#stateVec" title="ftuutils.compositionutils.Composer.stateVec">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.uVec">
+    
+  </a>
+  <a name="uVec">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">uVec</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L779">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#uVec" title="ftuutils.compositionutils.Composer.uVec">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.uVecSymbols">
+    
+  </a>
+  <a name="uVecSymbols">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">uVecSymbols</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L960">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#uVecSymbols" title="ftuutils.compositionutils.Composer.uVecSymbols">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.uyConnectionMatrix">
+    
+  </a>
+  <a name="uyConnectionMatrix">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">uyConnectionMatrix</span>: <code>Matrix</code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L523">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#uyConnectionMatrix" title="ftuutils.compositionutils.Composer.uyConnectionMatrix">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.uyConnectionMatrixComputed">
+    
+  </a>
+  <a name="uyConnectionMatrixComputed">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">uyConnectionMatrixComputed</span>: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L524">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#uyConnectionMatrixComputed" title="ftuutils.compositionutils.Composer.uyConnectionMatrixComputed">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="ftuutils.compositionutils.Composer.xVec">
+    
+  </a>
+  <a name="xVec">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">xVec</span> =
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L967">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#xVec" title="ftuutils.compositionutils.Composer.xVec">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="basestaticmethod private">
+  
+  
+  <a name="ftuutils.compositionutils.Composer._elementwiseDiv">
+    
+  </a>
+  <a name="_elementwiseDiv">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @<a href="https://docs.python.org/3/library/functions.html#staticmethod" class="intersphinx-link">staticmethod</a><br />
+    <span class="py-keyword">def</span> <span class="py-defname">_elementwiseDiv</span><span class="function-signature">(A: <code>Matrix</code>, B: <code>Matrix</code>)</span>:
+    <a class="sourceLink" href="https://github.com/Jagirhussan/ftuutils/tree/1.0.0/src/ftuutils/compositionutils.py#L547">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#_elementwiseDiv" title="ftuutils.compositionutils.Composer._elementwiseDiv">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Perform elementwise division of sympy given matrices</p></div>
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+
+  
+  <div class="container">
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/Jagirhussan/ftuutils" class="projecthome">FTUUtils</a>,
+  generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+    24.3.3 at 2024-06-12 12:22:09.
+  </div>
+
+  <!-- Search related scripts needs to be loaded at the end of HTML 
+    parsing not to introduce overhead and display HTML data asap -->
+  <script src="ajax.js" type="text/javascript"></script>
+  <script src="searchlib.js" type="text/javascript"></script>
+  <script src="search.js" type="text/javascript"></script>
+
+</footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>
