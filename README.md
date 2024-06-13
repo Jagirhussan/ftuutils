@@ -7,3 +7,5 @@ Modelling the human physiology is a complex task. The complexity is not just lim
 Futher details regarding FTUs, modelling approach and functionality provided by this library are available in the [TechnicalReport](TechnicalReport.pdf).
 A workflow create FTU from given interconnection of cells, their dynamics is available as a [jupyter notebook](tests/ftuworkflow.ipynb).
 
+### Support
+Users/Developers can report issues, request enhancements and features through github.
