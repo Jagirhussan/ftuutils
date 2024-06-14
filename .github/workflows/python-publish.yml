@@ -1,39 +1,20 @@
-# This workflow will upload a Python Package using Twine when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: FTUUtils
+name: Deploy library
 
 on:
-  release:
-    types: [published]
-
-permissions:
-  contents: read
+  push:
+    tags:
+      - "v*.*.*"
 
 jobs:
-  deploy:
-
-    runs-on: ubuntu-latest
-
+  build-and-release-package:
+    if: github.repository == 'ABI-Software/ftuutils'
+    runs-on: ubuntu-20.04
+    name: Release package
+    permissions:
+      contents: write
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.x'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install build
-    - name: Build package
-      run: python -m build
-    - name: Publish package
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        user: Jagirhussan
-        password: ${{ secrets.FTUUTILS_PYPI_API_TOKEN }}
+      - name: Release Python package
+        uses: hsorby/release-python-package-action@v1
+        with:
+          pypi-package-name: ftuutils
