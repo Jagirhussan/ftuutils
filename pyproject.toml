@@ -4,6 +4,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ftuutils"
 version = "0.0.1"
+readme = {file = "README.md", content-type = "text/markdown"}
 authors = [
   { name="Jagir R. Hussan", email="r.jagir@auckland.ac.nz" },
 ]
