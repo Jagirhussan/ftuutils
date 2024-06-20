@@ -490,6 +490,16 @@ Free variables : {sympy.pretty(self.variables)}
         """
         return res
 
+def getNumerics(elem):
+    numericconstants = []
+    if len(elem.free_symbols)>0: #numbers also get passed as expression, but will not have any free_symbols
+        for tm in elem.args:
+            numericconstants.extend(getNumerics(tm))
+    elif isinstance(elem, sympy.Number):
+        if np.fabs(float(elem)) != 1.0:
+            numericconstants.append(elem)
+    return numericconstants
+
 
 class Composer:
     """
@@ -525,7 +535,7 @@ class Composer:
             False  # Will be set to true if it was computed by compose
         )
         self.composition = None #Store composition information if used to construct the composer
-
+        self.substituteParameters = True
     def setConnectivityGraph(self,graph:nx.Graph):
         """Set the base ftugraph from which the composition was created
 
@@ -813,6 +823,7 @@ class Composer:
         bcsize = 0
         networkLap = dict()
         networkAdj = dict()
+        self.substituteParameters = substituteParameters
         for n, g in self.networkGraphs.items():
             networkLap[n] = nx.laplacian_matrix(g.to_undirected()).todense()
             # Construct node connectivity matrix, should be consistent with KCL
@@ -1133,37 +1144,61 @@ class Composer:
         rhsnumericconstants = []
         self.raw_rhs = deepcopy(rhs)
         for elem in rhs:
-            if isinstance(elem, sympy.Expr):
-                for tm in elem.args:
-                    rhsnumericconstants.extend(
+            nc = getNumerics(elem)
+            rhsnumericconstants.extend(
                         [
                             term
-                            for term in tm.args
+                            for term in nc
                             if term not in rhsfreesymbols
                             and isinstance(term, sympy.Number)
                             and np.fabs(float(term)) != 1.0
                         ]
-                    )
-            elif isinstance(elem, sympy.Number):
-                if np.fabs(float(elem)) != 1.0:
-                    rhsnumericconstants.append(elem)
+            )
+
+
         # Constants in uCapVec
         for i, s in enumerate(self.stateVec):
             elem = interioru[i]
-            if isinstance(elem, sympy.Expr):
-                for tm in elem.args:
-                    rhsnumericconstants.extend(
+            nc = getNumerics(elem)
+            rhsnumericconstants.extend(
                         [
                             term
-                            for term in tm.args
+                            for term in nc
                             if term not in rhsfreesymbols
                             and isinstance(term, sympy.Number)
                             and np.fabs(float(term)) != 1.0
                         ]
-                    )
-            elif isinstance(elem, sympy.Number):
-                if np.fabs(float(elem)) != 1.0:
-                    rhsnumericconstants.append(elem)
+            )
+            
+        for v,ham in self.cellHamiltonians.items():
+            nc = getNumerics(ham.hamiltonian)
+            rhsnumericconstants.extend(
+                        [
+                            term
+                            for term in nc
+                            if term not in rhsfreesymbols
+                            and isinstance(term, sympy.Number)
+                            and np.fabs(float(term)) != 1.0
+                        ]
+            )            
+        #Find constants in composite parameters and get the list of nonlinear terms as well
+        nonlinearrhsterms = dict()
+        for c, t in self.compositeparameters.items():
+            fs = t["value"].free_symbols
+            cvdict = dict()
+            if len(fs) > 0: #This is a nonlinearterm
+                nc = getNumerics(t["value"])
+                rhsnumericconstants.extend(
+                        [
+                            term
+                            for term in nc
+                            if term not in rhsfreesymbols
+                            and isinstance(term, sympy.Number)
+                            and np.fabs(float(term)) != 1.0
+                        ])                
+                nonlinearrhsterms[c] = t["value"]
+            else:
+                rhsnumericconstants.append(np.fabs(float(t["value"])))
 
         constantsubs = dict()
         constCtr = 1
@@ -1171,48 +1206,63 @@ class Composer:
             constantsubs[np.abs(c)] = f"c_{constCtr}"
             constCtr += 1
 
-        # Remove constant entries that are same to given precision
-        constCtr = 1
-        constantstoprecision = dict()
-        newkeys = dict()
-        for k, v in constantsubs.items():
-            pk = f"{float(k):6f}"
-            if pk not in constantstoprecision:
-                constantstoprecision[pk] = sympy.Symbol(f"c_{constCtr}")
-                constCtr += 1
-            newkeys[k] = constantstoprecision[pk]
+        # # Remove constant entries that are same to given precision
+        # constCtr = 1
+        # constantstoprecision = dict()
+        # newkeys = dict()
+        # for k, v in constantsubs.items():
+        #     pk = f"{float(k):6f}"
+        #     if pk not in constantstoprecision:
+        #         constantstoprecision[pk] = sympy.Symbol(f"c_{constCtr}")
+        #         constCtr += 1
+        #     newkeys[k] = constantstoprecision[pk]
 
-        for k, v in newkeys.items():
-            constantsubs[k] = v
+        # for k, v in newkeys.items():
+        #     constantsubs[k] = v
 
+        #Goto sympy 
+        for k in constantsubs:
+            constantsubs[k] = sympy.Symbol(constantsubs[k])
+
+        for c in nonlinearrhsterms:
+            #Sympy handle Heaviside wierdly - so rename here and 
+            vs = f"{nonlinearrhsterms[c]}"
+            if "Heaviside" in vs:
+                vn = sympy.sympify(vs.replace("Heaviside(","heaviside(")).xreplace(constantsubs)
+                vk = f"{vn}"
+                nonlinearrhsterms[c] = sympy.sympify(vk)
+            else: 
+                v = nonlinearrhsterms[c].xreplace(constantsubs)
+                nonlinearrhsterms[c] = v
+            
         # Xreplace is faster than subs - no deep mathematical reasoning, ok for constant replacement
         cleanrhs = rhs.xreplace(constantsubs)
         cleaninputs = inputs.xreplace(constantsubs)
 
         # Generate python
         # Constants are contained in constantsubs, map and add all constants in compositeparameters that are used by functions in the composite parameters
-        nonlinearrhsterms = dict()
-        for c, t in self.compositeparameters.items():
-            fs = t["value"].free_symbols
-            cvdict = dict()
-            if len(fs) > 0:
-                # Load the values of composite parameter parameters
-                for f in fs:
-                    if f in self.compositeparameters:
-                        if self.compositeparameters[f]["value"] in constantsubs:
-                            cvdict[f] = constantsubs[
-                                self.compositeparameters[f]["value"]
-                            ]
-                        elif (
-                            np.fabs(
-                                float(self.compositeparameters[f]["value"])) != 1.0
-                        ):
-                            cvdict[f] = sympy.Symbol(f"c_{constCtr}")
-                            constantsubs[self.compositeparameters[f]["value"]] = cvdict[
-                                f
-                            ]
-                            constCtr += 1
-                nonlinearrhsterms[c] = t["value"].xreplace(cvdict)
+        # nonlinearrhsterms = dict()
+        # for c, t in self.compositeparameters.items():
+        #     fs = t["value"].free_symbols
+        #     cvdict = dict()
+        #     if len(fs) > 0:
+        #         # Load the values of composite parameter parameters
+        #         for f in fs:
+        #             if f in self.compositeparameters:
+        #                 if self.compositeparameters[f]["value"] in constantsubs:
+        #                     cvdict[f] = constantsubs[
+        #                         self.compositeparameters[f]["value"]
+        #                     ]
+        #                 elif (
+        #                     np.fabs(
+        #                         float(self.compositeparameters[f]["value"])) != 1.0
+        #                 ):
+        #                     cvdict[f] = sympy.Symbol(f"c_{constCtr}")
+        #                     constantsubs[self.compositeparameters[f]["value"]] = cvdict[
+        #                         f
+        #                     ]
+        #                     constCtr += 1
+        #         nonlinearrhsterms[c] = t["value"].xreplace(cvdict)
 
         # Find all symbolic constants in nonlinearrhsterms
         for k, v in nonlinearrhsterms.items():
@@ -1223,41 +1273,58 @@ class Composer:
                     if self.compositeparameters[f]["value"] in constantsubs:
                         cvdict[f] = constantsubs[self.compositeparameters[f]["value"]]
                     elif np.fabs(float(self.compositeparameters[f]["value"])) != 1.0:
-                        cvdict[f] = sympy.Symbol(f"c_{constCtr}")
-                        constantsubs[self.compositeparameters[f]
-                                     ["value"]] = cvdict[f]
+                        # cvdict[f] = sympy.Symbol(f"c_{constCtr}")
+                        # constantsubs[self.compositeparameters[f]
+                        #              ["value"]] = cvdict[f]
+                        #Maintain the same name
+                        constantsubs[self.compositeparameters[f]["value"]] = f
                         constCtr += 1
             if len(cvdict) > 0:
                 v = v.xreplace(cvdict)
-            # Store all numeric ones inside constantsubs
-            if isinstance(v, sympy.Expr):
-                for tm in v.args:
-                    xtn = [
-                        term
-                        for term in tm.args
-                        if term not in fs and isinstance(term, sympy.Number)
-                    ]
-                    for c in xtn:
-                        if np.abs(c) not in constantsubs and np.fabs(float(c)) != 1.0:
-                            constantsubs[np.abs(c)] = sympy.Symbol(
-                                f"c_{constCtr}")
-                            constCtr += 1
-            elif isinstance(v, sympy.Number):
-                if np.abs(v) not in constantsubs and np.fabs(float(v)) != 1.0:
-                    constantsubs[np.abs(v)] = f"c_{constCtr}"
-                    constCtr += 1
+            # # Store all numeric ones inside constantsubs
+            # if isinstance(v, sympy.Expr):
+            #     for tm in v.args:
+            #         xtn = [
+            #             term
+            #             for term in tm.args
+            #             if term not in fs and isinstance(term, sympy.Number)
+            #         ]
+            #         for c in xtn:
+            #             if np.abs(c) not in constantsubs and np.fabs(float(c)) != 1.0:
+            #                 constantsubs[np.abs(c)] = sympy.Symbol(
+            #                     f"c_{constCtr}")
+            #                 constCtr += 1
+            # elif isinstance(v, sympy.Number):
+            #     if np.abs(v) not in constantsubs and np.fabs(float(v)) != 1.0:
+            #         constantsubs[np.abs(v)] = f"c_{constCtr}"
+            #         constCtr += 1
 
         # Remove constant entries that are same to given precision
         constCtr = 1
         constantstoprecision = dict()
         newkeys = dict()
         skippedkeys = dict()
+        phsconstants = dict()
+        #Get all phs constants from composite parameters (all with numeric values)
+        #if not self.substituteParameters:
+        for k,v in self.compositeparameters.items():
+            if len(v['value'].free_symbols)==0:
+                phsconstants[k] = float(v['value'])
+        
         for k, v in constantsubs.items():
+            #Phs named constants may get elimimated if they share similar values, so store
+            # if not v.name.startswith('c_'):
+            #    phsconstants[v] = k
+
             pk = f"{float(k):6f}"
             if pk not in constantstoprecision:
-                constantstoprecision[pk] = sympy.Symbol(f"c_{constCtr}")
+                if v.name.startswith('c_'):
+                    constantstoprecision[pk] = sympy.Symbol(f"c_{constCtr}")
+                else:
+                    constantstoprecision[pk] = v
                 constCtr += 1
-            if v != constantstoprecision[pk]:
+            #Only for constant defined by the code and not phs constants
+            if v != constantstoprecision[pk] and not v in phsconstants: #v.name.startswith('c_'):
                 skippedkeys[v] = constantstoprecision[pk]
             newkeys[k] = constantstoprecision[pk]
 
@@ -1267,62 +1334,83 @@ class Composer:
         # Handle elements that are functions, the multiplication operation with a state should be composition
         cleanedrhs = []
 
-        for elem in cleanrhs:
-            newelem = 0
-            # Logic works for Add expression
-            if not isinstance(elem, sympy.Add):
-                fs = elem.free_symbols
-                nterm = None
-                state = None
-                for f in fs:
-                    if f in nonlinearrhsterms:
-                        nterm = nonlinearrhsterms[f]
-                        break
-                if nterm is not None:
-                    # #Get the current state for the term
-                    states = []
-                    for f in fs:
+        for relem in cleanrhs:
+            expandedelem = sympy.expand(relem)
+            #Look into each product term of a sum or product
+            # Sum need to be summed, product need to be multiplied
+            if isinstance(expandedelem,sympy.Add):
+                reducedelem = 0
+                for elem in expandedelem.args:
+                    #Each element is a product or free
+                    estates = []
+                    enterms = []
+                    for f in elem.free_symbols:
                         if f in stateVec.free_symbols:
-                            states.append(f)
-                    # If the state in term appears in nterm, divide
-                    for st in states:
-                        if st in nterm.free_symbols:
-                            state = st
-                            # handles just one!
-                            break
-                if nterm is not None and state is not None:
-                    newelem = elem / state
-                else:
-                    newelem = term
-                cleanedrhs.append(sympy.simplify(newelem))
-            else:
-                for term in elem.args:
-                    fs = term.free_symbols
-                    nterm = None
-                    state = None
-                    for f in fs:
+                            estates.append(f)
                         if f in nonlinearrhsterms:
-                            nterm = nonlinearrhsterms[f]
-                            break
-                    if nterm is not None:
-                        # #Get the current state for the term
-                        states = []
-                        for f in fs:
-                            if f in stateVec.free_symbols:
-                                states.append(f)
-                        #         break
-                        # If the state in term appears in nterm, divide
-                        for st in states:
-                            if st in nterm.free_symbols:
-                                state = st
-                                # handles just one!
-                                break
-                    if nterm is not None and state is not None:
-                        nterm = term / state
-                        newelem += nterm
+                            enterms.append(f)
+                    if len(estates)>0 and len(enterms)>0:
+                        denom = 1
+                        for nt in enterms:
+                            entf = nonlinearrhsterms[nt].free_symbols
+                            for s in estates:
+                                if s in entf:
+                                    denom *= s
+                        reducedelem += sympy.simplify(elem/denom)
                     else:
-                        newelem += term
-                cleanedrhs.append(sympy.simplify(newelem))
+                        reducedelem += elem
+                    # # Logic works for Multiplication expression
+                    # newelem = 1
+                    # for term in elem.args:
+                    #     fs = term.free_symbols
+                    #     nterm = None
+                    #     state = None
+                    #     for f in fs:
+                    #         if f in nonlinearrhsterms:
+                    #             nterm = nonlinearrhsterms[f]
+                    #             break
+                    #     if nterm is not None:
+                    #         # #Get the current state for the term
+                    #         states = []
+                    #         for f in fs:
+                    #             if f in stateVec.free_symbols:
+                    #                 states.append(f)
+                    #         #         break
+                    #         # If the state in term appears in nterm, divide
+                    #         for st in states:
+                    #             if st in nterm.free_symbols:
+                    #                 state = st
+                    #                 # handles just one!
+                    #                 break
+                    #     if nterm is not None and state is not None:
+                    #         nterm = term / state
+                    #         newelem *= nterm
+                    #     else:
+                    #         newelem *= term
+                    # reducedelem.append(sympy.simplify(newelem))
+                cleanedrhs.append(reducedelem)
+            elif isinstance(expandedelem,sympy.Mul): # if its a product
+                reducedelem = 1
+                estates = []
+                enterms = []
+                for f in expandedelem.free_symbols:
+                    if f in stateVec.free_symbols:
+                        estates.append(f)
+                    if f in nonlinearrhsterms:
+                        enterms.append(f)
+                if len(estates)>0 and len(enterms)>0:
+                    denom = 1
+                    for nt in enterms:
+                        entf = nonlinearrhsterms[nt].free_symbols
+                        for s in estates:
+                            if s in entf:
+                                denom *= s
+                    reducedelem *= sympy.simplify(expandedelem/denom)
+                else:
+                    reducedelem *= expandedelem
+                cleanedrhs.append(reducedelem)
+            else:
+                cleanedrhs.append(relem)
 
         # Constants also contain u vector, however they are updated after each step
         # Do the update in compute_variables method, and initialise them in initialise_variables method
@@ -1357,7 +1445,31 @@ class Composer:
                 invarraymapping[f"variables[{numconstants}]"] = str(v)
                 numconstants += 1
                 definedConstants.append(v)
-
+        if not self.substituteParameters:
+            #Insert phs constants
+            for v,k in phsconstants.items():
+                arraysubs[v] = sympy.Symbol(f"variables[{numconstants}]")
+                arraymapping[str(v)] = f"variables[{numconstants}]"
+                invarraymapping[f"variables[{numconstants}]"] = str(v)
+                numconstants += 1
+        else:
+            #Reduce repeats
+            existingvalues = {}
+            newphsconstants = {}
+            for k,v in phsconstants.items():
+                if v in existingvalues:
+                    arraysubs[k] = existingvalues[v]
+                    arraymapping[str(k)] = str(arraysubs[k])
+                    invarraymapping[arraymapping[str(k)] ] = str(k)
+                else:
+                    arraysubs[k] = sympy.Symbol(f"variables[{numconstants}]")
+                    arraymapping[str(k)] = f"variables[{numconstants}]"
+                    invarraymapping[f"variables[{numconstants}]"] = str(k)
+                    numconstants += 1    
+                    existingvalues[v] = arraysubs[k]  
+                    newphsconstants[k] = v            
+            phsconstants = newphsconstants
+            
         # uCap entries
         for s in self.stateVec:
             arraysubs[sympy.Symbol(f"u_{s}")] = sympy.Symbol(
@@ -1401,11 +1513,11 @@ class Composer:
         arrayedinputs = []
         # Use cleanedrhs and not cleanrhs - nonlinear terms with functions are transformed to compositions and not multiplication
         for elem in cleanedrhs:
-            arrayedrhs.append(elem.xreplace(arraysubs))
+            arrayedrhs.append(elem.xreplace(skippedkeys).xreplace(arraysubs))
         for elem in cleaninputs:
-            arrayedinputs.append(elem.xreplace(arraysubs))
+            arrayedinputs.append(elem.xreplace(skippedkeys).xreplace(arraysubs))
         
-        return numconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,cleaninputs
+        return numconstants,phsconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,cleaninputs
     
     def exportAsPython(self):
         """Export composed FTU as python code similar to OpenCOR export"""

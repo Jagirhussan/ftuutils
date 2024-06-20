@@ -28,7 +28,7 @@ def exportAsPython(composer):
     Args:
         composer (compositionutils.Composer): Composer instance that has the resolved FTU 
     """
-    numconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,cleaninputs = composer.generatePythonIntermediates()
+    numconstants,phsconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,cleaninputs = composer.generatePythonIntermediates()
     stateVec = Matrix(composer.stateVec)
     # Generate metedata
     variabledescription = 'VOI_INFO = {"name": "t", "units": "second", "component": "main", "type": VariableType.VARIABLE_OF_INTEGRATION}\n'
@@ -259,7 +259,7 @@ def exportAsODEStepper(composer,modelName):
         Setup the code as a Python class, with the ability to step through time and
         set inputs
     """
-    numconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs_,ubaridxmap,cleaninputs = composer.generatePythonIntermediates()
+    numconstants,phsconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs_,ubaridxmap,cleaninputs = composer.generatePythonIntermediates()
 
     #Also handle constant subs
     revconstantsubs = dict()
@@ -330,7 +330,9 @@ def exportAsODEStepper(composer,modelName):
             csyms = list(set(csyms))
             csym_map = {}
             for kc in csyms:
-                csym_map[kc]=int(inputStateSymbolMap[kc].replace("states[","").replace("]",""))
+                if kc in inputStateSymbolMap:
+                    csym_map[kc]=int(inputStateSymbolMap[kc].replace("states[","").replace("]",""))
+                    
             #Map node label to input symbols and expressions - using subs as xreplace doesnt seem to handle **
             subbedHam = sympy.simplify(cham.xreplace(parvals).xreplace(revconstantsubs))
             supportEnergyCalculations[k] = {'cmap':csym_map,'expr':cinps,'ham':str(subbedHam),'rhsix':rhsidxmap,'cix':cix}
@@ -420,6 +422,12 @@ def exportAsODEStepper(composer,modelName):
         for k1,v1 in svmap.items():
             inputhookcode += f"                        '{k1}':{v1},\n"
         inputhookcode += f"                }},\n"  
+        if not composer.substituteParameters:
+            inputhookcode += f"                'parametervarmap':{{\n"
+            for k in composer.nodePHSData[k].parameters:
+                inputhookcode += f"                        '{k.name}':'{arraymapping[k.name]}',\n"
+            inputhookcode += f"                }},\n"  
+        
         inputhookcode += f"                'inputExpressions':{{\n"          
         for k1,v1 in inexpr.items():
             inputhookcode += f"                        '{k1}':{{'statevecindex':{v1[0]},'expr':'{v1[1]}'}},\n"
@@ -433,7 +441,7 @@ import numpy as np
 from numpy import exp
 from scipy.integrate import ode
 
-def Heaviside(x):
+def heaviside(x):
     if x > 0:
         return 1.0
     return 0.0
@@ -479,6 +487,16 @@ class {modelName}():
                     stmt = f"        {arraymapping[v.name]} = {k}  #{v}\n"
                 pycode += stmt
                 definedVariables.append(v)
+    for v, k in phsconstants.items():
+        if v not in definedVariables:
+            if v.name in arraymapping:
+                try:
+                    stmt = f"        {arraymapping[v.name]} = {float(k):6f}  #{v}\n"
+                except:
+                    stmt = f"        {arraymapping[v.name]} = {k}  #{v}\n"
+                pycode += stmt
+                definedVariables.append(v)
+
 
     pycode += "\n    def compute_variables(self,voi):\n        t=voi #mapping to t\n        states, rates, variables = self.states,self.rates,self.variables\n"
     # Do uCap terms

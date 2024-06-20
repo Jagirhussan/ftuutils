@@ -661,7 +661,7 @@ class FTUGraph():
                 
         return (not unresolved),result
 
-    def composeCompositePHS(self,G,phsdefinitions=None,phsdata=None):
+    def composeCompositePHS(self,G,phsdefinitions=None,phsdata=None,substituteParameters=True):
         """Method to generate composite PHS from 
 
         Args:
@@ -682,7 +682,7 @@ class FTUGraph():
 
         composer = Composer()
         composer.loadComposition(composition)
-        composer.compose()        
+        composer.compose(substituteParameters)        
         if ftuGraph is not None:
             composer.setConnectivityGraph(ftuGraph)                
         return composer
