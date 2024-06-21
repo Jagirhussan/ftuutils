@@ -824,8 +824,27 @@ class Composer:
         networkLap = dict()
         networkAdj = dict()
         self.substituteParameters = substituteParameters
+        self.requiredFTUparameters = False
         for n, g in self.networkGraphs.items():
-            networkLap[n] = nx.laplacian_matrix(g.to_undirected()).todense()
+            try:
+                networkLap[n] = nx.laplacian_matrix(g.to_undirected()).todense()
+            except:
+                self.requiredFTUparameters = True
+                ug = g.to_undirected()
+                lap = sympy.zeros(ug.number_of_nodes(),ug.number_of_nodes())
+                nodes = list(ug.nodes())
+                for i,nd in enumerate(nodes):
+                    nedges = list(ug.edges(nd,data='weight'))
+                    ndeg = len(nedges)
+                    lap[i,i] = ndeg 
+                    for ed in nedges:
+                        if ed[0]==nd:
+                            tar = nodes.index(ed[1])
+                        else:
+                            tar = nodes.index(ed[0])
+                        lap[i,tar] = -sympy.sympify(ed[2])
+                networkLap[n] = lap
+                
             # Construct node connectivity matrix, should be consistent with KCL
             nadj = np.zeros((g.number_of_nodes(), g.number_of_nodes()))
             for nd, nbrdict in g.adjacency():
@@ -1220,7 +1239,7 @@ class Composer:
         # for k, v in newkeys.items():
         #     constantsubs[k] = v
 
-        #Goto sympy 
+        #Convert to sympy Symbols for substitution
         for k in constantsubs:
             constantsubs[k] = sympy.Symbol(constantsubs[k])
 
@@ -1309,13 +1328,9 @@ class Composer:
         #if not self.substituteParameters:
         for k,v in self.compositeparameters.items():
             if len(v['value'].free_symbols)==0:
-                phsconstants[k] = float(v['value'])
+                phsconstants[k] = v #float(v['value'])
         
         for k, v in constantsubs.items():
-            #Phs named constants may get elimimated if they share similar values, so store
-            # if not v.name.startswith('c_'):
-            #    phsconstants[v] = k
-
             pk = f"{float(k):6f}"
             if pk not in constantstoprecision:
                 if v.name.startswith('c_'):
@@ -1425,6 +1440,7 @@ class Composer:
             arraymapping[s] = f"states[{i}]"
             invarraymapping[f"states[{i}]"] = s
 
+
         numconstants = 0
         # Do ubar first as numconstants change due to precision selection
         # ubar entries
@@ -1435,6 +1451,16 @@ class Composer:
             invarraymapping[f"variables[{numconstants}]"] = s.name
             ubaridxmap[s.name] = f"variables[{numconstants}]"
             numconstants += 1
+        #Find any connectivity related symbols
+        ftuidmap = dict()
+        for s in interioru.free_symbols:
+            if not s.name.startswith("u_"):
+                arraysubs[s] = sympy.Symbol(f"variables[{numconstants}]")
+                arraymapping[s.name] = f"variables[{numconstants}]"
+                invarraymapping[f"variables[{numconstants}]"] = s.name
+                ftuidmap[s.name] = f"variables[{numconstants}]"
+                numconstants += 1
+                
 
         # Multiple k's will have same v due to defined precision
         definedConstants = []
@@ -1456,9 +1482,10 @@ class Composer:
             #Reduce repeats
             existingvalues = {}
             newphsconstants = {}
-            for k,v in phsconstants.items():
-                if v in existingvalues:
-                    arraysubs[k] = existingvalues[v]
+            for k,vdict in phsconstants.items():
+                v = vdict['value']
+                if float(v) in existingvalues:
+                    arraysubs[k] = existingvalues[float(v)]
                     arraymapping[str(k)] = str(arraysubs[k])
                     invarraymapping[arraymapping[str(k)] ] = str(k)
                 else:
@@ -1467,7 +1494,7 @@ class Composer:
                     invarraymapping[f"variables[{numconstants}]"] = str(k)
                     numconstants += 1    
                     existingvalues[v] = arraysubs[k]  
-                    newphsconstants[k] = v            
+                    newphsconstants[k] = vdict            
             phsconstants = newphsconstants
             
         # uCap entries
@@ -1517,7 +1544,7 @@ class Composer:
         for elem in cleaninputs:
             arrayedinputs.append(elem.xreplace(skippedkeys).xreplace(arraysubs))
         
-        return numconstants,phsconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,cleaninputs
+        return numconstants,phsconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,ftuidmap,cleaninputs
     
     def exportAsPython(self):
         """Export composed FTU as python code similar to OpenCOR export"""

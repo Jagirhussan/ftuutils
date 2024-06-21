@@ -95,22 +95,30 @@ class SimulationExperiment():
         
         code = f"{self.hamletcode}\nself.hamletNodes={self.modelname}Inputs.nodes\n"
         exec(compile(code,'','exec'))
-
+        
+        self.variablemap = self.inputhookInstance.inputhooks
         for k,v in self.inputhookInstance.statehooks.items():
             for sn,sm in v.items():
                 self.inputhookInstance.inputhooks[f"node[{k}].{sn}"] = sm
-        self.variablemap = self.inputhookInstance.inputhooks
         
         self.statenamehooks = self.inputhookInstance.statenamehooks
         self.phsnamehooks = self.inputhookInstance.phsnamehooks
+        self.phsparameterhooks = self.inputhookInstance.phsparameterhooks
+        for k,v in self.inputhookInstance.phsparameterhooks.items():
+            for sn,sm in v.items():
+                self.inputhookInstance.inputhooks[f"node[{k}].{sn}"] = sm
+        self.ftuparameterhooks = self.inputhookInstance.ftuparameterhooks
+        for k,v in self.ftuparameterhooks.items():
+            self.inputhookInstance.inputhooks[k] = v
 
-    def addExperiment(self,name,time,inputblock,preamble=""):
+    def addExperiment(self,name,time,inputblock,parameterblock=None,preamble=""):
         """Add an experiment for simulation
 
         Args:
             name (string): Name of the experiment
             time (list): Simulation time block associated with the experiment [start,end, [numsteps]]
             inputblock (string): Python code that will be executed to generate input signals for FTU simulation
+            parameterblock (string): Python code to set parameter values. Default None
             preamble (str, optional): Any preamble python code that will be added to start of the generated code; ideally used to import packages that are used by the input block. Defaults to "".
 
         Raises:
@@ -122,7 +130,7 @@ class SimulationExperiment():
         if "return " in isplit[-1]:
             raise Exception(f"inputblock code should not return, rather assign to input variables!")
         
-        self.experiments[name] = {'time':time,'process_time_sensitive_events':inputblock,'preamble':preamble}
+        self.experiments[name] = {'time':time,'process_time_sensitive_events':inputblock,'preamble':preamble,'parameters':parameterblock}
 
     def generate(self,targetDir,provenance={},defaultnetworkid=1):
         """Generate code for the experiments and store them in the target directory
@@ -168,7 +176,8 @@ class SimulationExperiment():
             eventCode = "" 
             for c in cx:
                 eventCode += f"{indent}{c}\n"
-                
+            
+            parameterupdates = ''
             code = v['preamble']
             if len(code)>0:
                 code +='\n'
@@ -184,6 +193,7 @@ class {self.modelname}_{k}({self.modelname}):
     """
     def __init__(self) -> None:
         super().__init__()
+        {parameterupdates}
         self.cellHam = np.zeros(self.CELL_COUNT)
         self.energyInputs = np.zeros(self.CELL_COUNT)
         self.totalEnergyInputs = np.zeros(self.CELL_COUNT)
