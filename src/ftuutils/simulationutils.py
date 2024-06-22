@@ -53,6 +53,24 @@ class Refactor(ast.NodeTransformer):
             return ast.Name(**{**node.__dict__, 'id':self.variableNameMap[node.id]})
         else:
             return node
+        
+def handleStars(code, numnodes):
+    """Replace code that has node[*]. with node[1..numnodes].
+
+    Args:
+        code (string): Python code
+        numnodes (int): Number of nodes
+    """
+    cstrip = code.split('\n')
+    ncstrip = []
+    for cs in cstrip:
+        if 'node[*]' in cs:
+            for ni in range(1,numnodes+1):
+                ncstrip.append(cs.replace('node[*]',f'node[{ni}]'))
+        else:
+            ncstrip.append(cs)
+    return '\n'.join(ncstrip)
+    
 
 def loadTemplateFile(filename):
     """Load template files stored as resources within ftuutils package"""
@@ -95,7 +113,7 @@ class SimulationExperiment():
         
         code = f"{self.hamletcode}\nself.hamletNodes={self.modelname}Inputs.nodes\n"
         exec(compile(code,'','exec'))
-        
+        self.CELL_COUNT = self.inputhookInstance.CELL_COUNT #Number of nodes
         self.variablemap = self.inputhookInstance.inputhooks
         for k,v in self.inputhookInstance.statehooks.items():
             for sn,sm in v.items():
@@ -107,9 +125,14 @@ class SimulationExperiment():
         for k,v in self.inputhookInstance.phsparameterhooks.items():
             for sn,sm in v.items():
                 self.inputhookInstance.inputhooks[f"node[{k}].{sn}"] = sm
+        #Empty ftuparameterhooks def is returned as tuple ({},)
         self.ftuparameterhooks = self.inputhookInstance.ftuparameterhooks
+        if isinstance(self.inputhookInstance.ftuparameterhooks,tuple):
+            self.ftuparameterhooks = self.inputhookInstance.ftuparameterhooks[0]
+
         for k,v in self.ftuparameterhooks.items():
             self.inputhookInstance.inputhooks[k] = v
+
 
     def addExperiment(self,name,time,inputblock,parameterblock=None,preamble=""):
         """Add an experiment for simulation
@@ -166,7 +189,8 @@ class SimulationExperiment():
                     numsteps = stepsize
             
             #Process the input code block to 
-            eventCodex = ast.unparse(refactor.visit(ast.parse(v['process_time_sensitive_events']))).strip()            
+            evcode = handleStars(v['process_time_sensitive_events'],self.CELL_COUNT)
+            eventCodex = ast.unparse(refactor.visit(ast.parse(evcode))).strip()            
             cx = eventCodex.split('\n')
             #Indentation should match that of 'process_time_sensitive_events' function def
             indent = "        "
@@ -178,6 +202,20 @@ class SimulationExperiment():
                 eventCode += f"{indent}{c}\n"
             
             parameterupdates = ''
+            pblock = v['parameters']
+            if not pblock is None:
+                pvcode = handleStars(pblock,self.CELL_COUNT)
+                pCodex = ast.unparse(refactor.visit(ast.parse(pvcode))).strip()            
+                pcx = pCodex.split('\n')
+                #Indentation should match that of '__init__' function def
+                indent = "        "
+                if pCodex.startswith("def"):
+                    pcx = pcx[1:]
+                    indent = "    "
+                parameterupdates = "" 
+                for pc in pcx:
+                    parameterupdates += f"{indent}{pc}\n"
+                
             code = v['preamble']
             if len(code)>0:
                 code +='\n'

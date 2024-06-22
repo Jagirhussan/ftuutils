@@ -375,7 +375,7 @@ def exportAsODEStepper(composer,modelName):
         ik = '_'.join(k.split('_')[:-1])
         inputhook[ik] = v    
     inputhookcode = f'class {modelName}Hooks():\n    #FTU parameters\n'
-    
+    inputhookcode += f"    CELL_COUNT = {len(composer.inodeIndexes)}\n"
     inputhookcode += "    ftuparameterhooks={"   
     if len(ftuidmap)>0:
         for k,v in ftuidmap.items():
