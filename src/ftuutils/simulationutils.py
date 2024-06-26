@@ -205,17 +205,22 @@ class SimulationExperiment():
             pblock = v['parameters']
             if not pblock is None:
                 pvcode = handleStars(pblock,self.CELL_COUNT)
-                pCodex = ast.unparse(refactor.visit(ast.parse(pvcode))).strip()            
-                pcx = pCodex.split('\n')
+                pCodex = ast.unparse(refactor.visit(ast.parse(pvcode))).strip()  
+                #This code will be in the __init_ block, variables, states and rates will be with respect to the instance
+                #so add self. prefix
+                pselfcx = pCodex.replace("variables","self.variables").replace("states","self.states").replace("rates","self.rates")          
+                pcx = pselfcx.split('\n')
+                pvx = ast.unparse(ast.parse(pvcode)).strip().split('\n') #Get the statements for comments
                 #Indentation should match that of '__init__' function def
                 indent = "        "
-                if pCodex.startswith("def"):
+                if pselfcx.startswith("def"):
                     pcx = pcx[1:]
+                    pvx = pvx[1:]
                     indent = "    "
-                parameterupdates = "" 
-                for pc in pcx:
-                    parameterupdates += f"{indent}{pc}\n"
-                
+                parameterupdates = f"{indent}#Experiment specific parameters setting starts\n" 
+                for ix,pc in enumerate(pcx):
+                    parameterupdates += f"{indent}{pc}{indent}#{pvx[ix]}\n"
+                parameterupdates += f"{indent}#Experiment specific parameters setting ends"
             code = v['preamble']
             if len(code)>0:
                 code +='\n'
@@ -231,7 +236,7 @@ class {self.modelname}_{k}({self.modelname}):
     """
     def __init__(self) -> None:
         super().__init__()
-        {parameterupdates}
+{parameterupdates}
         self.cellHam = np.zeros(self.CELL_COUNT)
         self.energyInputs = np.zeros(self.CELL_COUNT)
         self.totalEnergyInputs = np.zeros(self.CELL_COUNT)

@@ -1652,9 +1652,17 @@ class Composer:
                         ew = v1[weight]
                         break
                     edgeWeights.append(ew)
-                sew = np.sqrt(ew)
-                adm[ei,nidx[ed[0]]] = -sew
-                adm[ei,nidx[ed[1]]] = +sew           
+                if isinstance(ew, (int, float, complex)) and not isinstance(ew, bool):
+                    sew = np.sqrt(ew)                  
+                    adm[ei,nidx[ed[0]]] = -sew
+                    adm[ei,nidx[ed[1]]] = +sew                               
+                else:
+                    if adm.dtype=='float':
+                        adm = np.zeros((numEdges,numNodes),dtype='str')
+                    
+                    adm[ei,nidx[ed[0]]] = f"-sqrt({ew})"
+                    adm[ei,nidx[ed[1]]] = f"sqrt({ew})"           
+
         else:
             for ei,ed in enumerate(edges):
                 ew = 1.0     
@@ -1662,10 +1670,16 @@ class Composer:
                 if weight in ews:
                     ew = ews[weight]
                 edgeWeights.append(ew)
-                sew = np.sqrt(ew)                  
+                if isinstance(ew, (int, float, complex)) and not isinstance(ew, bool):
+                    sew = np.sqrt(ew)                  
+                    adm[ei,nidx[ed[0]]] = -sew
+                    adm[ei,nidx[ed[1]]] = +sew                    
+                else:
+                    if adm.dtype=='float':
+                        adm = np.zeros((numEdges,numNodes),dtype='str')
+                    adm[ei,nidx[ed[0]]] = f"-sqrt({ew})"
+                    adm[ei,nidx[ed[1]]] = f"sqrt({ew})"  
 
-                adm[ei,nidx[ed[0]]] = -sew
-                adm[ei,nidx[ed[1]]] = +sew
 
         return adm,edgeWeights
 

@@ -345,6 +345,7 @@ class FTUGraph():
         Returns:
             bool,dict: True if a FTU was successfully constructed, FTU project as python dict        """
         nodeAttrib = nx.get_node_attributes(G,'phs')
+        nodeType = nx.get_node_attributes(G,'type')
         unresolved = False
         networks = dict()
         existingNets = dict()
@@ -401,6 +402,8 @@ class FTUGraph():
         
         if not unresolved:
             for nd in curNodes:
+                if nodeType[nd] == 'out':
+                    raise Exception(f"Unexpected workflow, boundary node up for resolution")
                 #Get phstype and component connection information
                 if nodeAttrib[nd] not in phsdefinitions:
                     unresolved = True
@@ -787,7 +790,7 @@ class FTUDelaunayGraph(FTUGraph):
         #Check edge lengths
         edge_len = np.array([np.linalg.norm(pdict[u]-pdict[v]) for u, v in G.edges()])
         ecutoff = np.mean(edge_len)*self.edgeLengthThreshold
-        if conductivityTensor.dtype!='<U1':
+        if np.issubdtype(conductivityTensor.dtype,np.number):
             for i,e in enumerate(G.edges()):
                 if edge_len[i]>ecutoff:
                     G.remove_edge(e[0],e[1])    
