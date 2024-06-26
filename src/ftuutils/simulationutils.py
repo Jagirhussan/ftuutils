@@ -53,6 +53,24 @@ class Refactor(ast.NodeTransformer):
             return ast.Name(**{**node.__dict__, 'id':self.variableNameMap[node.id]})
         else:
             return node
+        
+def handleStars(code, numnodes):
+    """Replace code that has node[*]. with node[1..numnodes].
+
+    Args:
+        code (string): Python code
+        numnodes (int): Number of nodes
+    """
+    cstrip = code.split('\n')
+    ncstrip = []
+    for cs in cstrip:
+        if 'node[*]' in cs:
+            for ni in range(1,numnodes+1):
+                ncstrip.append(cs.replace('node[*]',f'node[{ni}]'))
+        else:
+            ncstrip.append(cs)
+    return '\n'.join(ncstrip)
+    
 
 def loadTemplateFile(filename):
     """Load template files stored as resources within ftuutils package"""
@@ -95,22 +113,35 @@ class SimulationExperiment():
         
         code = f"{self.hamletcode}\nself.hamletNodes={self.modelname}Inputs.nodes\n"
         exec(compile(code,'','exec'))
-
+        self.CELL_COUNT = self.inputhookInstance.CELL_COUNT #Number of nodes
+        self.variablemap = self.inputhookInstance.inputhooks
         for k,v in self.inputhookInstance.statehooks.items():
             for sn,sm in v.items():
                 self.inputhookInstance.inputhooks[f"node[{k}].{sn}"] = sm
-        self.variablemap = self.inputhookInstance.inputhooks
         
         self.statenamehooks = self.inputhookInstance.statenamehooks
         self.phsnamehooks = self.inputhookInstance.phsnamehooks
+        self.phsparameterhooks = self.inputhookInstance.phsparameterhooks
+        for k,v in self.inputhookInstance.phsparameterhooks.items():
+            for sn,sm in v.items():
+                self.inputhookInstance.inputhooks[f"node[{k}].{sn}"] = sm
+        #Empty ftuparameterhooks def is returned as tuple ({},)
+        self.ftuparameterhooks = self.inputhookInstance.ftuparameterhooks
+        if isinstance(self.inputhookInstance.ftuparameterhooks,tuple):
+            self.ftuparameterhooks = self.inputhookInstance.ftuparameterhooks[0]
 
-    def addExperiment(self,name,time,inputblock,preamble=""):
+        for k,v in self.ftuparameterhooks.items():
+            self.inputhookInstance.inputhooks[k] = v
+
+
+    def addExperiment(self,name,time,inputblock,parameterblock=None,preamble=""):
         """Add an experiment for simulation
 
         Args:
             name (string): Name of the experiment
             time (list): Simulation time block associated with the experiment [start,end, [numsteps]]
             inputblock (string): Python code that will be executed to generate input signals for FTU simulation
+            parameterblock (string): Python code to set parameter values. Default None
             preamble (str, optional): Any preamble python code that will be added to start of the generated code; ideally used to import packages that are used by the input block. Defaults to "".
 
         Raises:
@@ -122,7 +153,7 @@ class SimulationExperiment():
         if "return " in isplit[-1]:
             raise Exception(f"inputblock code should not return, rather assign to input variables!")
         
-        self.experiments[name] = {'time':time,'process_time_sensitive_events':inputblock,'preamble':preamble}
+        self.experiments[name] = {'time':time,'process_time_sensitive_events':inputblock,'preamble':preamble,'parameters':parameterblock}
 
     def generate(self,targetDir,provenance={},defaultnetworkid=1):
         """Generate code for the experiments and store them in the target directory
@@ -158,7 +189,8 @@ class SimulationExperiment():
                     numsteps = stepsize
             
             #Process the input code block to 
-            eventCodex = ast.unparse(refactor.visit(ast.parse(v['process_time_sensitive_events']))).strip()            
+            evcode = handleStars(v['process_time_sensitive_events'],self.CELL_COUNT)
+            eventCodex = ast.unparse(refactor.visit(ast.parse(evcode))).strip()            
             cx = eventCodex.split('\n')
             #Indentation should match that of 'process_time_sensitive_events' function def
             indent = "        "
@@ -168,7 +200,27 @@ class SimulationExperiment():
             eventCode = "" 
             for c in cx:
                 eventCode += f"{indent}{c}\n"
-                
+            
+            parameterupdates = ''
+            pblock = v['parameters']
+            if not pblock is None:
+                pvcode = handleStars(pblock,self.CELL_COUNT)
+                pCodex = ast.unparse(refactor.visit(ast.parse(pvcode))).strip()  
+                #This code will be in the __init_ block, variables, states and rates will be with respect to the instance
+                #so add self. prefix
+                pselfcx = pCodex.replace("variables","self.variables").replace("states","self.states").replace("rates","self.rates")          
+                pcx = pselfcx.split('\n')
+                pvx = ast.unparse(ast.parse(pvcode)).strip().split('\n') #Get the statements for comments
+                #Indentation should match that of '__init__' function def
+                indent = "        "
+                if pselfcx.startswith("def"):
+                    pcx = pcx[1:]
+                    pvx = pvx[1:]
+                    indent = "    "
+                parameterupdates = f"{indent}#Experiment specific parameters setting starts\n" 
+                for ix,pc in enumerate(pcx):
+                    parameterupdates += f"{indent}{pc}{indent}#{pvx[ix]}\n"
+                parameterupdates += f"{indent}#Experiment specific parameters setting ends"
             code = v['preamble']
             if len(code)>0:
                 code +='\n'
@@ -184,6 +236,7 @@ class {self.modelname}_{k}({self.modelname}):
     """
     def __init__(self) -> None:
         super().__init__()
+{parameterupdates}
         self.cellHam = np.zeros(self.CELL_COUNT)
         self.energyInputs = np.zeros(self.CELL_COUNT)
         self.totalEnergyInputs = np.zeros(self.CELL_COUNT)

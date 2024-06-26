@@ -345,6 +345,7 @@ class FTUGraph():
         Returns:
             bool,dict: True if a FTU was successfully constructed, FTU project as python dict        """
         nodeAttrib = nx.get_node_attributes(G,'phs')
+        nodeType = nx.get_node_attributes(G,'type')
         unresolved = False
         networks = dict()
         existingNets = dict()
@@ -401,6 +402,8 @@ class FTUGraph():
         
         if not unresolved:
             for nd in curNodes:
+                if nodeType[nd] == 'out':
+                    raise Exception(f"Unexpected workflow, boundary node up for resolution")
                 #Get phstype and component connection information
                 if nodeAttrib[nd] not in phsdefinitions:
                     unresolved = True
@@ -661,13 +664,14 @@ class FTUGraph():
                 
         return (not unresolved),result
 
-    def composeCompositePHS(self,G,phsdefinitions=None,phsdata=None):
+    def composeCompositePHS(self,G,phsdefinitions=None,phsdata=None,substituteParameters=True):
         """Method to generate composite PHS from 
 
         Args:
             G (networkx Graph or dict): FTU graph (networkx.Graph) or Dict description
             phsdefinitions (dict): Description of phs classes used in the FTU required if G is not dict
             phsdata (dict): Data about networks, external inputs etc used in the FTU required if G is not dict
+            substituteParameters (bool): Substitute phs parameters and simplify before composition, phs parameters are eliminated. Default True
         """
         composition = None
         ftuGraph = None
@@ -682,7 +686,7 @@ class FTUGraph():
 
         composer = Composer()
         composer.loadComposition(composition)
-        composer.compose()        
+        composer.compose(substituteParameters)        
         if ftuGraph is not None:
             composer.setConnectivityGraph(ftuGraph)                
         return composer
@@ -786,15 +790,28 @@ class FTUDelaunayGraph(FTUGraph):
         #Check edge lengths
         edge_len = np.array([np.linalg.norm(pdict[u]-pdict[v]) for u, v in G.edges()])
         ecutoff = np.mean(edge_len)*self.edgeLengthThreshold
-
-        for i,e in enumerate(G.edges()):
-            if edge_len[i]>ecutoff:
-                G.remove_edge(e[0],e[1])    
-            else:
-                evec = (pdict[e[1]] - pdict[e[0]])/edge_len[i]
-                wt = np.abs(conductivityTensor.dot(evec)) #Weight should be positive - projection can be negative due to direction
-                eweight[e] = wt/edge_len[i] #normalize by edge length
-                
+        if np.issubdtype(conductivityTensor.dtype,np.number):
+            for i,e in enumerate(G.edges()):
+                if edge_len[i]>ecutoff:
+                    G.remove_edge(e[0],e[1])    
+                else:
+                    evec = (pdict[e[1]] - pdict[e[0]])
+                    wt = np.abs(conductivityTensor.dot(evec)) #Weight should be positive - projection can be negative due to direction
+                    eweight[e] = wt/edge_len[i] #normalize by edge length
+        else:#String or sympy
+            for i,e in enumerate(G.edges()):
+                if edge_len[i]>ecutoff:
+                    G.remove_edge(e[0],e[1])    
+                else:
+                    evec = (pdict[e[1]] - pdict[e[0]])/edge_len[i]
+                    wt = []
+                    for j,x in enumerate(conductivityTensor):
+                        if evec[j] != 0.0:
+                            wt.append(f"{evec[j]/edge_len[i]}*"+x)
+                    #Weight should be positive - projection can be negative due to direction
+                    eweight[e] = "abs("+"+".join(wt)+")" #normalize by edge length
+            
+                            
         nx.set_edge_attributes(G,eweight,self.getDefaultNetworkID())
         
         self.graph = G

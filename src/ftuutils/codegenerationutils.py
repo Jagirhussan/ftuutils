@@ -28,7 +28,7 @@ def exportAsPython(composer):
     Args:
         composer (compositionutils.Composer): Composer instance that has the resolved FTU 
     """
-    numconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,cleaninputs = composer.generatePythonIntermediates()
+    numconstants,phsconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,ftuidmap,cleaninputs = composer.generatePythonIntermediates()
     stateVec = Matrix(composer.stateVec)
     # Generate metedata
     variabledescription = 'VOI_INFO = {"name": "t", "units": "second", "component": "main", "type": VariableType.VARIABLE_OF_INTEGRATION}\n'
@@ -36,6 +36,13 @@ def exportAsPython(composer):
     for k, v in composer.statevalues.items():
         variabledescription += f'\t{{"name": "{k}", "units": "{v["units"]}", "component": "main", "type": VariableType.STATE}},\n'
     variabledescription += "]\n\nVARIABLE_INFO = [\n"
+    for k, v in ubaridxmap.items():
+        #TODO get the dimension
+        variabledescription += f'\t{{"name": "{k}", "units": "dimensionless", "component": "main", "type": VariableType.EXTERNAL_INPUT}},\n'        
+    if len(ftuidmap)>0:
+        for k,v in ftuidmap.items():
+            variabledescription += f'\t{{"name": "{k}", "units": "dimensionless", "component": "main", "type": VariableType.CONSTANT}},\n'                    
+    
     # Maintain this order when creating variables
     # Do constant subs, constant subs will have multiple values for the same constant due to precision
     definedNames = []
@@ -44,6 +51,11 @@ def exportAsPython(composer):
             if not v.name.startswith("-"):
                 variabledescription += f'\t{{"name": "{v}", "units": "dimensionless", "component": "main", "type": VariableType.CONSTANT}},\n'
                 definedNames.append(v)
+    for k,v in phsconstants.items():
+        if k.name in arraymapping:
+            vunit = v['units']
+            variabledescription += f'\t{{"name": "{k}", "units": "{vunit}", "component": "main", "type": VariableType.CONSTANT}},\n'                    
+
 
     # TODO compute the units of calculated terms
     # Do uCap terms
@@ -74,6 +86,13 @@ __version__ = "0.0.1"
 STATE_COUNT = {len(composer.stateVec)}
 VARIABLE_COUNT = {numconstants}
 
+def heaviside(x):
+    if x > 0:
+        return 1.0
+    return 0.0
+    
+def Abs(x):
+    return np.fabs(x)
 
 class VariableType(Enum):
     VARIABLE_OF_INTEGRATION = 0
@@ -100,6 +119,12 @@ def initialise_variables(states, variables):\n"""
         except:
             stmt = f"\t{arraymapping[k.name]} = {v['value']}  #{k}\n"
         pycode += stmt
+    for k, v in ubaridxmap.items():
+        pycode += f"\t{v} = 0.0 #{k} External input\n"
+                
+    if len(ftuidmap)>0:
+        for k,v in ftuidmap.items():
+            pycode += f"\t{v} = 1.0  #{k} This needs to be set for accurate simulation\n"
 
     # Do constant subs
     definedVariables = []
@@ -112,6 +137,16 @@ def initialise_variables(states, variables):\n"""
                     stmt = f"\t{arraymapping[v.name]} = {k}  #{v}\n"
                 pycode += stmt
                 definedVariables.append(v)
+    for v, k in phsconstants.items():
+        if v not in definedVariables:
+            if v.name in arraymapping:
+                try:
+                    stmt = f"\t{arraymapping[v.name]} = {float(k['value']):6f}  #{v}\n"
+                except:
+                    stmt = f"\t{arraymapping[v.name]} = {k['value']}  #{v}\n"
+                pycode += stmt
+                definedVariables.append(v)                
+                
     pycode += "\ndef compute_computed_constants(variables):\n\tpass\n\n"
     pycode += "def compute_variables(voi, states, rates, variables):\n\tt=voi #mapping to t\n"
     # Do uCap terms
@@ -126,8 +161,8 @@ def initialise_variables(states, variables):\n"""
         pycode += f"\t#{nonlinearrhstermsdescriptive[k]}\n"
         pycode += f"\t{k} = {v}\n"
     for i, v in enumerate(arrayedrhs):
-        pycode += fr"\t#\dot{{{composer.stateVec[i]}}} = {_stringsubs(str(v),invarraymapping)} # {sympy.simplify(rhs[i,0])}\n"
-        pycode += fr"\trates[{i}] = {v}\n"
+        pycode += f"\t#\dot{{{composer.stateVec[i]}}} = {_stringsubs(str(v),invarraymapping)} # {sympy.simplify(rhs[i,0])}\n"
+        pycode += f"\trates[{i}] = {v}\n"
 
     # Do inputs
     pycode += "\ndef compute_inputs(voi,inputs,states,variables):\n"
@@ -140,11 +175,6 @@ def initialise_variables(states, variables):\n"""
         ubarcomment += f"    #\t{k} -> {v}\n"
     pycode += f'''
 from math import exp
-
-def Heaviside(x):
-    if x > 0:
-        return 1.0
-    return 0.0
 
 def process_time_sensitive_events(voi, states, rates, variables):
     """Method to process events such as (re)setting inputs, updating switches etc
@@ -204,10 +234,6 @@ def solve_model(starttime=0,stoptime=300,steps=300):
     initialise_variables(states,variables)
     # Set timespan to solve over
     voi = np.linspace(starttime, stoptime, steps)
-    print(f" c0 {{variables[44]}}")
-    print(f" ct {{variables[27]}}")
-    print(f" sigma {{variables[136]}}")
-    print(f" sqpi {{variables[135]}}")
 
     # Construct ODE object to solve
     r = ode(rhs)
@@ -242,7 +268,7 @@ if __name__ == '__main__':
             ax.plot(r[ix,:])
             ax.title.set_text(f'{{ix//{(len(composer.stateVec)//len(composer.inodeIndexes))}+1}}')
             ix += {(len(composer.stateVec)//len(composer.inodeIndexes))}
-            if ix+{(len(composer.stateVec)//len(composer.inodeIndexes))} > result.shape[0]:
+            if ix+{(len(composer.stateVec)//len(composer.inodeIndexes))} > r.shape[0]:
                 break
     plt.subplots_adjust(hspace=0.3)
     plt.subplots_adjust(wspace=0.3)
@@ -259,7 +285,7 @@ def exportAsODEStepper(composer,modelName):
         Setup the code as a Python class, with the ability to step through time and
         set inputs
     """
-    numconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs_,ubaridxmap,cleaninputs = composer.generatePythonIntermediates()
+    numconstants,phsconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs_,ubaridxmap,ftuidmap,cleaninputs = composer.generatePythonIntermediates()
 
     #Also handle constant subs
     revconstantsubs = dict()
@@ -330,7 +356,9 @@ def exportAsODEStepper(composer,modelName):
             csyms = list(set(csyms))
             csym_map = {}
             for kc in csyms:
-                csym_map[kc]=int(inputStateSymbolMap[kc].replace("states[","").replace("]",""))
+                if kc in inputStateSymbolMap:
+                    csym_map[kc]=int(inputStateSymbolMap[kc].replace("states[","").replace("]",""))
+                    
             #Map node label to input symbols and expressions - using subs as xreplace doesnt seem to handle **
             subbedHam = sympy.simplify(cham.xreplace(parvals).xreplace(revconstantsubs))
             supportEnergyCalculations[k] = {'cmap':csym_map,'expr':cinps,'ham':str(subbedHam),'rhsix':rhsidxmap,'cix':cix}
@@ -346,7 +374,13 @@ def exportAsODEStepper(composer,modelName):
         #input name will be suffixed by the network id through which it communicates
         ik = '_'.join(k.split('_')[:-1])
         inputhook[ik] = v    
-    inputhookcode = f'class {modelName}Hooks():\n    #PHS Input name and variable entry\n'
+    inputhookcode = f'class {modelName}Hooks():\n    #FTU parameters\n'
+    inputhookcode += f"    CELL_COUNT = {len(composer.inodeIndexes)}\n"
+    inputhookcode += "    ftuparameterhooks={"   
+    if len(ftuidmap)>0:
+        for k,v in ftuidmap.items():
+            inputhookcode += f"\n        '{k}':'{v}',"     
+    inputhookcode += "\n        },\n    #PHS Input name and variable entry\n"
     inputhookcode += "    inputhooks={"
     for k,v in inputhook.items():
         inputhookcode += f"\n        '{k}':'{v}',"
@@ -378,7 +412,22 @@ def exportAsODEStepper(composer,modelName):
     for k1,v1 in stateNameToVectorIndexMap.items():
         inputhookcode += f"\n        '{k1}':[{','.join(map(str,v1))}],"    
     inputhookcode += "\n    }\n"  
-    
+    if len(phsconstants)>0:
+        inputhookcode += "    #Node, PHS parameter name and variable link\n    phsparameterhooks={"               
+        ngroup = {}
+        for k,v in phsconstants.items():
+            nm = k.name.split('_')
+            grp = int(nm[-1])
+            gname = '_'.join(nm[:-1])
+            if not grp in ngroup:
+                ngroup[grp] = {}
+            ngroup[grp][gname] = arraymapping[k.name]    
+        for n,v in ngroup.items():
+            inputhookcode += f"\n        '{n}':{{"    
+            for g,a in v.items():
+                inputhookcode += f"\n            '{g}':'{a}',"
+            inputhookcode += f"\n        }},"            
+        inputhookcode += "\n    }\n"  
     phsIndexMap = dict()
     #Node ordering is in composer.inodeIndexes
     for si, k in enumerate(composer.inodeIndexes):
@@ -420,6 +469,12 @@ def exportAsODEStepper(composer,modelName):
         for k1,v1 in svmap.items():
             inputhookcode += f"                        '{k1}':{v1},\n"
         inputhookcode += f"                }},\n"  
+        if not composer.substituteParameters:
+            inputhookcode += f"                'parametervarmap':{{\n"
+            for k in composer.nodePHSData[k].parameters:
+                inputhookcode += f"                        '{k.name}':'{arraymapping[k.name]}',\n"
+            inputhookcode += f"                }},\n"  
+        
         inputhookcode += f"                'inputExpressions':{{\n"          
         for k1,v1 in inexpr.items():
             inputhookcode += f"                        '{k1}':{{'statevecindex':{v1[0]},'expr':'{v1[1]}'}},\n"
@@ -433,12 +488,16 @@ import numpy as np
 from numpy import exp
 from scipy.integrate import ode
 
-def Heaviside(x):
+__version__ = "0.0.1"
+
+def heaviside(x):
     if x > 0:
         return 1.0
     return 0.0
 
-__version__ = "0.0.1"
+def Abs(x):
+    return np.fabs(x)
+
 
 {inputhookcode}
 
@@ -467,7 +526,12 @@ class {modelName}():
         except:
             stmt = f"        {arraymapping[k.name]} = {v['value']}  #{k}\n"
         pycode += stmt
-
+    for k, v in ubaridxmap.items():
+        pycode += f"        {v} = 0.0 #{k} External input\n"
+                
+    if len(ftuidmap)>0:
+        for k,v in ftuidmap.items():
+            pycode += f"        {v} = 1.0  #{k} This needs to be set for accurate simulation\n"
     # Do constant subs
     definedVariables = []
     for k, v in constantsubs.items():
@@ -479,6 +543,16 @@ class {modelName}():
                     stmt = f"        {arraymapping[v.name]} = {k}  #{v}\n"
                 pycode += stmt
                 definedVariables.append(v)
+    for k, v in phsconstants.items():
+        if k not in definedVariables:
+            if k.name in arraymapping:
+                try:
+                    stmt = f"        {arraymapping[k.name]} = {float(v['value']):6f}  #{k}\n"
+                except:
+                    stmt = f"        {arraymapping[k.name]} = {v['value']}  #{k}\n"
+                pycode += stmt
+                definedVariables.append(k)
+
 
     pycode += "\n    def compute_variables(self,voi):\n        t=voi #mapping to t\n        states, rates, variables = self.states,self.rates,self.variables\n"
     # Do uCap terms
