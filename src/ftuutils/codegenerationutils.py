@@ -79,7 +79,7 @@ def exportAsPython(composer):
 
 from enum import Enum
 import numpy as np
-
+import json
 
 __version__ = "0.0.1"
 
@@ -146,6 +146,53 @@ def initialise_variables(states, variables):\n"""
                     stmt = f"\t{arraymapping[v.name]} = {k['value']}  #{v}\n"
                 pycode += stmt
                 definedVariables.append(v)                
+
+    pycode += "\ndef getGPDofs():\n"
+    pycode += "\t#Dofs for GP regression\n"
+    pycode += f"\treturn {composer.Jcap.shape[0]}\n"
+
+    pycode += "\ndef getJRmat():\n"
+    pycode += "\t#JR matrix elements for GP optimisation\n"
+    listjson = composer.getJRMatrixSkeleton()
+    listjsonstr = json.dumps(listjson, indent=1)
+    #jrvstr = ','.join(map(str,jrvlist))
+    #jrostr = ','.join([ 'True' if jv else 'False' for jv in jrolist])
+    pycode += f"\tjrl = '''{listjsonstr}'''\n"
+    pycode += """\tresult = json.loads(jrl)
+\tjrmat = np.zeros((result['nrows'],result['ncols']),dtype=int)
+\t#Allowed values are -1,+1,0 - jmat entries get False, 0's get False 
+\tfor el in result['jmat']:
+\t\tjrmat[el[0],el[1]] = el[2]
+\tfor el in result['rmat']:
+\t\tjrmat[el[0],el[1]] = 10*el[2]
+\tvaluelist = []
+\toptflaglist = []
+\tfor i in range(result['nrows']):
+\t\tfor j in range(i,result['ncols']):
+\t\t\tif np.abs(jrmat[i,j])==10:
+\t\t\t\tvaluelist.append(jrmat[i,j]/10)
+\t\t\t\toptflaglist.append(True)
+\t\t\telse:
+\t\t\t\tvaluelist.append(jrmat[i,j])
+\t\t\t\toptflaglist.append(False)
+
+\treturn [valuelist,optflaglist]
+"""
+
+    pycode += "\n\ndef getBbarmat():\n"
+    pycode += "\t#External input gain matrix\n"
+    pycode += f"\n\tBbar = np.zeros(({composer.Bdas.shape[0]},{composer.Bdas.shape[1]}))\n"
+    phsconstantsubs = dict()
+    for k,v in phsconstants.items():
+        phsconstantsubs[k] = v['value']
+    
+    for i in range(composer.Bdas.shape[0]):
+        for j in range(composer.Bdas.shape[1]):
+            if composer.Bdas[i,j]!=0.0:
+                #Provide varible name
+                vname = composer.Bdas[i,j].xreplace(phsconstantsubs)
+                pycode += f"\tBbar[{i}][{j}]={vname} #{composer.Bdas[i,j]}\n"
+    pycode += "\n\treturn Bbar\n"
                 
     pycode += "\ndef compute_computed_constants(variables):\n\tpass\n\n"
     pycode += "def compute_variables(voi, states, rates, variables):\n\tt=voi #mapping to t\n"
@@ -480,6 +527,41 @@ def exportAsODEStepper(composer,modelName):
             inputhookcode += f"                        '{k1}':{{'statevecindex':{v1[0]},'expr':'{v1[1]}'}},\n"
         inputhookcode += f"                }}\n            }},\n"              
     inputhookcode += "        ]"
+
+    inputhookcode += "\ndef getGPDofs():\n"
+    inputhookcode += "    #Dofs for GP regression\n"
+    inputhookcode += f"    return {composer.Jcap.shape[0]}\n"
+
+
+    inputhookcode += "\ndef getJRmat():\n"
+    inputhookcode += "    #JR matrix elements for GP optimisation\n"
+    listjson = composer.getJRMatrixSkeleton()
+    listjsonstr = json.dumps(listjson, indent=1)
+    #jrvstr = ','.join(map(str,jrvlist))
+    #jrostr = ','.join([ 'True' if jv else 'False' for jv in jrolist])
+    inputhookcode += f"    jrl = '''{listjsonstr}'''\n"
+    inputhookcode += """    result = json.loads(jrl)
+    jrmat = np.zeros((result['nrows'],result['ncols']),dtype=int)
+    #Allowed values are -1,+1,0 - jmat entries get False, 0's get False 
+    for el in result['jmat']:
+        jrmat[el[0],el[1]] = el[2]
+    for el in result['rmat']:
+        jrmat[el[0],el[1]] = 10*el[2]
+    valuelist = []
+    optflaglist = []
+    for i in range(result['nrows']):
+        for j in range(i,result['ncols']):
+            if np.abs(jrmat[i,j])==10:
+                valuelist.append(jrmat[i,j]/10)
+                optflaglist.append(True)
+            else:
+                valuelist.append(jrmat[i,j])
+                optflaglist.append(False)
+
+    return [valuelist,optflaglist]
+"""
+
+
     
     pycode = f"""
 # The content of this file was generated using the FTUWeaver
@@ -487,6 +569,7 @@ def exportAsODEStepper(composer,modelName):
 import numpy as np
 from numpy import exp
 from scipy.integrate import ode
+import json
 
 __version__ = "0.0.1"
 
@@ -552,6 +635,17 @@ class {modelName}():
                     stmt = f"        {arraymapping[k.name]} = {v['value']}  #{k}\n"
                 pycode += stmt
                 definedVariables.append(k)
+
+    pycode += "\n    def getBbarmat(self):\n"
+    pycode += "        #External input gain matrix\n"
+    pycode += "        variables=self.variables\n"
+    pycode += f"        Bbar = np.zeros(({composer.Bdas.shape[0]},{composer.Bdas.shape[1]}))\n"
+    for i in range(composer.Bdas.shape[0]):
+        for j in range(composer.Bdas.shape[1]):
+            if composer.Bdas[i,j]!=0.0:
+                vname = composer.Bdas[i,j].xreplace(arraymappingsym)
+                pycode += f"\n        Bbar[{i}][{j}]={vname} #{composer.Bdas[i,j]}"
+    pycode += "\n        return Bbar\n"
 
 
     pycode += "\n    def compute_variables(self,voi):\n        t=voi #mapping to t\n        states, rates, variables = self.states,self.rates,self.variables\n"

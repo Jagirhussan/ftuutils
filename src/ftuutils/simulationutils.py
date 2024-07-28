@@ -16,6 +16,12 @@ class ExtractFTUDefinition(ast.NodeTransformer):
         if node.test.left.id == "__name__" and len(node.test.comparators)==1 and node.test.comparators[0].s == '__main__':
             return None
         return node
+    
+    def visit_FunctionDef(self,node):
+        #Remove JRmatrix
+        if node.name == "getJRmat":
+            return None
+        return node
 
 class Refactor(ast.NodeTransformer):
     """Pythonic code variable name replacement"""
@@ -106,7 +112,7 @@ class SimulationExperiment():
                     break
                 
         self.ftulogic = ast.unparse(ExtractFTUDefinition().visit(code))
-        
+
         #load classes
         code = f"{self.inputhook}\nself.inputhookInstance={self.modelname}Hooks()\n"
         exec(compile(code,'','exec'))
@@ -337,10 +343,10 @@ if __name__ == '__main__':
             print(self.ftusrccode,file=cpy)
             
         #Create runners
-        pysrdir = os.path.join(targetDir,"pysrcodes")
-        os.makedirs(pysrdir,exist_ok=True)
-        torchcodedir = os.path.join(targetDir,"pytorchcodes")
-        os.makedirs(torchcodedir,exist_ok=True)
+        # pysrdir = os.path.join(targetDir,"pysrcodes")
+        # os.makedirs(pysrdir,exist_ok=True)
+        # torchcodedir = os.path.join(targetDir,"pytorchcodes")
+        # os.makedirs(torchcodedir,exist_ok=True)
         modelzoodir = os.path.join(targetDir,"modelzoo")
         os.makedirs(modelzoodir,exist_ok=True)
         
@@ -350,6 +356,7 @@ if __name__ == '__main__':
             simr = loadTemplateFile('runsimulations.pyt')
             with open(os.path.join(targetDir,f"runsimulations.py"),'w') as sim:
                 print(simr,file=sim)
+            '''
             #Genarate Hamlets for the nodes
             hamlet = loadTemplateFile('hamlettemplate.pyt')
             statevectorsize = 0
@@ -453,7 +460,8 @@ if __name__ == '__main__':
             nonmlp = nonmlp.replace("__OPERATOR_FILE__",os.path.join(modelzoodir,"DDECMLP","numpynonlinearoperator.npy"))
             with open(os.path.join(torchcodedir,f"NeuralOp.py"),'w') as dec:
                 print(nonmlp,file=dec)                  
-         
+            '''         
+            
         except Exception as ex:
             print("Package must be installed for importlib.resources to work, try pip install -e .")
             raise ex        

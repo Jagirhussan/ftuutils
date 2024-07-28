@@ -3,6 +3,7 @@
 import numpy as np
 import sympy
 from sympy import Expr, Matrix
+from sympy.core.function import _coeff_isneg
 import networkx as nx
 import json
 from collections import OrderedDict
@@ -1545,6 +1546,53 @@ class Composer:
             arrayedinputs.append(elem.xreplace(skippedkeys).xreplace(arraysubs))
         
         return numconstants,phsconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,ftuidmap,cleaninputs
+    
+    def getJRMatrixSkeleton(self):
+        """
+        Generate the JR skeleton that is used by Gaussian Process based
+        reconstruction method.
+        Returns two lists, list one has upper triangular matrix corresponding to
+        (J-R) matrix. This method returns a binary like matrix (\pm 1, 0).
+        The second list is of the same length of the first but indicates whether the
+        parameter can be optimised or not. Currently, all elements corresponding to
+        J matrix are set to False i.e. not optimised
+        """
+        JRM = self.Jcap - self.Rcap
+        Jmatrix = (JRM - JRM.T)
+        Rmatrix = (JRM + JRM.T)
+        #optimiseFlag = []
+        #valueList = []
+        result = {'nrows':Jmatrix.shape[0],'ncols':Jmatrix.shape[0],
+                  'jmat':[],
+                  'rmat':[]
+                  }
+        for i in range(Jmatrix.shape[0]):
+            for j in range(i,Jmatrix.shape[0]):
+                if i==j: #Diagonal - rmat entries
+                   result['rmat'].append([i,j,0]) 
+                if Rmatrix[i,j] != 0:
+                    if Jmatrix[i,j] != 0: #If J and R entries exists, allow for J and ignore R
+                        if _coeff_isneg(Jmatrix[i,j]):
+                            result['jmat'].append([i,j,-1])
+                            #value = -1
+                        else:
+                            result['jmat'].append([i,j,1])
+                            #value = 1
+                    else:
+                        result['rmat'].append([i,j,-1])
+                        #value = -1
+                        #flag = True
+                else:
+                    if Jmatrix[i,j] != 0:
+                        if _coeff_isneg(Jmatrix[i,j]):
+                            #value = -1
+                            result['jmat'].append([i,j,-1])
+                        else:
+                            #value = 1                    
+                            result['jmat'].append([i,j,1])
+                #optimiseFlag.append(flag)
+                #valueList.append(value)
+        return result #[valueList,optimiseFlag]
     
     def exportAsPython(self):
         """Export composed FTU as python code similar to OpenCOR export"""
