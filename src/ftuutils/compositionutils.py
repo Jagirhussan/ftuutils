@@ -6,7 +6,7 @@ from sympy import Expr, Matrix
 import networkx as nx
 import json
 from collections import OrderedDict
-
+#from latex2sympy2 import latex2sympy
 from copy import deepcopy
 
 
@@ -18,6 +18,10 @@ except:
 
 from ftuutils import codegenerationutils
 from ftuutils import latexgenerationutils
+
+def parse_latex_2_sympy(elem):
+    #return latex2sympy(elem.encode('ascii','ignore').decode('ascii'))
+    return sympy.parse_expr(elem)
 
 class SymbolicPHS:
     """
@@ -152,9 +156,12 @@ class SymbolicPHS:
         """
         nrows = mjson["rows"]
         ncols = mjson["cols"]
-        return Matrix(list(map(sympy.parse_expr, mjson["elements"]))).reshape(
+        # return Matrix(list(map(sympy.parse_expr, mjson["elements"]))).reshape(
+        #     nrows, ncols
+        # )
+        return Matrix(list(map(parse_latex_2_sympy, mjson["elements"]))).reshape(
             nrows, ncols
-        )
+        )        
 
     @staticmethod
     def getJSONForMatrix(matrix) -> dict:
@@ -192,13 +199,15 @@ class SymbolicPHS:
             set: Set of variables extracted from the input list
         """
         if type(elem) is list:
-            exps = list(map(sympy.parse_expr, elem))
+            #exps = list(map(sympy.parse_expr, elem))
+            exps = list(map(parse_latex_2_sympy, elem))
             res = set()
             for e in exps:
                 res = res.union(e.free_symbols)
             return res
         elif type(elem) is str:
-            ee = sympy.parse_expr(elem)
+            #ee = sympy.parse_expr(elem)
+            ee = parse_latex_2_sympy(elem)
             return ee.free_symbols
         else:
             raise Exception(f"Input of Type {type(elem)} not supported by getVariables")
@@ -300,7 +309,7 @@ class SymbolicPHS:
         variables = set()
         variables = variables.union(
             SymbolicPHS.getVariables(states["elements"]))
-        variables = variables.union(SymbolicPHS.getVariables(hamexp))
+        #variables = variables.union(SymbolicPHS.getVariables(hamexp))
         variables = variables.union(SymbolicPHS.getVariables(matR["elements"]))
         variables = variables.union(SymbolicPHS.getVariables(matJ["elements"]))
         variables = variables.union(SymbolicPHS.getVariables(matB["elements"]))
@@ -352,7 +361,8 @@ class SymbolicPHS:
             Bhat = SymbolicPHS.getMatrix(matBhat)
             C = SymbolicPHS.getMatrix(matC)
             s = SymbolicPHS.getMatrix(states)
-            ham = sympy.parse_expr(hamexp)
+            #ham = sympy.parse_expr(hamexp)
+            ham = parse_latex_2_sympy(hamexp)
         else:
             varsub = dict()
             for v in variables:
@@ -394,7 +404,8 @@ class SymbolicPHS:
             Bhat = SymbolicPHS.getMatrix(matBhat).xreplace(varsub)
             C = SymbolicPHS.getMatrix(matC)
             s = SymbolicPHS.getMatrix(states).xreplace(varsub)
-            ham = sympy.parse_expr(hamexp).xreplace(varsub)
+            #ham = sympy.parse_expr(hamexp).xreplace(varsub)
+            ham = parse_latex_2_sympy(hamexp).xreplace(varsub)
             variables = set(varsub.values())
             
         return SymbolicPHS(
@@ -566,6 +577,14 @@ class Composer:
         else:
             raise ("Matrix dimensions do not match!")
 
+    def saveCompositePHSToJson(self,filename):
+        composition = dict()
+        composition['compositePHS'] = SymbolicPHS.savePHSDefinition(self.compositePHS)
+        composition['compositePHSStructure'] = {'type':self.phstypes,'rowidxs':self.ridxs,'colidxs':self.cidxs,'phsstructure':self.phsclassstructure}
+        with open(filename,'w') as cmp:
+            json.dump(composition,cmp,indent=1)
+        
+        
     @staticmethod
     def save(composition, filename):
         """Save the given composition as a pickle
@@ -808,6 +827,9 @@ class Composer:
         then select the ones that need to be used in the interconnection see setCellTypeUSplit
         """
         # calculate matrix dimensions
+        ptype = [] #Store the phs type
+        ridxs = [] #To store the row index of phs matrix on full matrix
+        cidxs = [] #To store the col index of phs matrix on full matrix
         jmat = []
         qmat = []
         emat = []
@@ -889,7 +911,7 @@ class Composer:
             else:
                 hamiltonian = phs.hamiltonian
             self.cellHamiltonians[k] = phs
-            
+            ptype.append(self.cellTypePHS[k])
             jmat.append(phs.J)
             qmat.append(phs.Q)
             emat.append(phs.E)
@@ -1084,6 +1106,8 @@ class Composer:
 
         jr, jc = 0, 0
         for (i, jx) in enumerate(jmat):
+            ridxs.append(jr)
+            cidxs.append(jc)
             self.Jcap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = jx
             self.Rcap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = rmat[i]
             self.Ecap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = emat[i]
@@ -1111,6 +1135,13 @@ class Composer:
         for k, v in self.compositeparameters.items():
             freevars = freevars.union(k.free_symbols)
             freevars = freevars.union(v["value"].free_symbols)
+
+        self.phstypes = ptype
+        self.ridxs = ridxs
+        self.cidxs = cidxs
+        self.phsclassstructure = dict()
+        for k,v in self.phsInstances.items():
+            self.phsclassstructure[k] = {'rows':v.J.rows,'cols':v.J.cols}
 
         self.compositePHS = SymbolicPHS(
             self.Jcap,

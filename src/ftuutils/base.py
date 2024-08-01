@@ -744,6 +744,7 @@ class FTUGraph():
         composer = self.composeCompositePHS(composition)
         composer.setConnectivityGraph(G)
         composition["composition"]['compositePHS'] = SymbolicPHS.savePHSDefinition(composer.compositePHS)
+        composition["composition"]['compositePHSStructure'] = {'type':composer.phstypes,'rowidxs':composer.ridxs,'colidxs':composer.cidxs,'phsstructure':self.phsclassstructure}
         return composer,composition
     
     def getGraph(self):
