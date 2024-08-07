@@ -547,6 +547,7 @@ class Composer:
         )
         self.composition = None #Store composition information if used to construct the composer
         self.substituteParameters = True
+        
     def setConnectivityGraph(self,graph:nx.Graph):
         """Set the base ftugraph from which the composition was created
 
@@ -1457,6 +1458,7 @@ class Composer:
                 cleanedrhs.append(reducedelem)
             else:
                 cleanedrhs.append(relem)
+            print(f"{relem} -> {cleanedrhs[-1]}")
 
         # Constants also contain u vector, however they are updated after each step
         # Do the update in compute_variables method, and initialise them in initialise_variables method

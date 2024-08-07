@@ -182,7 +182,7 @@ def process_time_sensitive_events(voi, states, rates, variables):
         Useful to ensure that time sensitive inputs are set espcially if ode integrator timestep spans over the 
         input time. Note that this should be re-entrant i.e. not modify states, else this will
         lead to solver dependent behaviour, esp. solvers that use multiple steps
-        The method is called before each rhs evelauation
+        The method is called before each rhs evaluation
     Args:
         voi (int) : Current value of the variable of integration (time)
         states (np.array): A vectors of model states
@@ -612,7 +612,7 @@ class {modelName}():
         Useful to ensure that time sensitive inputs are set espcially if ode integrator timestep spans over the 
         input time. Note that this should be re-entrant i.e. not modify states, else this will
         lead to solver dependent behaviour, esp. solvers that use multiple steps
-        The method is called before each rhs evelauation
+        The method is called before each rhs evaluation
         Args:
             voi (int) : Current value of the variable of integration (time)
             states (np.array): A vectors of model states

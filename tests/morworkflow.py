@@ -63,8 +63,8 @@ G = g.getGraph()
 
 #Call the FTU composition logic to create a FTU with above information
 composer = g.composeCompositePHS(G,phstypes,phsdata)
-composer.save(composer,r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\compositephs.pkl')
+#composer.save(composer,r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\compositephs.pkl')
 #composer.saveCompositePHSToJson(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\compositephs.json')
-# pyth = composer.exportAsPython()
+pyth = composer.exportAsPython()
 # with open(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\compositephs.py','w') as pyt:
 #     print(pyth,file=pyt)
