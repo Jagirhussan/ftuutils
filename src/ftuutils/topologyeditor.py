@@ -112,39 +112,21 @@ class ReducePHS():
             cellHamiltonians[n]= {'hamiltonian':ham,'u':set(uset)}
         self.cellHamiltonians = cellHamiltonians
         
-        Pc = [sympy.zeros(rowoffset,pcols) for mts in range(9)] #Eight matrices of PHS
-        ##Couling constant per phs instance dof based logic
-        ccprefix = ['Cc','Jc','Rc','Qc','Ec','Bc','Bh','Sc']
-        self.couplingconstants = []
-        pcolix = 0        
+        Pc = sympy.zeros(rowoffset,pcols)
+        Pcb = sympy.zeros(rowoffset,pcols)
+        pcolix = 0
         for n,v in nodegroups.items():
             phs_ = phstructure[phstypes[v[0]]]
-            dofs = phs_['rows']            
+            #Weight of the partition matrix should average the contributions from the cluster elements
+            #Here the sqrt of the number of cluster elements is used as 
+            #the PHS matrices are transformed as Pc.T M Pc 
+            #the pcb matrix is used for PHS matrix Bhat that is transformed as P.T x Bhat, and for the states           
+            phseye = sympy.eye(phs_['rows'])/np.sqrt(len(v))
+            phseyeb = sympy.eye(phs_['rows'])/len(v)
             for vv in v:
-                for mts in range(8):
-                    consts = [sympy.Symbol(f"{ccprefix[mts]}_{di}_{vv}") for di in range(1,dofs+1)]
-                    self.couplingconstants.extend(consts)
-                    phsel = sympy.diag(*consts)
-                    Pc[mts][rowindexs[vv]:rowindexs[vv]+phs_['rows'],pcolix:pcolix+phs_['rows']] = phsel               
-                #For states to reduced states     
-                Pc[-1][rowindexs[vv]:rowindexs[vv]+phs_['rows'],pcolix:pcolix+phs_['rows']] = sympy.eye(phs_['rows'])                    
+                Pc[rowindexs[vv]:rowindexs[vv]+phs_['rows'],pcolix:pcolix+phs_['rows']] = phseye
+                Pcb[rowindexs[vv]:rowindexs[vv]+phs_['rows'],pcolix:pcolix+phs_['rows']] = phseyeb
             pcolix += phs_['cols']
-
-        self.partitionMatrix = Pc    
-        ##Per cluster weights logic
-        # ccprefix = ['Cc','Jc','Rc','Qc','Ec','Bc','Bh','Sc']
-        # pcolix = 0
-        # self.couplingconstants = []
-        # ccc = 0
-        # for n,v in nodegroups.items():
-        #     phs_ = phstructure[phstypes[v[0]]]
-        #     for mts in range(8):
-        #         phsel = sympy.eye(phs_['rows'])*sympy.Symbol(f"{ccprefix[mts]}_{ccc+1}")
-        #         self.couplingconstants.append(sympy.Symbol(f"{ccprefix[mts]}_{ccc+1}"))
-        #         for vv in v:
-        #             Pc[mts][rowindexs[vv]:rowindexs[vv]+phs_['rows'],pcolix:pcolix+phs_['rows']] = phsel
-        #     ccc +=1
-        #     pcolix += phs_['cols']
             
         #Reduce the system
         '''
@@ -160,14 +142,14 @@ class ReducePHS():
         #PT = Pc.T
         #K = self.compositePHS.B * self.compositePHS.C * (self.compositePHS.B.T)
         #Kr = PT*K*Pc
-        Cr = Pc[0].T*self.compositePHS.C*Pc[0]
-        Jr = Pc[1].T*self.compositePHS.J*Pc[1]
-        Rr = Pc[2].T*self.compositePHS.R*Pc[2]
-        Qr = Pc[3].T*self.compositePHS.Q*Pc[3]
-        Er = Pc[4].T*self.compositePHS.E*Pc[4]
-        Br = Pc[5].T*self.compositePHS.B*Pc[5]
-        Bhatr = Pc[6].T*self.compositePHS.Bhat
-        statesr = Pc[-1].T*sympy.Matrix(self.compositePHS.states)
+        Cr = Pc.T*self.compositePHS.C*Pc
+        Jr = Pc.T*self.compositePHS.J*Pc
+        Rr = Pc.T*self.compositePHS.R*Pc
+        Qr = Pc.T*self.compositePHS.Q*Pc
+        Er = Pc.T*self.compositePHS.E*Pc
+        Br = Pc.T*self.compositePHS.B*Pc
+        Bhatr = Pcb.T*self.compositePHS.Bhat
+        statesr = Pcb.T*sympy.Matrix(self.compositePHS.states)
         
         statesr = statesr[:]
         vars = self.compositePHS.variables
@@ -291,6 +273,16 @@ class ReducePHS():
         statevalues = []
         for i in range(stateVec.shape[0]):
             statevalues.append(self.compositePHS.statevalues[stateVec[i]]['value'])
+        #Create map between reduced state values and full state values
+        #Each dof that is linearly transformed to a reduced dof get the same value as the reduced dof
+        reducedStates = self.partitionMatrix[-1].T*stateVec
+        reducedStateMap = dict()
+        for i,s in enumerate(reducedStates):
+            for fs in s.free_symbols:
+                reducedStateMap[fs] = i
+        R2F = sympy.zeros(stateVec.shape[0],reducedStates.shape[0])
+        for i,s in enumerate(stateVec):
+            R2F[i,reducedStateMap[s]] = 1
         
         #Collect arrayname and constant substituted and simplified nonlinear terms
         nic = 0 #First variables are inputs
@@ -329,6 +321,7 @@ class ReducePHS():
                 
         pycode = f'''
 import numpy as np
+from scipy.integrate import ode
 from numpy import exp
         
 STATE_COUNT = {stateVec.shape[0]}
@@ -353,6 +346,7 @@ Br = np.zeros(({pcm.shape[0]},{pcm.shape[1]}))
 Cr = np.zeros(({pcm.shape[0]},{pcm.shape[1]}))
 Bhatr = np.zeros(({pcm.shape[0]},{pcm.shape[1]}))
 Ict = np.zeros(({pcm.shape[0]},{pcm.shape[1]})) #For initial condition
+R2F = np.zeros(({R2F.shape[0]},{R2F.shape[1]})) #For converting reduced states to full states
         
 def Heaviside(x):
     if x > 0:
@@ -384,13 +378,17 @@ def initialise_variables(states, variables):\n
         #previous state values
         # pycode +="    #State values at t - 1\n"
         # for i in range(stateVec.shape[0]):
-        #     pycode +=f"\tvariables[{ivend+nic+i}] = {statevalues[i]}\n"
+        #     pycode +=f"    variables[{ivend+nic+i}] = {statevalues[i]}\n"
         pycode +="\n    #Ict matrix entries\n"
         for i in range(pcm.shape[0]):
             for j in range(pcm.shape[1]):
                 if pcm[i,j]!=0.0:
                     pycode +=f"    Ict[{i},{j}] = 1\n"            
-                
+        pycode +="\n    #Reduced to Full matrix entries\n"
+        for i in range(R2F.shape[0]):
+            for j in range(R2F.shape[1]):
+                if R2F[i,j]!=0.0:
+                    pycode +=f"    R2F[{i},{j}] = 1\n"                  
         pycode +="\n    #PHS matrix - constant entries\n"
         #Matrix constants
         def getConstantMatrixEntries(mat,matname):
@@ -435,7 +433,7 @@ def initialise_variables(states, variables):\n
         pycode += getVariableMatrixEntries(Bhatarr,"Bhat")
         pycode += getVariableMatrixEntries(Carr,"C")
         #pycode +=f"\n    #variables[{nic+ivend}:-1] are state values at time t-1, updated after each successful step"
-        #pycode +=f"\n\treturn Einv@((J-R)@Q@states - B@C@(B.T)@variables[{nic+ivend}:] + Bhat@variables[:{ivend}])"
+        #pycode +=f"\n    return Einv@((J-R)@Q@states - B@C@(B.T)@variables[{nic+ivend}:] + Bhat@variables[:{ivend}])"
         pycode +="\n\n#Compute rhs\ndef compute_rhs(voi,states,variables):"
         pycode +=f"\n    setup_rhs(voi,states,variables)"
         pycode +=f"\n    return Einv@((J-R)@Q@states - B@C@(B.T)@states + Bhat@variables[:{ivend}])"
@@ -453,7 +451,7 @@ def initialise_variables(states, variables):\n
 
 def compute_reduced_rhs(voi,states,variables):
     #Map reduced states to full states
-    full_states = Ict@states
+    full_states = R2F@states
     setup_rhs(voi,full_states,variables)
     #reduced matrices
     Erd = (Er.T)@Einv@Er
@@ -468,8 +466,6 @@ def compute_reduced_rhs(voi,states,variables):
 
 def solve_model(starttime=0,stoptime=300,steps=300):
     """Solve model with ODE solver"""
-    from scipy.integrate import ode
-    import numpy as np
     # Initialise constants and state variables
     states = create_states_array()
     variables = create_variables_array()
@@ -497,9 +493,7 @@ def solve_model(starttime=0,stoptime=300,steps=300):
     return voi, result
 
 def reduced_solve_model(starttime=0,stoptime=300,steps=300):
-    """Solve model with ODE solver"""
-    from scipy.integrate import ode
-    import numpy as np
+    """Solve reduced model with ODE solver"""
     # Initialise constants and state variables
     full_states = create_states_array()
     variables = create_variables_array()
@@ -529,48 +523,50 @@ def reduced_solve_model(starttime=0,stoptime=300,steps=300):
 
 
 import matplotlib.pyplot as plt
-def full_model():
+def full_model(plot=False):
     t,r = solve_model()
-    U = r.reshape((25,4,-1))[:,2,:].squeeze()
-    grid = plt.GridSpec(5, 5, wspace=0.2, hspace=0.5)
+    if plot:
+        U = r.reshape((25,4,-1))[:,2,:].squeeze()
+        grid = plt.GridSpec(5, 5, wspace=0.2, hspace=0.5)
 
-    ix = 0
-    for i in range(5):
-        for j in range(5):
-            ax = plt.subplot(grid[i, j])
+        ix = 0
+        for i in range(5):
+            for j in range(5):
+                ax = plt.subplot(grid[i, j])
+                ax.plot(U[ix,:])
+                ax.title.set_text(f'{ix+1}')
+                ix += 1
+                if ix+1 > U.shape[0]:
+                    break
+        plt.subplots_adjust(hspace=0.3)
+        plt.subplots_adjust(wspace=0.3)
+        plt.show()      
+    return t,r
+        
+def reduced_model(params = np.random.rand(PARAMETER_COUNT),plot=False):
+    #Initialize reduction parameters    
+    setReductionParameters(params)
+    t,r = reduced_solve_model()
+    if plot:
+        U = r.reshape((5,4,-1))[:,2,:].squeeze()
+        grid = plt.GridSpec(5, 1, wspace=0.2, hspace=0.5)
+
+        ix = 0
+        for i in range(5):
+            ax = plt.subplot(grid[i, 0])
             ax.plot(U[ix,:])
             ax.title.set_text(f'{ix+1}')
             ix += 1
             if ix+1 > U.shape[0]:
                 break
-    plt.subplots_adjust(hspace=0.3)
-    plt.subplots_adjust(wspace=0.3)
-    plt.show()      
-    
-def reduced_model():
-    #Initialize reduction parameters
-    np.random.seed(0)
-    params = np.random.rand(PARAMETER_COUNT)
-    setReductionParameters(params)
-    t,r = reduced_solve_model()
-    U = r.reshape((5,4,-1))[:,2,:].squeeze()
-    grid = plt.GridSpec(5, 1, wspace=0.2, hspace=0.5)
-
-    ix = 0
-    for i in range(5):
-        ax = plt.subplot(grid[i, 0])
-        ax.plot(U[ix,:])
-        ax.title.set_text(f'{ix+1}')
-        ix += 1
-        if ix+1 > U.shape[0]:
-            break
-    plt.subplots_adjust(hspace=0.3)
-    plt.subplots_adjust(wspace=0.3)
-    plt.show()         
-    
+        plt.subplots_adjust(hspace=0.3)
+        plt.subplots_adjust(wspace=0.3)
+        plt.show()         
+    return t,r
+        
 if __name__ == '__main__':
+    np.random.seed(0)
     reduced_model()
-    
         '''                    
         print(pycode)
         return pycode
@@ -808,15 +804,7 @@ if __name__ == '__main__':
                 invarraymapping[f"variables[{numconstants}]"] = s.name
                 ftuidmap[s.name] = f"variables[{numconstants}]"
                 numconstants += 1
-        self.couplingconstantsmap = {}
-        if len(self.couplingconstants)>0:
-            for s in self.couplingconstants:
-                arraysubs[s] = sympy.Symbol(f"variables[{numconstants}]")
-                self.couplingconstantsmap[s] = arraysubs[s]
-                arraymapping[s.name] = f"variables[{numconstants}]"
-                invarraymapping[f"variables[{numconstants}]"] = s.name
-                ftuidmap[s.name] = f"variables[{numconstants}]"
-                numconstants += 1
+
                 
 
         # Multiple k's will have same v due to defined precision
@@ -967,7 +955,6 @@ __version__ = "0.0.1"
 
 STATE_COUNT = {len(self.stateVec)}
 VARIABLE_COUNT = {numconstants}
-COUPLING_PARAMETERS = {len(self.couplingconstants)}
 
 def heaviside(x):
     if x > 0:
@@ -1036,41 +1023,36 @@ def initialise_variables(states, variables):\n"""
                     definedVariables.append(v)                
         #Do states here as they may use use variables
         for i,s in enumerate(self.reducedPHS.states):
-            rv = sympy.simplify(s.subs(stateinitialvalues)).xreplace(self.couplingconstantsmap)
+            rv = sympy.simplify(s.subs(stateinitialvalues))
             try:
                 stmt = f"    {arraymapping[stateVec[i,0]]} = {float(rv.name):6f}  #{s.name}\n"
             except:
                 stmt = f"    {arraymapping[stateVec[i,0]]} = {rv}  #{s}\n"
             pycode += stmt
                     
-        pycode += "\ndef compute_computed_constants(variables):\n\tpass\n\n"
-        pycode += "def compute_variables(voi, states, rates, variables):\n\tt=voi #mapping to t\n"
+        pycode += "\ndef compute_computed_constants(variables):\n    pass\n\n"
+        pycode += "def compute_variables(voi, states, rates, variables):\n    t=voi #mapping to t\n"
         # Do uCap terms
         for k, v in uCapterms.items():
             pycode += f"    #{ucapdescriptive[k]}\n"
             pycode += f"    {k} = {v}\n"
 
         # Do rhs
-        pycode += "\ndef compute_rates(voi, states, rates, variables):\n\tt=voi #mapping to t\n"
+        pycode += "\ndef compute_rates(voi, states, rates, variables):\n    t=voi #mapping to t\n"
         # Do nonlinear terms - these depend on state values and therefore step size, os here instead of compute variables
         for k, v in nonlineararrayedrhsterms.items():
             pycode += f"    #{nonlinearrhstermsdescriptive[k]}\n"
             pycode += f"    {k} = {v}\n"
         for i, v in enumerate(arrayedrhs):
             pycode += f"    #\dot{{{self.stateVec[i]}}} = {codegenerationutils._stringsubs(str(v),invarraymapping)} # {sympy.simplify(rhs[i,0])}\n"
-            pycode += f"\trates[{i}] = {v}\n"
+            pycode += f"    rates[{i}] = {v}\n"
 
         # Do inputs
         pycode += "\ndef compute_inputs(voi,inputs,states,variables):\n"
         for i, v in enumerate(arrayedinputs):
             pycode += f"    # cell[{i}] = {cleaninputs[i]}\n"
-            pycode += f"\tinputs[{i}] = {v}\n"
+            pycode += f"    inputs[{i}] = {v}\n"
         
-        #Provide input hook for coupling parameters optimisation
-        pycode += "\ndef set_coupling_parameters(variables,parameters):\n"
-        for i, (k,v) in enumerate(self.couplingconstantsmap.items()):
-            pycode += f"    {v} = parameters[{i}] # {k}\n"
-        pycode += f"\treturn variables\n\n"
         # Provide external input variable names in comment to help support
         ubarcomment = ""
         for k, v in ubaridxmap.items():
@@ -1816,9 +1798,12 @@ if __name__ == '__main__':
               }
         
         rphs.setClusters(ng)
-        rphs.exportForFitting()
-        #pys = rphs.exportAsPython()
+        output = rphs.reducedPHS.getNonZeroEntries()
+        with open(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Oned\reducednonzeroentries.txt','w') as pyf:
+            print(output,file=pyf)        
+        #rphs.exportForFitting()
+        pys = rphs.exportAsPython()
         #pys = rphs.exportAsODEStepper('test')
-        #with open(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\reduced.py','w') as rpy:
-        #    print(pys,file=rpy)
+        with open(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\reduced.py','w') as rpy:
+           print(pys,file=rpy)
         #rphs.compose()

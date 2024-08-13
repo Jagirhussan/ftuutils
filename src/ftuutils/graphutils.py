@@ -165,11 +165,13 @@ class Lattice2D(FTUGraph):
         pos = dict()
         celltype = dict()
         nodetype = dict()
-        for i, j in zip(ii, jj):
-            if (i, j) in nix:
-                pos[nix[(i, j)]] = (j, self.row_size - i) 
-                celltype[nix[(i, j)]] = self.defaultphs if nix[(i, j)] not in self.celltypes else self.celltypes[nix[(i, j)]]
-                nodetype[nix[(i, j)]] = 'in'
+        #for i, j in zip(ii, jj):
+        for i in rows:
+            for j in cols:
+                if (i, j) in nix:
+                    pos[nix[(i, j)]] = (j, self.row_size - i) 
+                    celltype[nix[(i, j)]] = self.defaultphs if nix[(i, j)] not in self.celltypes else self.celltypes[nix[(i, j)]]
+                    nodetype[nix[(i, j)]] = 'in'
 
         
         nx.set_node_attributes(G, pos, "pos")

@@ -478,6 +478,32 @@ class SymbolicPHS:
             J, R, B, Bhat, Q, E, C, ham, s, u, us, definedSymbols, parms, statevalues
         )
 
+    def getNonZeroEntries(self):
+        def getMatrix(mat,prefix="\t"):
+            mats = ""
+            for i in range(mat.shape[0]):
+                for j in range(mat.shape[1]):
+                    if mat[i,j] != 0.0:
+                        mats += f"{prefix}{i},{j} = {mat[i,j]}\n"
+            return mats
+        
+        output = ''
+        if self.J.shape[0] > 0:
+            output += f"J=\n{{{getMatrix(self.J)}}}\n"
+        if self.R.shape[0] > 0:
+            output += f"R=\n{{{getMatrix(self.R)}}}\n"
+        if self.Q.shape[0] > 0:
+            output += f"Q=\n{{{getMatrix(self.Q)}}}\n"
+        if self.E.shape[0] > 0:
+            output += f"E=\n{{{getMatrix(self.E)}}}\n"
+        if self.C.shape[0] > 0:
+            output += f"C=\n{{{getMatrix(self.C)}}}\n"
+        if self.B.shape[0] > 0:
+            output += f"B=\n{{{getMatrix(self.B)}}}\n"            
+        if self.Bhat.shape[0] > 0:
+            output += f"Bhat=\n{{{getMatrix(self.Bhat)}}}\n"
+        return output
+    
     def __str__(self):
         """ Convert to string"""
         bbars = ""
@@ -1458,7 +1484,7 @@ class Composer:
                 cleanedrhs.append(reducedelem)
             else:
                 cleanedrhs.append(relem)
-            print(f"{relem} -> {cleanedrhs[-1]}")
+            #print(f"{relem} -> {cleanedrhs[-1]}")
 
         # Constants also contain u vector, however they are updated after each step
         # Do the update in compute_variables method, and initialise them in initialise_variables method
