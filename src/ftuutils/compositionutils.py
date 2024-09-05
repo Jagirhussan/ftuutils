@@ -22,6 +22,10 @@ def parse_latex_2_sympy(elem):
     #return latex2sympy(elem.encode('ascii','ignore').decode('ascii'))
     return sympy.parse_expr(elem)
 
+def parse_latex_2_sympy(elem):
+    #return latex2sympy(elem.encode('ascii','ignore').decode('ascii'))
+    return sympy.parse_expr(elem)
+
 class SymbolicPHS:
     """
     Symbolic Port Hamiltonian representation
@@ -159,7 +163,12 @@ class SymbolicPHS:
         #     nrows, ncols
         # )
         return Matrix(list(map(parse_latex_2_sympy, mjson["elements"]))).reshape(
+        # return Matrix(list(map(sympy.parse_expr, mjson["elements"]))).reshape(
+        #     nrows, ncols
+        # )
+        return Matrix(list(map(parse_latex_2_sympy, mjson["elements"]))).reshape(
             nrows, ncols
+        )        
         )        
 
     @staticmethod
@@ -200,11 +209,15 @@ class SymbolicPHS:
         if type(elem) is list:
             #exps = list(map(sympy.parse_expr, elem))
             exps = list(map(parse_latex_2_sympy, elem))
+            #exps = list(map(sympy.parse_expr, elem))
+            exps = list(map(parse_latex_2_sympy, elem))
             res = set()
             for e in exps:
                 res = res.union(e.free_symbols)
             return res
         elif type(elem) is str:
+            #ee = sympy.parse_expr(elem)
+            ee = parse_latex_2_sympy(elem)
             #ee = sympy.parse_expr(elem)
             ee = parse_latex_2_sympy(elem)
             return ee.free_symbols
@@ -309,6 +322,7 @@ class SymbolicPHS:
         variables = variables.union(
             SymbolicPHS.getVariables(states["elements"]))
         #variables = variables.union(SymbolicPHS.getVariables(hamexp))
+        #variables = variables.union(SymbolicPHS.getVariables(hamexp))
         variables = variables.union(SymbolicPHS.getVariables(matR["elements"]))
         variables = variables.union(SymbolicPHS.getVariables(matJ["elements"]))
         variables = variables.union(SymbolicPHS.getVariables(matB["elements"]))
@@ -362,6 +376,8 @@ class SymbolicPHS:
             s = SymbolicPHS.getMatrix(states)
             #ham = sympy.parse_expr(hamexp)
             ham = parse_latex_2_sympy(hamexp)
+            #ham = sympy.parse_expr(hamexp)
+            ham = parse_latex_2_sympy(hamexp)
         else:
             varsub = dict()
             for v in variables:
@@ -403,6 +419,8 @@ class SymbolicPHS:
             Bhat = SymbolicPHS.getMatrix(matBhat).xreplace(varsub)
             C = SymbolicPHS.getMatrix(matC)
             s = SymbolicPHS.getMatrix(states).xreplace(varsub)
+            #ham = sympy.parse_expr(hamexp).xreplace(varsub)
+            ham = parse_latex_2_sympy(hamexp).xreplace(varsub)
             #ham = sympy.parse_expr(hamexp).xreplace(varsub)
             ham = parse_latex_2_sympy(hamexp).xreplace(varsub)
             variables = set(varsub.values())
@@ -857,6 +875,9 @@ class Composer:
         ptype = [] #Store the phs type
         ridxs = [] #To store the row index of phs matrix on full matrix
         cidxs = [] #To store the col index of phs matrix on full matrix
+        ptype = [] #Store the phs type
+        ridxs = [] #To store the row index of phs matrix on full matrix
+        cidxs = [] #To store the col index of phs matrix on full matrix
         jmat = []
         qmat = []
         emat = []
@@ -941,6 +962,7 @@ class Composer:
             else:
                 hamiltonian = phs.hamiltonian
             self.cellHamiltonians[k] = phs
+            ptype.append(self.cellTypePHS[k])
             ptype.append(self.cellTypePHS[k])
             jmat.append(phs.J)
             qmat.append(phs.Q)
@@ -1103,6 +1125,8 @@ class Composer:
         for (i, jx) in enumerate(jmat):
             ridxs.append(jr)
             cidxs.append(jc)
+            ridxs.append(jr)
+            cidxs.append(jc)
             self.Jcap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = jx
             self.Rcap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = rmat[i]
             self.Ecap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = emat[i]
@@ -1135,6 +1159,13 @@ class Composer:
         for k, v in self.compositeparameters.items():
             freevars = freevars.union(k.free_symbols)
             freevars = freevars.union(v["value"].free_symbols)
+
+        self.phstypes = ptype
+        self.ridxs = ridxs
+        self.cidxs = cidxs
+        self.phsclassstructure = dict()
+        for k,v in self.phsInstances.items():
+            self.phsclassstructure[k] = {'rows':v.J.rows,'cols':v.J.cols}
 
         self.phstypes = ptype
         self.ridxs = ridxs
