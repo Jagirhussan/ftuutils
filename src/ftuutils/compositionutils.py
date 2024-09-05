@@ -1,12 +1,11 @@
 """Logic to compose FTU from topology, PHS type and network connection information"""
-
+import json
+from collections import OrderedDict
 import numpy as np
 import sympy
 from sympy import Expr, Matrix
 import networkx as nx
-import json
-from collections import OrderedDict
-
+#from latex2sympy2 import latex2sympy
 from copy import deepcopy
 
 
@@ -18,6 +17,10 @@ except:
 
 from ftuutils import codegenerationutils
 from ftuutils import latexgenerationutils
+
+def parse_latex_2_sympy(elem):
+    #return latex2sympy(elem.encode('ascii','ignore').decode('ascii'))
+    return sympy.parse_expr(elem)
 
 class SymbolicPHS:
     """
@@ -152,9 +155,12 @@ class SymbolicPHS:
         """
         nrows = mjson["rows"]
         ncols = mjson["cols"]
-        return Matrix(list(map(sympy.parse_expr, mjson["elements"]))).reshape(
+        # return Matrix(list(map(sympy.parse_expr, mjson["elements"]))).reshape(
+        #     nrows, ncols
+        # )
+        return Matrix(list(map(parse_latex_2_sympy, mjson["elements"]))).reshape(
             nrows, ncols
-        )
+        )        
 
     @staticmethod
     def getJSONForMatrix(matrix) -> dict:
@@ -192,13 +198,15 @@ class SymbolicPHS:
             set: Set of variables extracted from the input list
         """
         if type(elem) is list:
-            exps = list(map(sympy.parse_expr, elem))
+            #exps = list(map(sympy.parse_expr, elem))
+            exps = list(map(parse_latex_2_sympy, elem))
             res = set()
             for e in exps:
                 res = res.union(e.free_symbols)
             return res
         elif type(elem) is str:
-            ee = sympy.parse_expr(elem)
+            #ee = sympy.parse_expr(elem)
+            ee = parse_latex_2_sympy(elem)
             return ee.free_symbols
         else:
             raise Exception(f"Input of Type {type(elem)} not supported by getVariables")
@@ -300,7 +308,7 @@ class SymbolicPHS:
         variables = set()
         variables = variables.union(
             SymbolicPHS.getVariables(states["elements"]))
-        variables = variables.union(SymbolicPHS.getVariables(hamexp))
+        #variables = variables.union(SymbolicPHS.getVariables(hamexp))
         variables = variables.union(SymbolicPHS.getVariables(matR["elements"]))
         variables = variables.union(SymbolicPHS.getVariables(matJ["elements"]))
         variables = variables.union(SymbolicPHS.getVariables(matB["elements"]))
@@ -352,7 +360,8 @@ class SymbolicPHS:
             Bhat = SymbolicPHS.getMatrix(matBhat)
             C = SymbolicPHS.getMatrix(matC)
             s = SymbolicPHS.getMatrix(states)
-            ham = sympy.parse_expr(hamexp)
+            #ham = sympy.parse_expr(hamexp)
+            ham = parse_latex_2_sympy(hamexp)
         else:
             varsub = dict()
             for v in variables:
@@ -394,7 +403,8 @@ class SymbolicPHS:
             Bhat = SymbolicPHS.getMatrix(matBhat).xreplace(varsub)
             C = SymbolicPHS.getMatrix(matC)
             s = SymbolicPHS.getMatrix(states).xreplace(varsub)
-            ham = sympy.parse_expr(hamexp).xreplace(varsub)
+            #ham = sympy.parse_expr(hamexp).xreplace(varsub)
+            ham = parse_latex_2_sympy(hamexp).xreplace(varsub)
             variables = set(varsub.values())
             
         return SymbolicPHS(
@@ -564,8 +574,16 @@ class Composer:
                     C[i, j] = sympy.simplify(A[i, j] / B[i, j])
             return C
         else:
-            raise ("Matrix dimensions do not match!")
+            raise Exception("Matrix dimensions do not match!")
 
+    def saveCompositePHSToJson(self,filename):
+        composition = dict()
+        composition['compositePHS'] = SymbolicPHS.savePHSDefinition(self.compositePHS)
+        composition['compositePHSStructure'] = {'type':self.phstypes,'rowidxs':self.ridxs,'colidxs':self.cidxs,'phsstructure':self.phsclassstructure}
+        with open(filename,'w') as cmp:
+            json.dump(composition,cmp,indent=1)
+        
+        
     @staticmethod
     def save(composition, filename):
         """Save the given composition as a pickle
@@ -578,7 +596,7 @@ class Composer:
             with open(filename, "wb") as ser:
                 cloudpickle.dump(composition, ser)
         else:
-            raise (
+            raise Exception(
                 "Serialization not supported on this platform. Failed to load module cloudpickle!"
             )
 
@@ -594,7 +612,7 @@ class Composer:
                 composition = cloudpickle.load(ser)
                 return composition
         else:
-            raise (
+            raise Exception(
                 "Serialization not supported on this platform. Failed to load module cloudpickle!"
             )
 
@@ -639,7 +657,8 @@ class Composer:
             dict()
         )  # Will link both src and target nodes,one of which will be on the boundary
 
-        maxlabel = 0
+        maxlabel = -1
+
         labelnodeindex = dict()
         for nix, g in enumerate(gnodes):
             id = int(f"{g['id']}")
@@ -687,11 +706,32 @@ class Composer:
         gedges = composition["graph"]["graph"]["edges"]
         # For each network create a graph
         networkGraphs = dict()
+        #Use weights from interior graphs in boundary graphs to calculate laplacian
+        useweightfrom = dict()
+        for networkNames, v in networkData.items():
+            if v['type']=='boundary' and v['isdissipative']:
+                inpdef = v['input']
+                for nn, vn in networkData.items():
+                    if nn != networkNames:
+                        if vn['input']['phsclass']==inpdef['phsclass'] and vn['type']!='boundary' and vn['isdissipative']:
+                            cmatch = len(inpdef['components'])== len(vn['input']['components'])
+                            if cmatch:
+                                for ci,c in enumerate(inpdef['components']):
+                                    cmatch = cmatch and c==vn['input']['components'][ci]
+                            if cmatch:
+                                useweightfrom[networkNames] = nn
+                                
         for networkNames, v in networkData.items():
             networkName = int(f"{networkNames}")
             ngraph = nx.DiGraph()
-            ngraph.add_nodes_from(list(range(maxlabel)))
+            ngraph.add_nodes_from(list(range(maxlabel))) #Adds node 0, and helps with numpy indexing with label values (label values use base 1)
             networkNodes[networkName] = []
+            siblingnet = None
+            dissipative = networkName in dissipativeNets
+            if networkNames in useweightfrom:
+                siblingnet=int(f"{useweightfrom[networkNames]}")
+                dissipative = dissipative or siblingnet in dissipativeNets
+            
             for g in gedges:
                 src = int(f"{g['source']}")
                 trg = int(f"{g['target']}")
@@ -700,7 +740,8 @@ class Composer:
                     k = int(
                         f"{ks}"
                     )  # Done this way as json serialisation changes keys to string
-                    if k == networkName:
+                        
+                    if k in [networkName,siblingnet]:
                         if src in nodeNetworks:
                             nodeNetworks[src][networkName] = vw
                         else:
@@ -717,11 +758,11 @@ class Composer:
                         uniquenetworkNodes = set(networkNodes[networkName])
                         networkNodes[networkName] = list(uniquenetworkNodes)
 
-                        if networkName in dissipativeNets:
-                            if dissipativeNets[
-                                networkName
-                            ]:  # If dissipative add edge to compute laplacian
+                        if dissipative:
+                            #if dissipativeNets[networkName]!=0.0:  # If dissipative add edge to compute laplacian
                                 ngraph.add_edge(src, trg, weight=vw)
+                        else:
+                            ngraph.add_edge(src, trg)
 
             networkGraphs[networkName] = ngraph
 
@@ -735,7 +776,8 @@ class Composer:
                     raise (
                         f"Boundary node {l} has been assigned more than one networks - {nts}!"
                     )
-
+        self.networkBoundaryNodeMap = networkBoundaryNodeMap
+        self.networkNodes = networkNodes
         uVec = []
         for k in networkkeys:
             net = networkData[k]
@@ -750,8 +792,7 @@ class Composer:
                     for i, v in enumerate(input["components"]):
                         if v:
                             # Encode the node from which input will be obtained. Note that laplacian and adjacency matrix will use different numbers than node label
-                            # so map into labelnodeindex
-                            # f"{phsc.u[i]}_{labelnodeindex[networkBoundaryNodeMap[f'{k}']]}" #f"{phsc.u[i]}{-k}" if k < 0 else f"{phsc.u[i]}{k}"
+                            # so map suffix into networkBoundaryNodeMap to resolve weights
                             usym = f"{phsc.u[i]}_{k if k>0 else -k}"
                             uVec.append(Matrix([usym, i]))
                             comps.append(sympy.Symbol(usym))
@@ -760,10 +801,11 @@ class Composer:
 
                     for nds in networkNodes[nname]:
                         if not nds in self.boundaryinputs:
-                            self.boundaryinputs[nds] = [[], [], []]
+                            self.boundaryinputs[nds] = [[], [], [],[]]
                         self.boundaryinputs[nds][0].extend(comps)
                         self.boundaryinputs[nds][1].extend(cindx)
                         self.boundaryinputs[nds][2].extend(dindx)
+                        self.boundaryinputs[nds][3].append(nname)
                         uix = [
                             self.boundaryinputs[nds][0].index(x)
                             for x in set(self.boundaryinputs[nds][0])
@@ -771,9 +813,11 @@ class Composer:
                         ncmps = [self.boundaryinputs[nds][0][ix] for ix in uix]
                         ncidx = [self.boundaryinputs[nds][1][ix] for ix in uix]
                         ndidx = [self.boundaryinputs[nds][2][ix] for ix in uix]
+                        netname = [self.boundaryinputs[nds][3][ix] for ix in uix]
                         self.boundaryinputs[nds][0] = ncmps
                         self.boundaryinputs[nds][1] = ncidx
                         self.boundaryinputs[nds][2] = ndidx
+                        self.boundaryinputs[nds][3] = netname
 
         # Load Bcap information
         bcapdata = composition["composition"]["Bcap"]
@@ -789,6 +833,8 @@ class Composer:
         self.uVec = (
             Matrix(uVec).reshape(len(uVec), 2).T
         )  # Row 1 are input symbols, row 2 are column indexes into B matrix
+
+        
         self.uyConnectionMatrixComputed = False
         self.composition = composition
 
@@ -808,6 +854,9 @@ class Composer:
         then select the ones that need to be used in the interconnection see setCellTypeUSplit
         """
         # calculate matrix dimensions
+        ptype = [] #Store the phs type
+        ridxs = [] #To store the row index of phs matrix on full matrix
+        cidxs = [] #To store the col index of phs matrix on full matrix
         jmat = []
         qmat = []
         emat = []
@@ -848,27 +897,30 @@ class Composer:
             # Construct node connectivity matrix, should be consistent with KCL
             nadj = np.zeros((g.number_of_nodes(), g.number_of_nodes()))
             for nd, nbrdict in g.adjacency():
-                nadj[
-                    nd, nd
-                ] = (
-                    -1
-                )  # -len(nbrdict) # src (-1) -> target (+1) , not using in-degree as src is associated with a quantity
-                for ni, wtd in nbrdict.items():
-                    nadj[nd, ni] = +1
+                if len(nbrdict) > 0:
+                    for ni, wtd in nbrdict.items():
+                        nadj[nd, ni] = 1
+                        nadj[ni, nd] = -1
+                                        
             networkAdj[n] = nadj
 
         hamiltonian = None
-        ucapVec = []
-        ycapVec = []
-        ucapVectm1 = []  # At t-1
-        ycapVectm1 = []  # At t-1
         stateVec = []
-        rhsvec = []
+
         nodePHS = dict()
         statevalues = dict()
 
         self.cellHamiltonians = OrderedDict() #Ensure insertion order is maintained
         self.nodePHSData = dict()
+        # Set the vector elements in the correct order
+        if self.uVec.cols > 1:
+            #Multiple inputs can have the same index so sort
+            sidx = list(np.argsort(self.uVec[1, :])[0]) #Sympy expects integer list and not numpy array
+            self.uVecSymbols = self.uVec[0, sidx]
+        else:
+            # When there is a single input symbol
+            self.uVecSymbols = Matrix([self.uVec[0]])
+                    
         for k in self.inodeIndexes:
             v = self.nodeData[k]
             phs = self.phsInstances[self.cellTypePHS[k]].instantiatePHS(
@@ -889,29 +941,13 @@ class Composer:
             else:
                 hamiltonian = phs.hamiltonian
             self.cellHamiltonians[k] = phs
-            
+            ptype.append(self.cellTypePHS[k])
             jmat.append(phs.J)
             qmat.append(phs.Q)
             emat.append(phs.E)
             rmat.append(phs.R)
-            for i in range(phs.u.rows):
+            for i in range(phs.states.rows):
                 stateVec.append(f"{phs.states[i,0]}")
-                # k in encoded in phs states
-                rhsvec.append(f"Del(H_{phs.states[i,0]})")
-                if not v["bsplit"][i]:
-                    # k in encoded in u during instantiation
-                    usym = f"{phs.u[i,0]}_{i}"
-                    ysym = "y" + usym[1:]
-
-                    ucapVec.append(sympy.Symbol(usym))
-                    ycapVec.append(sympy.Symbol(ysym))
-                    ucapVectm1.append(sympy.sympify(usym + "(t-1)"))
-                    ycapVectm1.append(sympy.sympify(ysym + "(t-1)"))
-                else:
-                    ucapVec.append(sympy.Symbol("0"))
-                    ycapVec.append(sympy.Symbol("0"))
-                    ucapVectm1.append(sympy.Symbol("0"))
-                    ycapVectm1.append(sympy.Symbol("0"))
 
             bcap, bdas = phs.split(v["bsplit"])
             # Unlike the paper, C matrix is a real matrix and not connectivity matrix, therefore 
@@ -941,6 +977,7 @@ class Composer:
             )  # Since C is scaled by E, Bcap does not need to be scaled interior u = B C B^T Q x
             nbcapmat.append((-bcap).T)
             # The dimensions need to match the JMatrix as Bdash*udash is summed with (J-R) Q x
+            # Not all phs components are connected to a network, these would be set to have 0 inputs in the u matrix
             bash = sympy.zeros(phs.B.shape[0], self.uVec.shape[1])
             lash = sympy.zeros(phs.B.shape[0], self.uVec.shape[1])  # laplacian
 
@@ -948,57 +985,38 @@ class Composer:
             # boundaryinputs[k][0] - component names
             # boundaryinputs[k][1] - name index into u vector
             # boundaryinputs[k][2] - network is dissipative or not
+            # boundaryinputs[k][3] - network id
 
             lashupdated = False
             if k in self.boundaryinputs:
                 for (i, uin) in enumerate(self.boundaryinputs[k][0]):
-                    comp = self.boundaryinputs[k][1][i]
-                    # Subscript of uin contains the node to which k is connected
-                    # prefix is given by phs.u[comp]
-                    # if dissipative get the laplacian weight using k, uin_subscript
-                    # us = Symbolics.variable(uin)
-                    uix = -1
-                    u_ix = -1  # Get the index in uVec
-                    for j in range(self.uVec[0, :].cols):
-                        if self.uVec[0, j] == uin:
-                            uix = self.uVec[1, j]
-                            u_ix = j
+                    bix = -1
+                    #Find the index into uVec for the input symbol
+                    for j,uv in enumerate(self.uVecSymbols):
+                        if uv == uin:
+                            bix = j #Get the index into composite uVec
                             break
-                    # uVec[1,:] has the names, uVec[2,:] has the component indexes
-
-                    if self.boundaryinputs[k][2][i] == False:
-                        bash[uix, u_ix] = phs.B[comp, comp]
+                    comp = self.boundaryinputs[k][1][i] #Index into u vector of phs
+                    if self.boundaryinputs[k][2][i] is False:
+                        bash[:,bix] = phs.B[:,comp]
                     else:
-                        nid = f"{phs.usplit[comp]}"
-                        if nid in self.dissipativeNets:  # If dissipative
-                            # uin is the node that provides the input - the suffix provides the node id and the index into the lapacian/adjacency matrix
-                            ulc = phs.u[comp]
-                            ulc = str(phs.u[comp]).find("_")
-                            suffix = int(str(uin)[ulc + 1:])
-                            wt = networkLap[nid][k, suffix]
-                            lash[comp, u_ix] = wt
+                        nid = self.boundaryinputs[k][3][i]
+                        if nid in self.dissipativeNets:  # If dissipative  
+                            #The node corresponding to the network is stored in networkBoundaryNodeMap                     
+                            boundaryNodeIndex = self.networkBoundaryNodeMap[nid]
+                            wt = networkLap[nid][k, boundaryNodeIndex]
+                            lash[comp, bix] = wt
                             lashupdated = True
                         else:  # Has input in bash
                             # Check uix and comp
-                            bash[uix, u_ix] = phs.B[comp, comp]
-
+                            bash[:,bix] = phs.B[:,comp]                        
             bdasmat.append(bash)
             lashmat.append(lash)
             lashzeroflag.append(lashupdated)
-        # Set the vector elements in the correct order
-        if self.uVec.cols > 1:
-            self.uVecSymbols = self.uVec[0, self.uVec[1, :]]
-        else:
-            # When there is a single input symbol
-            self.uVecSymbols = Matrix([self.uVec[0]])
+
         self.stateVec = stateVec
         self.statevalues = statevalues
-        self.rhsVec = rhsvec
-        self.xVec = Matrix.vstack(
-            Matrix(stateVec), Matrix(ucapVec), Matrix(ycapVec))
-        self.rVec = Matrix.vstack(
-            Matrix(rhsvec), Matrix(ucapVectm1), Matrix(ycapVectm1)
-        )
+
         self.hamiltonian = hamiltonian
         """
             Create full connection matrix - get the asymmetric part for C and the other for R
@@ -1015,13 +1033,14 @@ class Composer:
 
             all terms of the lapacian matrix for the component are scaled by E
         """
-        Cx = sympy.zeros(brsize, bcsize)
+        Cx = sympy.zeros(bcsize, bcsize) # C should satisfy BxCxBT
         roffset = 0
         for (i, b) in enumerate(self.inodeIndexes):
             # phs = self.phsInstances[self.cellTypePHS[b]]
             phs = nodePHS[b]
             # Emat = phs.E
             usplit = phs.usplit
+            #Handle composition from composites - which have C
             if phs.C.shape[0] != 0 and phs.C.shape[1] != 0:
                 # Scaling by compostite's E done at the time of construction
                 Cx[
@@ -1060,7 +1079,7 @@ class Composer:
                                 except:  # DomainError
                                     continue
                         coffset += lc
-            roffset += phs.B.shape[0]
+            roffset += phs.B.shape[1]
 
         self.uyConnectionMatrix = Cx
 
@@ -1068,29 +1087,29 @@ class Composer:
         skewsym = (Cx - Cx.T) / -2  # We need -C
         self.uyConnectionMatrixComputed = True
 
-        # calculate the full matrix size
-        jr = 2 * jrsize + skewsym.shape[0]
-        jc = 2 * jcsize + skewsym.shape[1]
-
         self.Jcap = sympy.zeros(jrsize, jcsize)
         self.Rcap = sympy.zeros(jrsize, jcsize)
         self.Ecap = sympy.zeros(jrsize, jcsize)
         self.Qcap = sympy.zeros(jrsize, jcsize)
-        self.Bcap = sympy.zeros(jrsize, jcsize)
-        self.nBcapT = sympy.zeros(jrsize, jcsize)
+        self.Bcap = sympy.zeros(brsize, bcsize)
+        self.nBcapT = sympy.zeros(bcsize, brsize)
         self.Bdas = sympy.zeros(jrsize, self.uVec.shape[1])
         self.Cmatrix = skewsym
         self.Lmatrix = sym
 
         jr, jc = 0, 0
+        br, bc = 0, 0
+        brt, bct = 0, 0
         for (i, jx) in enumerate(jmat):
+            ridxs.append(jr)
+            cidxs.append(jc)
             self.Jcap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = jx
             self.Rcap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = rmat[i]
             self.Ecap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = emat[i]
             self.Qcap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = qmat[i]
-            self.Bcap[jr: jr + jx.shape[0], jc: jc + jx.shape[1]] = bcapmat[i]
-            self.nBcapT[jr: jr + jx.shape[0],
-                        jc: jc + jx.shape[1]] = nbcapmat[i]
+            self.Bcap[br: br + bcapmat[i].shape[0], bc: bc + bcapmat[i].shape[1]] = bcapmat[i]
+            self.nBcapT[brt: brt + nbcapmat[i].shape[0],
+                        bct: bct + nbcapmat[i].shape[1]] = nbcapmat[i]
             # if laplacian is nonzero then Bdas should be lashmat
             if not lashzeroflag[i]:
                 self.Bdas[jr: jr + bdasmat[i].shape[0], :] = bdasmat[i]
@@ -1099,6 +1118,11 @@ class Composer:
 
             jr += jx.shape[0]
             jc += jx.shape[1]
+            br += bcapmat[i].shape[0]
+            bc += bcapmat[i].shape[1]
+            brt += nbcapmat[i].shape[0]
+            bct += nbcapmat[i].shape[1]
+            
 
         freevars = self.Jcap.free_symbols
         freevars = freevars.union(self.Rcap.free_symbols)
@@ -1111,6 +1135,13 @@ class Composer:
         for k, v in self.compositeparameters.items():
             freevars = freevars.union(k.free_symbols)
             freevars = freevars.union(v["value"].free_symbols)
+
+        self.phstypes = ptype
+        self.ridxs = ridxs
+        self.cidxs = cidxs
+        self.phsclassstructure = dict()
+        for k,v in self.phsInstances.items():
+            self.phsclassstructure[k] = {'rows':v.J.rows,'cols':v.J.cols}
 
         self.compositePHS = SymbolicPHS(
             self.Jcap,
@@ -1225,20 +1256,6 @@ class Composer:
             constantsubs[np.abs(c)] = f"c_{constCtr}"
             constCtr += 1
 
-        # # Remove constant entries that are same to given precision
-        # constCtr = 1
-        # constantstoprecision = dict()
-        # newkeys = dict()
-        # for k, v in constantsubs.items():
-        #     pk = f"{float(k):6f}"
-        #     if pk not in constantstoprecision:
-        #         constantstoprecision[pk] = sympy.Symbol(f"c_{constCtr}")
-        #         constCtr += 1
-        #     newkeys[k] = constantstoprecision[pk]
-
-        # for k, v in newkeys.items():
-        #     constantsubs[k] = v
-
         #Convert to sympy Symbols for substitution
         for k in constantsubs:
             constantsubs[k] = sympy.Symbol(constantsubs[k])
@@ -1257,32 +1274,6 @@ class Composer:
         # Xreplace is faster than subs - no deep mathematical reasoning, ok for constant replacement
         cleanrhs = rhs.xreplace(constantsubs)
         cleaninputs = inputs.xreplace(constantsubs)
-
-        # Generate python
-        # Constants are contained in constantsubs, map and add all constants in compositeparameters that are used by functions in the composite parameters
-        # nonlinearrhsterms = dict()
-        # for c, t in self.compositeparameters.items():
-        #     fs = t["value"].free_symbols
-        #     cvdict = dict()
-        #     if len(fs) > 0:
-        #         # Load the values of composite parameter parameters
-        #         for f in fs:
-        #             if f in self.compositeparameters:
-        #                 if self.compositeparameters[f]["value"] in constantsubs:
-        #                     cvdict[f] = constantsubs[
-        #                         self.compositeparameters[f]["value"]
-        #                     ]
-        #                 elif (
-        #                     np.fabs(
-        #                         float(self.compositeparameters[f]["value"])) != 1.0
-        #                 ):
-        #                     cvdict[f] = sympy.Symbol(f"c_{constCtr}")
-        #                     constantsubs[self.compositeparameters[f]["value"]] = cvdict[
-        #                         f
-        #                     ]
-        #                     constCtr += 1
-        #         nonlinearrhsterms[c] = t["value"].xreplace(cvdict)
-
         # Find all symbolic constants in nonlinearrhsterms
         for k, v in nonlinearrhsterms.items():
             fs = v.free_symbols
@@ -1292,32 +1283,11 @@ class Composer:
                     if self.compositeparameters[f]["value"] in constantsubs:
                         cvdict[f] = constantsubs[self.compositeparameters[f]["value"]]
                     elif np.fabs(float(self.compositeparameters[f]["value"])) != 1.0:
-                        # cvdict[f] = sympy.Symbol(f"c_{constCtr}")
-                        # constantsubs[self.compositeparameters[f]
-                        #              ["value"]] = cvdict[f]
                         #Maintain the same name
                         constantsubs[self.compositeparameters[f]["value"]] = f
                         constCtr += 1
             if len(cvdict) > 0:
                 v = v.xreplace(cvdict)
-            # # Store all numeric ones inside constantsubs
-            # if isinstance(v, sympy.Expr):
-            #     for tm in v.args:
-            #         xtn = [
-            #             term
-            #             for term in tm.args
-            #             if term not in fs and isinstance(term, sympy.Number)
-            #         ]
-            #         for c in xtn:
-            #             if np.abs(c) not in constantsubs and np.fabs(float(c)) != 1.0:
-            #                 constantsubs[np.abs(c)] = sympy.Symbol(
-            #                     f"c_{constCtr}")
-            #                 constCtr += 1
-            # elif isinstance(v, sympy.Number):
-            #     if np.abs(v) not in constantsubs and np.fabs(float(v)) != 1.0:
-            #         constantsubs[np.abs(v)] = f"c_{constCtr}"
-            #         constCtr += 1
-
         # Remove constant entries that are same to given precision
         constCtr = 1
         constantstoprecision = dict()
@@ -1330,7 +1300,11 @@ class Composer:
             if len(v['value'].free_symbols)==0:
                 phsconstants[k] = v #float(v['value'])
         
-        for k, v in constantsubs.items():
+        #for k, v in constantsubs.items():
+        cvals = list(constantsubs.keys()) #Sort the values to be consistant across platforms
+        cvals.sort()
+        for k in cvals:
+            v = constantsubs[k]
             pk = f"{float(k):6f}"
             if pk not in constantstoprecision:
                 if v.name.startswith('c_'):
@@ -1374,35 +1348,6 @@ class Composer:
                         reducedelem += sympy.simplify(elem/denom)
                     else:
                         reducedelem += elem
-                    # # Logic works for Multiplication expression
-                    # newelem = 1
-                    # for term in elem.args:
-                    #     fs = term.free_symbols
-                    #     nterm = None
-                    #     state = None
-                    #     for f in fs:
-                    #         if f in nonlinearrhsterms:
-                    #             nterm = nonlinearrhsterms[f]
-                    #             break
-                    #     if nterm is not None:
-                    #         # #Get the current state for the term
-                    #         states = []
-                    #         for f in fs:
-                    #             if f in stateVec.free_symbols:
-                    #                 states.append(f)
-                    #         #         break
-                    #         # If the state in term appears in nterm, divide
-                    #         for st in states:
-                    #             if st in nterm.free_symbols:
-                    #                 state = st
-                    #                 # handles just one!
-                    #                 break
-                    #     if nterm is not None and state is not None:
-                    #         nterm = term / state
-                    #         newelem *= nterm
-                    #     else:
-                    #         newelem *= term
-                    # reducedelem.append(sympy.simplify(newelem))
                 cleanedrhs.append(reducedelem)
             elif isinstance(expandedelem,sympy.Mul): # if its a product
                 reducedelem = 1

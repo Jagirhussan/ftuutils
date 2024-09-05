@@ -25,8 +25,9 @@ class Lattice2D(FTUGraph):
         self.row_size = rows
         self.col_size = cols
         self.active_cells = np.ones((rows,cols),dtype=np.bool_)
-        self.sheet_conductivity = {1:1.0}
-        self.fibre_conductivity = {1:1.0}
+        self.defaultnetworkid = 1
+        self.sheet_conductivity = {self.defaultnetworkid:1.0}
+        self.fibre_conductivity = {self.defaultnetworkid:1.0}
         self.connections = self._initConnections()
         #Get boundary nodes
         # In case setDefects is not called
@@ -100,6 +101,7 @@ class Lattice2D(FTUGraph):
             cond (float): Conductivity values
             network (int, optional): Network on which the weights are assigned. Defaults to 1.
         """
+        self.defaultnetworkid = network
         self.fibre_conductivity[network] = cond
 
     def setSheetConductivity(self,cond,network=1) -> None:
@@ -108,7 +110,8 @@ class Lattice2D(FTUGraph):
         Args:
             cond (float): Conductivity values
             network (int, optional): Network on which the weights are assigned. Defaults to 1.
-        """        
+        """       
+        self.defaultnetworkid = network 
         self.sheet_conductivity[network] = cond
         
     def _initConnections(self) -> np.array:
@@ -193,6 +196,9 @@ class Lattice2D(FTUGraph):
                                 
         return G
     
+    def getDefaultNetworkID(self):
+        return self.defaultnetworkid
+    
     def getStimulusBlockNodes(self,bname):
         """Get the list of nodes that fall within the stimulation block
 
@@ -206,6 +212,15 @@ class Lattice2D(FTUGraph):
             nix = np.arange(1,self.num_active_cells+1)
             return nix[self.stimulusBlocks[bname]]
         return []    
+    
+    def getNodeIdsFromFlag(self,flagarray):
+        """Get the node labels for the selected nodes
+
+        Args:
+            flagarray (np.array): Boolean array that indicates of a node is selected(True) or not (False)
+        """
+        nix = np.arange(1,self.num_active_cells+1)
+        return nix[flagarray]
     
     def getNodes(self,blk):
         """
