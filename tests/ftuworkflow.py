@@ -124,6 +124,12 @@ composer = g.composeCompositePHS(G,phstypes,phsdata)
 # The code should be used to examine the model, test and also decide in specifiying experiments.
 # If experiments are created, this code is also saved as `FTUStepper.py` in the experiment directory.
 
+with open(r'D:\12Labours\GithubRepositories\FTUUtils\tests\FHNtest\apngen.py','w') as apnf:
+    odepy = composer.exportAsPython()
+    print(odepy,file=apnf)
+    import sys
+    sys.exit(0)
+    
 # %%
 odestepper = composer.exportAsODEStepper()
 
@@ -171,7 +177,7 @@ exptdesigned.addExperiment('test',[0,400,400],expt1)
 #Provide some project provenance information (optional)
 provenance = {"Author":"JH","Project":"FTU workflow demo"}
 #Store codes to local directory
-targetExptDirectory = 'data/temp/FTUTest'
+targetExptDirectory = 'data/temp/FTUTest2'
 exptdesigned.generate(targetExptDirectory,provenance=provenance,defaultnetworkid=defaultNetworkId)
 #defaultNetworkId - corresponds to the network whose weights need to be used to generate the divergence operator
 #this operator will be used to generate divergence field of the Hamiltonian energy on the discrete graph at each time step

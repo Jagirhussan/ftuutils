@@ -306,6 +306,7 @@ class FTUGraph():
                     bbarcontribNode.append(None)
                 
                 mch = {}
+                #Check internal linkages
                 for v in range(adjM.shape[0]):
                     neigh = adjM[v] #Get the node indices not the degrees
                     if neigh==n:
@@ -319,7 +320,7 @@ class FTUGraph():
                         for s,ms in enumerate(mysplit['elements']):
                             if ms is None:
                                 bsplit[s] = True
-                            elif (split['elements'].index(ms)<0): #If network not found, split it
+                            elif (ms not in split['elements']): #If network not found, split it
                                 bsplit[s] = True
                             else:
                                 if networkTypes[networkNames[ms]]=='generic':
@@ -344,7 +345,7 @@ class FTUGraph():
                                 mch[c].extend(res)
                             else:
                                 mch[c] = res
-                
+                #Check boundary linkages
                 for v in range(adjM.shape[0]):
                     neigh = adjM[v] #Get the node indices not the degrees
                     if neigh==n:

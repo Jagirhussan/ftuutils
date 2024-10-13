@@ -118,6 +118,7 @@ class ReducePHS():
         '''
                     
         PT = Pc.T
+        print(sympy.latex(Pc))
         #K = self.compositePHS.B * self.compositePHS.C * (self.compositePHS.B.T)
         #Kr = PT*K*Pc
         Cr = PT*self.compositePHS.C*Pc
@@ -1048,6 +1049,6 @@ if __name__ == '__main__':
         
         rphs.setClusters(ng)
         #pys = rphs.exportAsPython()
-        pys = rphs.exportAsODEStepper('test')
-        with open(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\reduced.py','w') as rpy:
-            print(pys,file=rpy)
+        # pys = rphs.exportAsODEStepper('test')
+        # with open(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\reduced.py','w') as rpy:
+        #     print(pys,file=rpy)
