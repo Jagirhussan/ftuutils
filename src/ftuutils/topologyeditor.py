@@ -8,9 +8,8 @@ import json
 from ftuutils.compositionutils import SymbolicPHS,Composer
 from ftuutils import codegenerationutils, compositionutils
 '''
-Logic to edit the topology of a FTU. 
+Logic to edit the topology of an FTU. 
 '''
-
 
 class ReducePHS():
     """
@@ -21,15 +20,10 @@ class ReducePHS():
         """Setup a composite PHS for reduction
 
         Args:
-            compositePHSWithStructure (dict): Dictionary containing the composite SymbolicPHS as json string
-            and its structural organisation in terms of subcomponents
+            compositePHSWithStructure (ftuutils.Composer): Composition object            and its structural organisation in terms of subcomponents
         """
-        if isinstance(compositePHSWithStructure,str):
-            compositePHSjson = json.loads(compositePHSWithStructure)
-            self.compositePHS = SymbolicPHS.loadPHSDefinition(compositePHSWithStructure['compositePHS'])
-            self.phsStructure = compositePHSjson['compositePHSStructure']
-            self.phsinstances =  compositePHSjson['phsinstances']
-        elif isinstance(compositePHSWithStructure,Composer):
+        if isinstance(compositePHSWithStructure,Composer):
+            self.composer = compositePHSWithStructure
             self.compositePHS = compositePHSWithStructure.compositePHS
             self.phsStructure = {'type':compositePHSWithStructure.phstypes,
                                  'rowidxs':compositePHSWithStructure.ridxs,
@@ -42,13 +36,15 @@ class ReducePHS():
     def getPHSAssignments(self):
         return self.phsStructure['type']
         
-    def setClusters(self,nodegroups):
+    def setClusters(self,nodegroups,averageresponse=True,nbase=1):
         """Set the cluster/grouping of nodes in the phs
         {clusternum:[phs nums]}
         Preliminary checks are done to ensure the group elements are of the same PHS type
         and the cardinality and unitary cluster membership are accurate
         Args:
             nodegroups (dict): Cluster assignment of nodes
+            averageresponse (bool): Should the weights be average or just the direct sum (False)
+            nbase (int): base for node labels - cluster list number +nbase is used to map into graph (to support GUI based compositions where node base can be 1)
         """
         #Check membership
         phstypes  = self.phsStructure['type']
@@ -91,44 +87,48 @@ class ReducePHS():
             ham = 0
             uset = []
             for vv in v:
-                #Node labels start at 1
-                ham = ham + self.phsinstances[vv+1].hamiltonian
-                uset.extend(self.phsinstances[vv+1].u[:])
+                #Node labels start at nbase
+                ham = ham + self.phsinstances[vv+nbase].hamiltonian
+                uset.extend(self.phsinstances[vv+nbase].u[:])
             cellHamiltonians[n]= {'hamiltonian':ham,'u':set(uset)}
         self.cellHamiltonians = cellHamiltonians
         
         Pc = sympy.zeros(rowoffset,pcols)
-        pcolix = 0
-        
+        Pcf = sympy.zeros(rowoffset,pcols)
+        self.couplingconstants = []
+        pcolix = 0        
         for n,v in nodegroups.items():
-            phs_ = phstructure[phstypes[v[0]]]
-            phsel = sympy.eye(phs_['rows'])
+            phs_ = phstructure[phstypes[v[0]]]   
+            factor = 1 
+            if averageresponse:   
+                factor = len(v)
             for vv in v:
-                Pc[rowindexs[vv]:rowindexs[vv]+phs_['rows'],pcolix:pcolix+phs_['rows']] = phsel
+                Pc[rowindexs[vv]:rowindexs[vv]+phs_['rows'],pcolix:pcolix+phs_['rows']] = sympy.eye(phs_['rows'])/np.sqrt(factor)                                    
+                #For states to reduced states     
+                Pcf[rowindexs[vv]:rowindexs[vv]+phs_['rows'],pcolix:pcolix+phs_['rows']] = sympy.eye(phs_['rows'])/factor                    
             pcolix += phs_['cols']
+
+        self.partitionMatrix = [Pc,Pcf]    
+            
         #Reduce the system
         '''
             ^J = PT J P is a skewsymmetric matrix.
             ^K = PT K P is skewsymmetric matrix.
             ^R = PT R P is a positive definite matrix.
             ^B = PT B P is a positive definite matrix.
-            ^Bhat = PT B .
+            ^Bhat = PfT B .
             ^Q= PT Q P is a positive definite matrix.        
             ^E= PT E P is a positive definite matrix.        
         '''
                     
-        PT = Pc.T
-        print(sympy.latex(Pc))
-        #K = self.compositePHS.B * self.compositePHS.C * (self.compositePHS.B.T)
-        #Kr = PT*K*Pc
-        Cr = PT*self.compositePHS.C*Pc
-        Jr = PT*self.compositePHS.J*Pc
-        Rr = PT*self.compositePHS.R*Pc
-        Qr = PT*self.compositePHS.Q*Pc
-        Er = PT*self.compositePHS.E*Pc
-        Br = PT*self.compositePHS.B*Pc
-        Bhatr = PT*self.compositePHS.Bhat
-        statesr = PT*sympy.Matrix(self.compositePHS.states)
+        Cr = sympy.simplify(Pc.T*self.compositePHS.C*Pc)
+        Jr = sympy.simplify(Pc.T*self.compositePHS.J*Pc)
+        Rr = sympy.simplify(Pc.T*self.compositePHS.R*Pc)
+        Qr = sympy.simplify(Pc.T*self.compositePHS.Q*Pc)
+        Er = sympy.simplify(Pc.T*self.compositePHS.E*Pc)
+        Br = sympy.simplify(Pc.T*self.compositePHS.B*Pc)
+        Bhatr = sympy.simplify(Pcf.T*self.compositePHS.Bhat)        
+        statesr = Pcf.T*sympy.Matrix(self.compositePHS.states)
         
         statesr = statesr[:]
         vars = self.compositePHS.variables
@@ -166,7 +166,8 @@ class ReducePHS():
             parameters,
             statevalues,
         )
-        
+
+                
     def generatePythonIntermediates(self,substituteParameters=False):
         r"""Generate numerically solvable PHS
             d/dx (Ex) = (J-R) Q x - \hat{B}\hat{C}\hat{B}^T \hat{u} + \bar{B} \bar{u}
@@ -400,6 +401,15 @@ class ReducePHS():
                 invarraymapping[f"variables[{numconstants}]"] = s.name
                 ftuidmap[s.name] = f"variables[{numconstants}]"
                 numconstants += 1
+        self.couplingconstantsmap = {}
+        if len(self.couplingconstants)>0:
+            for s in self.couplingconstants:
+                arraysubs[s] = sympy.Symbol(f"variables[{numconstants}]")
+                self.couplingconstantsmap[s] = arraysubs[s]
+                arraymapping[s.name] = f"variables[{numconstants}]"
+                invarraymapping[f"variables[{numconstants}]"] = s.name
+                ftuidmap[s.name] = f"variables[{numconstants}]"
+                numconstants += 1
                 
 
         # Multiple k's will have same v due to defined precision
@@ -494,6 +504,7 @@ class ReducePHS():
         """
         numconstants,phsconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs,ubaridxmap,ftuidmap,cleaninputs = self.generatePythonIntermediates()
         stateVec = sympy.Matrix(self.stateVec)
+
         # Generate metedata
         variabledescription = 'VOI_INFO = {"name": "t", "units": "second", "component": "main", "type": VariableType.VARIABLE_OF_INTEGRATION}\n'
         variabledescription += "STATE_INFO = [\n"
@@ -549,6 +560,7 @@ __version__ = "0.0.1"
 
 STATE_COUNT = {len(self.stateVec)}
 VARIABLE_COUNT = {numconstants}
+COUPLING_PARAMETERS = {len(self.couplingconstants)}
 
 def heaviside(x):
     if x > 0:
@@ -581,21 +593,7 @@ def initialise_variables(states, variables):\n"""
         stateinitialvalues = dict()
         for k, v in self.reducedPHS.statevalues.items():
             stateinitialvalues[k] = v['value']
-        
-        for i,s in enumerate(self.reducedPHS.states):
-            rv = sympy.simplify(s.subs(stateinitialvalues))
-            try:
-                stmt = f"\t{arraymapping[stateVec[i,0]]} = {float(rv.name):6f}  #{rv.name}\n"
-            except:
-                stmt = f"\t{arraymapping[stateVec[i,0]]} = {rv}  #{rv}\n"
-            pycode += stmt
-            
-        # for k, v in self.reducedPHS.statevalues.items():
-        #     try:
-        #         stmt = f"\t{arraymapping[k.name]} = {float(v['value']):6f}  #{k}\n"
-        #     except:
-        #         stmt = f"\t{arraymapping[k.name]} = {v['value']}  #{k}\n"
-        #     pycode += stmt
+                    
         for k, v in ubaridxmap.items():
             pycode += f"\t{v} = 0.0 #{k} External input\n"
                     
@@ -623,6 +621,14 @@ def initialise_variables(states, variables):\n"""
                         stmt = f"\t{arraymapping[v.name]} = {k['value']}  #{v}\n"
                     pycode += stmt
                     definedVariables.append(v)                
+        #Do states here as they may use use variables
+        for i,s in enumerate(self.reducedPHS.states):
+            rv = sympy.simplify(s.subs(stateinitialvalues)).xreplace(self.couplingconstantsmap)
+            try:
+                stmt = f"\t{arraymapping[stateVec[i,0]]} = {float(rv.name):6f}  #{s.name}\n"
+            except:
+                stmt = f"\t{arraymapping[stateVec[i,0]]} = {rv}  #{s}\n"
+            pycode += stmt
                     
         pycode += "\ndef compute_computed_constants(variables):\n\tpass\n\n"
         pycode += "def compute_variables(voi, states, rates, variables):\n\tt=voi #mapping to t\n"
@@ -646,6 +652,12 @@ def initialise_variables(states, variables):\n"""
         for i, v in enumerate(arrayedinputs):
             pycode += f"\t# cell[{i}] = {cleaninputs[i]}\n"
             pycode += f"\tinputs[{i}] = {v}\n"
+        
+        #Provide input hook for coupling parameters optimisation
+        pycode += "\ndef set_coupling_parameters(variables,parameters):\n"
+        for i, (k,v) in enumerate(self.couplingconstantsmap.items()):
+            pycode += f"\t{v} = parameters[{i}] # {k}\n"
+        pycode += f"\treturn variables\n\n"
         # Provide external input variable names in comment to help support
         ubarcomment = ""
         for k, v in ubaridxmap.items():
@@ -659,7 +671,7 @@ def process_time_sensitive_events(voi, states, rates, variables):
         Useful to ensure that time sensitive inputs are set espcially if ode integrator timestep spans over the 
         input time. Note that this should be re-entrant i.e. not modify states, else this will
         lead to solver dependent behaviour, esp. solvers that use multiple steps
-        The method is called before each rhs evelauation
+        The method is called before each rhs evaluation
     Args:
         voi (int) : Current value of the variable of integration (time)
         states (np.array): A vectors of model states
@@ -736,11 +748,11 @@ def solve_model(starttime=0,stoptime=300,steps=300):
 import matplotlib.pyplot as plt
 if __name__ == '__main__':
     t,r,v = solve_model()
-    grid = plt.GridSpec({(len(self.nodegroups)+1)//3}, 3, wspace=0.2, hspace=0.5)
+    grid = plt.GridSpec({(len(self.nodegroups))}, 1, wspace=0.2, hspace=0.5)
 
     ix = 0
-    for i in range({(len(self.nodegroups)+1)//3}):
-        for j in range(3):
+    for i in range({(len(self.nodegroups))}):
+        for j in range(1):
             ax = plt.subplot(grid[i, j])
             ax.plot(r[ix,:])
             ax.title.set_text(f'{{ix//{(len(self.stateVec)//len(self.nodegroups))}+1}}')
@@ -753,302 +765,3 @@ if __name__ == '__main__':
 '''
         return pycode.replace("1**2*", "").replace("-1.0*","-")
 
-    def exportAsODEStepper(self,modelName):
-        r"""Generate numerically solvable PHS
-            d/dx (Ex) = (J-R) Q x - \hat{B}\hat{C}\hat{B}^T \hat{u} + \bar{B} \bar{u}
-            \hat{y} = \hat{B}^T Q x
-            \bar{y} = \bar{B}^T Q x
-        
-            Setup the code as a Python class, with the ability to step through time and
-            set inputs
-        """
-        numconstants,phsconstants,constantsubs,nonlinearrhsterms,inputs,arrayedinputs,arraymapping,uCapterms,ucapdescriptive,nonlineararrayedrhsterms,nonlinearrhstermsdescriptive,arrayedrhs,invarraymapping,rhs_,ubaridxmap,ftuidmap,cleaninputs = self.generatePythonIntermediates()
-
-        #Also handle constant subs
-        revconstantsubs = dict()
-        for k,v in constantsubs.items():
-            revconstantsubs[v] = k
-        nonlinearrhstermssub = dict()
-        for k,v in nonlinearrhsterms.items():
-            nonlinearrhstermssub[k] = sympy.simplify(v.xreplace(revconstantsubs))
-
-        rhs = self.raw_rhs.xreplace(nonlinearrhstermssub)
-    
-        #Replace all symbolic parameters in hamiltonian with their values from composer.compositeparameters and constants
-        parvals_ = dict()
-        for k,v in self.reducedPHS.parameters.items():
-            parvals_[k] = v['value'].xreplace(nonlinearrhstermssub)
-        #some composite parameters also use symbols listed in composite parameters
-        parvals = dict()
-        for k,v in parvals_.items():
-            parvals[k] = v.xreplace(parvals_)
-        
-        #Subtitute in cellHamiltonians - requires symbols
-        arraymappingsym = {k:sympy.Symbol(v) for k,v in arraymapping.items()}
-        cellhams = OrderedDict()
-        externalInputEnergy = OrderedDict()
-        totalInputEnergy = OrderedDict()
-        ubaridxmapsym = {sympy.Symbol(k):sympy.Symbol(v) for k,v in ubaridxmap.items()}
-        #For setting up energy calculations
-        supportEnergyCalculations = OrderedDict()
-        
-        #Used for calculating total input energy contribution, sets all internal inputs to zero
-        ubaridxmapzero = {sympy.Symbol(f"u_{s}"):0 for s in self.stateVec}
-        inputStateSymbolMap = {sympy.Symbol(f"u_{k}"):v for k,v in arraymapping.items()}
-        
-        inputsidx = 0
-        #Determine the hamiltonian without exterior inputs - compare this with one having the
-        #external inputs included to determing the energetic contribution from the external inputs
-        cix = 0
-        for k,v in self.cellHamiltonians.items():
-            cham = v['hamiltonian'].xreplace(self.reducedStateMap)
-            #Subtitute for inputs
-            noisubs = dict()
-            for ui in v['u']:
-                if inputs[inputsidx]!=0:
-                    noisubs[ui] = 0.0
-
-            noicham = cham.xreplace(noisubs) #Calculate hamiltonian without external inputs            
-            notcham = noicham.xreplace(ubaridxmapzero) #Calculate the hamiltonian without any internal and external input contributions
-            cdiff = sympy.simplify(cham - noicham)
-            tdiff = sympy.simplify(cham - notcham)
-                
-            cellhams[k] = cham.xreplace(arraymappingsym).xreplace(ubaridxmapsym) 
-            externalInputEnergy[k] = cdiff.xreplace(arraymappingsym).xreplace(ubaridxmapsym) 
-            totalInputEnergy[k] = tdiff.xreplace(arraymappingsym).xreplace(ubaridxmapsym) 
-            cix +=1
-        
-    
-        pycode = f"""
-# The content of this file was generated using the FTUWeaver
-
-import numpy as np
-from numpy import exp
-from scipy.integrate import ode
-
-__version__ = "0.0.1"
-
-def heaviside(x):
-    if x > 0:
-        return 1.0
-    return 0.0
-
-def Abs(x):
-    return np.fabs(x)
-
-
-class {modelName}():
-    STATE_COUNT = {len(self.stateVec)}
-    VARIABLE_COUNT = {numconstants}
-    CELL_COUNT  = {len(self.nodegroups)}
-
-    def __init__(self):
-        self.states = np.zeros(self.STATE_COUNT)
-        self.rates = np.zeros(self.STATE_COUNT)
-        self.variables = np.zeros(self.VARIABLE_COUNT)
-        self.time = 0.0
-        self.odeintegrator = ode(lambda t,x : self.rhs(t,x))
-        self.odeintegrator.set_integrator('vode', method='bdf', atol=1e-06, rtol=1e-06, max_step=1)
-        self.odeintegrator.set_initial_value(self.states, self.time)       
-        #Initialize variables
-        states, variables = self.states, self.variables
-"""
-        # Do states first
-        stateinitialvalues = dict()
-        for k, v in self.reducedPHS.statevalues.items():
-            stateinitialvalues[k] = v['value']
-        
-        for i,s in enumerate(self.reducedPHS.states):
-            rv = sympy.simplify(s.subs(stateinitialvalues))
-            try:
-                stmt = f"        {arraymapping[self.stateVec[i,0]]} = {float(rv.name):6f}  #{rv.name}\n"
-            except:
-                stmt = f"        {arraymapping[self.stateVec[i,0]]} = {rv}  #{rv}\n"
-            pycode += stmt
-            
-            
-        for k, v in ubaridxmap.items():
-            pycode += f"        {v} = 0.0 #{k} External input\n"
-                    
-        if len(ftuidmap)>0:
-            for k,v in ftuidmap.items():
-                pycode += f"        {v} = 1.0  #{k} This needs to be set for accurate simulation\n"
-        # Do constant subs
-        definedVariables = []
-        for k, v in constantsubs.items():
-            if v not in definedVariables:
-                if v.name in arraymapping:
-                    try:
-                        stmt = f"        {arraymapping[v.name]} = {float(k):6f}  #{v}\n"
-                    except:
-                        stmt = f"        {arraymapping[v.name]} = {k}  #{v}\n"
-                    pycode += stmt
-                    definedVariables.append(v)
-        for k, v in phsconstants.items():
-            if k not in definedVariables:
-                if k.name in arraymapping:
-                    try:
-                        stmt = f"        {arraymapping[k.name]} = {float(v['value']):6f}  #{k}\n"
-                    except:
-                        stmt = f"        {arraymapping[k.name]} = {v['value']}  #{k}\n"
-                    pycode += stmt
-                    definedVariables.append(k)
-
-
-        pycode += "\n    def compute_variables(self,voi):\n        t=voi #mapping to t\n        states, rates, variables = self.states,self.rates,self.variables\n"
-        # Do uCap terms
-        for k, v in uCapterms.items():
-            pycode += f"        #{ucapdescriptive[k]}\n"
-            pycode += f"        {k} = {v}\n"
-
-        # Do rhs
-        pycode += "\n    def compute_rates(self,voi):\n        t=voi #mapping to t\n        states, rates, variables = self.states,self.rates,self.variables\n"
-        # Do nonlinear terms - these depend on state values and therefore step size, os here instead of compute variables
-        for k, v in nonlineararrayedrhsterms.items():
-            pycode += f"        #{nonlinearrhstermsdescriptive[k]}\n"
-            pycode += f"        {k} = {v}\n"
-        for i, v in enumerate(arrayedrhs):
-            pycode += f"        #\\dot{{{self.stateVec[i]}}} = {codegenerationutils._stringsubs(str(v),invarraymapping)} # {sympy.simplify(rhs[i,0])}\n"
-            pycode += f"        rates[{i}] = {v}\n"
-
-        # Do inputs
-        pycode += f"\n    def compute_inputs(self,voi,inputs):\n        t,states,variables=voi,self.states,self.variables\n        #inputs size {len(self.stateVec)}\n"
-        for i, v in enumerate(arrayedinputs):
-            pycode += f"        # forstate[{i}] = {cleaninputs[i]}\n"
-            pycode += f"        inputs[{i}] = {v}\n"
-
-        # Compute Hamiltonian's for each cells
-        # TODO Code has unresolved symbols
-        pycode += f"\n    def compute_hamiltonian(self,cellHam):\n        t,states,variables=self.time,self.states,self.variables\n        #cellHam = np.zeros({len(self.nodegroups)})\n"
-        cix = 0
-        for k,v in cellhams.items():
-            pycode += f"        cellHam[{cix}] = {v}\n"
-            cix +=1
-        pycode += f"\n        return cellHam\n"
-
-        # Compute energy input from external inputs
-        pycode += f"\n    def compute_external_energy(self,inputEnergy):\n        t,states,variables=self.time,self.states,self.variables\n        #inputEnergy = np.zeros({len(self.nodegroups)})\n"
-        cix = 0
-        for k,v in externalInputEnergy.items():
-            pycode += f"        inputEnergy[{cix}] = {v}\n"
-            cix +=1
-        pycode += f"\n        return inputEnergy\n"
-
-        # Compute energy input from internal and external inputs
-        pycode += f"\n    def compute_total_input_energy(self,totalInputEnergy):\n        t,states,variables=self.time,self.states,self.variables\n        #totalInputEnergy = np.zeros({len(self.nodegroups)})\n"
-        cix = 0
-        for k,v in totalInputEnergy.items():
-            pycode += f"        totalInputEnergy[{cix}] = {v}\n"
-            cix +=1
-        pycode += f"\n        return totalInputEnergy\n"
-                
-        # Provide external input variable names in comment to help support
-        ubarcomment = ""
-        for k, v in ubaridxmap.items():
-            ubarcomment += f"        #\t{k} -> {v}\n"
-
-        pycode += f'''
-    def process_time_sensitive_events(self,voi):
-        """Method to process events such as (re)setting inputs, updating switches etc
-        Unline process_events, this method is called in rhs calculation
-        Useful to ensure that time sensitive inputs are set espcially if ode integrator timestep spans over the 
-        input time. Note that this should be re-entrant i.e. not modify states, else this will
-        lead to solver dependent behaviour, esp. solvers that use multiple steps
-        The method is called before each rhs evelauation
-        Args:
-            voi (int) : Current value of the variable of integration (time)
-            states (np.array): A vectors of model states
-            variables (_type_): A vector of model variables
-        """
-        states, rates, variables = self.states,self.rates,self.variables
-        #External input variables - listed to help code event processing logic
-{ubarcomment}
-        #Comment the line below (and uncomment the line after) to solve the model without event processing!    
-        #raise("Process time sensitive events not implemented")
-        variables[0] = 0.0
-        if voi > 100 and voi < 110:
-            variables[0] = 0.5        
-        #Following needs to be performed to set internal inputs from current state values
-        self.compute_variables(voi)    
-            
-    def process_events(self,voi):
-        """Method to process events such as (re)setting inputs, updating switches etc
-        The method is called after each successful ode step
-        Args:
-            voi (int) : Current value of the variable of integration (time)
-        """
-        #External input variables - listed to help code event processing logic
-        states, rates, variables = self.states,self.rates,self.variables
-{ubarcomment}
-        #Comment the line below (and uncomment the line after) to solve the model without event processing!    
-        #raise("Process events not implemented")
-
-
-    def rhs(self, voi, states):
-        self.states = states    
-        #Perform (re)setting of inputs, time sensitive event processing etc
-        self.process_time_sensitive_events(voi)    
-        #Compute rates
-        self.compute_rates(voi)
-        return self.rates
-
-    def step(self,step=1.0):
-        if self.odeintegrator.successful():
-            self.odeintegrator.integrate(step)
-            self.time = self.odeintegrator.t
-            self.states = self.odeintegrator.y
-            #Perform event processing etc
-            self.process_events(self.time)
-        else:
-            raise Exception("ODE integrator in failed state!")
-
-if __name__ == '__main__':
-    import matplotlib.pyplot as plt
-    starttime=0
-    stoptime=300
-    steps=300
-    finst = FTUStepper()
-    voi = np.linspace(starttime, stoptime, steps)
-    result = np.zeros((finst.STATE_COUNT,steps))
-    result[:,0] = finst.states    
-    for (i,t) in enumerate(voi[1:]):
-        finst.step(t)
-        result[:,i+1] = finst.states      
-    fig = plt.figure(figsize=(50, 50))
-    grid = plt.GridSpec({(len(self.nodegroups)+1)//3}, 3, wspace=0.2, hspace=0.5)
-
-    ix = 0
-    for i in range({(len(self.nodegroups)+1)//3}):
-        for j in range(3):
-            ax = plt.subplot(grid[i, j])
-            ax.plot(result[ix,:])
-            ax.title.set_text(f'{{ix//{(len(self.stateVec)//len(self.nodegroups))}+1}}')
-            ix += {(len(self.stateVec)//len(self.nodegroups))}
-            if ix+{(len(self.stateVec)//len(self.nodegroups))} > result.shape[0]:
-                break
-    plt.subplots_adjust(hspace=0.3)
-    plt.subplots_adjust(wspace=0.3)
-    fig.savefig(f"FTUStepper_results.png",dpi=300)
-    plt.show()         
-'''
-
-        return pycode.replace("1**2*", "").replace("-1.0*","-")
-
-
-import pickle        
-if __name__ == '__main__':
-    with open(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\compositephs.pkl','rb') as js:
-        phsr = pickle.load(js)
-        rphs = ReducePHS(phsr)
-        ng = {0: np.array([ 0,  5, 10, 15, 20]), 
-              1: np.array([ 1,  6, 11, 16, 21]), 
-              2: np.array([ 2,  7, 12, 17, 22]), 
-              3: np.array([ 3,  8, 13, 18, 23]), 
-              4: np.array([ 4,  9, 14, 19, 24])
-              }
-        
-        rphs.setClusters(ng)
-        #pys = rphs.exportAsPython()
-        # pys = rphs.exportAsODEStepper('test')
-        # with open(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\reduced.py','w') as rpy:
-        #     print(pys,file=rpy)

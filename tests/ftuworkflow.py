@@ -177,7 +177,7 @@ exptdesigned.addExperiment('test',[0,400,400],expt1)
 #Provide some project provenance information (optional)
 provenance = {"Author":"JH","Project":"FTU workflow demo"}
 #Store codes to local directory
-targetExptDirectory = 'data/temp/FTUTest2'
+targetExptDirectory = '../examples/data/temp/FTUTest'
 exptdesigned.generate(targetExptDirectory,provenance=provenance,defaultnetworkid=defaultNetworkId)
 #defaultNetworkId - corresponds to the network whose weights need to be used to generate the divergence operator
 #this operator will be used to generate divergence field of the Hamiltonian energy on the discrete graph at each time step

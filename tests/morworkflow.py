@@ -65,6 +65,7 @@ G = g.getGraph()
 composer = g.composeCompositePHS(G,phstypes,phsdata)
 composer.save(composer,r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\compositephs.pkl')
 #composer.saveCompositePHSToJson(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\compositephs.json')
-# pyth = composer.exportAsPython()
+#pyth = composer.exportAsPython()
+composer.exportAsCellML()
 # with open(r'D:\12Labours\GithubRepositories\FTUUtils\tests\data\Temp\compositephs.py','w') as pyt:
 #     print(pyth,file=pyt)
