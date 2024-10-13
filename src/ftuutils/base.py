@@ -2,6 +2,7 @@
 import numpy as np
 import networkx as nx
 import copy
+import types
 from scipy.spatial import Delaunay
 
 from ftuutils.compositionutils import SymbolicPHS,Composer
@@ -10,9 +11,97 @@ from ftuutils.compositionutils import SymbolicPHS,Composer
 class FTUGraph():
     """ Base class for creating FTU graphs. A networkx graph is used to build the FTU
     """
-    def __init__(self) -> None:
+    def __init__(self,defaultnetworkID=1) -> None:
         self.num_active_cells = 0  
+        self.defaultNetworkID = defaultnetworkID
         self.celltypes = dict()
+
+    def getPositionFromIndex(self,nodeIndex):
+        """Method to determine positions of nodes based on their index
+
+        Args:
+            nodeIndex (int): Index of the node
+
+        Returns:
+            _type_: _description_
+        """
+        return [nodeIndex,0]
+
+    @staticmethod
+    def createBaseGraph():
+        """Create a base graph to which nodes and edges will be added
+
+        Returns:
+            networkx.Graph: Empty Graph container
+        """
+        return nx.Graph()
+
+    @staticmethod
+    def createNodes(nodes,g,ntype):
+        """Create nodes with appropriate attributes
+
+        Args:
+            nodes (list/generator/int): Node(s) labels to be added to the graph
+            g (networkx.Graph): Target graph container
+
+        Returns:
+            (networkx.Graph): Target graph container
+        """
+        if isinstance(nodes,list) or isinstance(nodes,types.GeneratorType):
+            for nd in nodes:
+                g.add_node(nd,type=ntype,pos=[len(g.nodes()),0])
+        elif isinstance(nodes,int):
+            g.add_node(nodes,type=ntype,pos=[len(g.nodes()),0])
+        return g
+
+    @staticmethod
+    def createInteriorNodes(nodes,g):
+        """Create interior nodes with appropriate attributes
+
+        Args:
+            nodes (list/generator/int): Node(s) labels to be added to the graph
+            g (networkx.Graph): Target graph container
+
+        Returns:
+            (networkx.Graph): Target graph container
+        """
+        return FTUGraph.createNodes(nodes,g,'in')
+
+    @staticmethod
+    def createBoundaryNodes(nodes,g):
+        """Create boundary nodes with appropriate attributes
+
+        Args:
+            nodes (list/generator/int): Node(s) labels to be added to the graph
+            g (networkx.Graph): Target graph container
+
+        Returns:
+            (networkx.Graph): Target graph container
+        """
+        return FTUGraph.createNodes(nodes,g,'out')
+
+    @staticmethod
+    def createEdge(head,tail,g,net,weight):
+        """Method to create an edge from head to tail 
+           Adds necessary attributes to support phs building
+        Args:
+            head (int): Label of head node
+            tail (int): Lable of tail node
+            g (networkx.Graph): Target graph container
+            net (int): Network id
+            weight (int): Weight for the network
+        """
+        g.add_edge(head,tail)
+        g[head][tail].update({net:weight})
+        return g
+
+    def getDefaultNetworkID(self):
+        """Get the default network ID, the one assigned to the FTU network by default
+
+        Returns:
+            int: Network ID
+        """
+        return self.defaultNetworkID
 
     @staticmethod
     def setEdgeWeight(G,edid,networkid,weight):
@@ -26,15 +115,16 @@ class FTUGraph():
         """
         nw = {networkid:weight}
         G[edid[0]][edid[1]]['weight'].update(nw)
-            
-    def setCellType(self,ctypes):
+
+    @staticmethod            
+    def setCellType(ctypes,g):
         """
             Update cell types for nodes
         Args:
-            #G (nx.Graph): graph that needs to be updated
+            g (nx.Graph): graph that needs to be updated
             ctypes (Dict): node id -> cell type map
         """
-        self.celltypes.update(ctypes)
+        nx.set_node_attributes(g,ctypes,"phs")
 
     @staticmethod
     def computeLaplacian(G,nid) -> np.array:
@@ -649,7 +739,10 @@ class FTUGraph():
             result['currentNodeOffset'] = currentNodeOffset
             result['edgeCounter'] = len(G.edges())+1
             result['boundaryNetworkID'] = boundaryNet
-            result['usedOffsets'] = [self.row_size*50+50,self.col_size*50+50]
+            if hasattr(self,"row_size"):
+                result['usedOffsets'] = [self.row_size*50+50,self.col_size*50+50]
+            else:
+                result['usedOffsets'] = [len(G.nodes())*50+50,50]
             result['showEdgeLabels'] = True
             result['Provenance'] = {"projectname":'Python API generated','projectAuthor':'API'}
         
@@ -755,7 +848,7 @@ class FTUDelaunayGraph(FTUGraph):
         Create a FTU graph based on Delaunay triangulation
     """    
     def __init__(self,points,defaultPHS,conductivityTensor,edgeLengththeshold=1.5,defaultnet=1) -> None:
-        super().__init__()
+        super().__init__(defaultnetworkID=defaultnet)
         self.points = points
         self.row_size = self.points.shape[0]
         self.col_size = 1
