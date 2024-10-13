@@ -17,6 +17,7 @@ except:
 
 from ftuutils import codegenerationutils
 from ftuutils import latexgenerationutils
+from ftuutils import cellmlutils
 
 def parse_latex_2_sympy(elem):
     #return latex2sympy(elem.encode('ascii','ignore').decode('ascii'))
@@ -43,6 +44,7 @@ class SymbolicPHS:
         vars: set,
         parameters: dict,
         statevalues: dict,
+        inputs: dict,
     ) -> None:
         self.J = J
         self.R = R
@@ -65,7 +67,8 @@ class SymbolicPHS:
         self.variables = vars
         self.parameters = parameters
         self.statevalues = statevalues
-
+        self.inputs = inputs
+        
     def getCopy(self, id: int):
         """Get a copy of the PHS instance with the symbol ids suffixed with id
 
@@ -87,7 +90,7 @@ class SymbolicPHS:
         statevalues = dict()
         for k, v in self.statevalues:
             statevalues[k.xreplace(nvars)] = v["value"].xreplace(nvars)
-
+        inputs = deepcopy(self.inputs)
         J = self.J.xreplace(nvars)
         R = self.R.xreplace(nvars)
         B = self.B.xreplace(nvars)
@@ -119,6 +122,7 @@ class SymbolicPHS:
             variables,
             parameters,
             statevalues,
+            inputs
         )
 
     def split(self, iosplit):
@@ -257,7 +261,12 @@ class SymbolicPHS:
                 "value": sympy.pretty(v["value"]),
                 "units": v["units"],
             }
-
+        inputs = dict()
+        for k, v in phs.inputs.items():
+            inputs[sympy.pretty(k)] = {
+                "value": sympy.pretty(v["value"]),
+                "units": v["units"],
+            }        
         result = dict()
         result["stateVector"] = states
         result["state_values"] = statevalues
@@ -276,6 +285,7 @@ class SymbolicPHS:
         phsm["u_split"] = usplit
         result["portHamiltonianMatrices"] = phsm
         result["parameter_values"] = parameters
+        result["inputs"] = inputs
 
         return result
 
@@ -325,12 +335,26 @@ class SymbolicPHS:
         variables = variables.union(set(pset))
         if prefix=="":
             params = dict()
+            inputs = dict()
             for k, v in phs["parameter_values"].items():
                 params[sympy.Symbol(k)] = {
                     "value": sympy.sympify(v["value"]),
                     "units": v["units"],
                 }
-
+            if 'u_dims' in phs:
+                for k, v in phs["u_dims"].items():
+                    inputs[sympy.Symbol(k)] = {
+                        "value": sympy.Symbol("0"),
+                        "units": v["units"],
+                    }   
+            else:
+                for uv in uvec:
+                    if uv != 0.0:
+                       inputs[sympy.Symbol(f"{uv}")] = {
+                            "value": sympy.Symbol("0"),
+                            "units": "dimensionless",
+                        } 
+                                 
             statevalues = dict()
             for k, v in phs["state_values"].items():
                 statevalues[sympy.Symbol(k)] = {
@@ -367,11 +391,25 @@ class SymbolicPHS:
             for v in variables:
                 varsub[v] = sympy.Symbol(f"{prefix}_{v}")            
             params = dict()
+            inputs = dict()
             for k, v in phs["parameter_values"].items():
                 params[sympy.Symbol(f"{prefix}_{k}")] = {
                     "value": sympy.sympify(v["value"]).xreplace(varsub), #Make sure operators are updated as well
                     "units": v["units"],
                 }
+            if 'u_dims' in phs:
+                for k, v in phs["u_dims"].items():
+                    inputs[sympy.Symbol(f"{prefix}_{k}")] = {
+                        "value": sympy.Symbol("0"),
+                        "units": v["units"],
+                    }
+            else:
+                for uv in uvec:
+                    if uv != 0.0:
+                       inputs[sympy.Symbol(f"{prefix}_{uv}")] = {
+                            "value": sympy.Symbol("0"),
+                            "units": "dimensionless",
+                        } 
 
             statevalues = dict()
             for k, v in phs["state_values"].items():
@@ -408,7 +446,7 @@ class SymbolicPHS:
             variables = set(varsub.values())
             
         return SymbolicPHS(
-            J, R, B, Bhat, Q, E, C, ham, s, u, us, variables, params, statevalues
+            J, R, B, Bhat, Q, E, C, ham, s, u, us, variables, params, statevalues, inputs
         )
 
     def instantiatePHS(self, postfix, substituteParameters=False):
@@ -455,7 +493,10 @@ class SymbolicPHS:
             nk = k.xreplace(vsubs)
             statevalues[nk] = deepcopy(v)
             statevalues[nk]["value"] = v["value"].xreplace(vsubs)
-
+        inputs = dict()
+        for k, v in self.inputs.items():
+            inputs[sympy.Symbol(str(k) + "_" + postfix)] = v
+            
         us = deepcopy(self.usplit)
         ham = deepcopy(self.hamiltonian).xreplace(vsubs)
         if substituteParameters:
@@ -474,7 +515,7 @@ class SymbolicPHS:
             ham = ham.xreplace(subs)
 
         return SymbolicPHS(
-            J, R, B, Bhat, Q, E, C, ham, s, u, us, definedSymbols, parms, statevalues
+            J, R, B, Bhat, Q, E, C, ham, s, u, us, definedSymbols, parms, statevalues, inputs
         )
 
     def __str__(self):
@@ -546,6 +587,7 @@ class Composer:
         )
         self.composition = None #Store composition information if used to construct the composer
         self.substituteParameters = True
+    
     def setConnectivityGraph(self,graph:nx.Graph):
         """Set the base ftugraph from which the composition was created
 
@@ -909,7 +951,8 @@ class Composer:
 
         nodePHS = dict()
         statevalues = dict()
-
+        inputs = dict()
+        
         self.cellHamiltonians = OrderedDict() #Ensure insertion order is maintained
         self.nodePHSData = dict()
         # Set the vector elements in the correct order
@@ -928,6 +971,7 @@ class Composer:
             )
             self.nodePHSData[k] = phs #Used for generating input hooks
             statevalues.update(phs.statevalues)
+            inputs.update(phs.inputs)
             nodePHS[k] = phs
             self.compositeparameters.update(phs.parameters)
             r, c = phs.J.shape
@@ -1016,7 +1060,7 @@ class Composer:
 
         self.stateVec = stateVec
         self.statevalues = statevalues
-
+        self.inputs = inputs
         self.hamiltonian = hamiltonian
         """
             Create full connection matrix - get the asymmetric part for C and the other for R
@@ -1158,7 +1202,11 @@ class Composer:
             freevars,
             self.compositeparameters,
             self.statevalues,
+            self.inputs
         )
+
+    def exportAsCellML(self,modelName='FTUModel',timeunit='second'):
+        return cellmlutils.serialiseToCellML(self,modelName,timeunit)
 
     def generateLatexReport(self):
         """Generate the latex describing the composite PHS
