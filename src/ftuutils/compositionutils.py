@@ -5,7 +5,7 @@ import numpy as np
 import sympy
 from sympy import Expr, Matrix
 import networkx as nx
-#from latex2sympy2 import latex2sympy
+from sympy.parsing.latex import parse_latex
 from copy import deepcopy
 
 
@@ -20,8 +20,10 @@ from ftuutils import latexgenerationutils
 from ftuutils import cellmlutils
 
 def parse_latex_2_sympy(elem):
-    #return latex2sympy(elem.encode('ascii','ignore').decode('ascii'))
-    return sympy.parse_expr(elem)
+    try:
+        return sympy.parse_expr(elem)
+    except:
+        return parse_latex(elem)
 
 class SymbolicPHS:
     """
@@ -318,7 +320,7 @@ class SymbolicPHS:
         variables = set()
         variables = variables.union(
             SymbolicPHS.getVariables(states["elements"]))
-        #variables = variables.union(SymbolicPHS.getVariables(hamexp))
+        variables = variables.union(SymbolicPHS.getVariables(hamexp))
         variables = variables.union(SymbolicPHS.getVariables(matR["elements"]))
         variables = variables.union(SymbolicPHS.getVariables(matJ["elements"]))
         variables = variables.union(SymbolicPHS.getVariables(matB["elements"]))
@@ -1186,7 +1188,10 @@ class Composer:
         self.phsclassstructure = dict()
         for k,v in self.phsInstances.items():
             self.phsclassstructure[k] = {'rows':v.J.rows,'cols':v.J.cols}
-
+        #Graph UI based compositions may not always have this information as resolve does not populate it, compose does
+        if 'compositePHSStructure' not in self.composition['composition']:
+            self.composition['composition']['compositePHSStructure'] = {'type':self.phstypes,'rowidxs':self.ridxs,'colidxs':self.cidxs,'phsstructure':self.phsclassstructure}
+            
         self.compositePHS = SymbolicPHS(
             self.Jcap,
             self.Rcap,
